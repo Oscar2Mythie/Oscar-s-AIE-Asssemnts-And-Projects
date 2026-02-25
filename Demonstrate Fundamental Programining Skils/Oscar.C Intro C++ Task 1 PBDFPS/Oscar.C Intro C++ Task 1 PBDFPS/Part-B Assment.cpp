@@ -298,7 +298,7 @@ struct Eninty_Mob
 	// To_hit_modifer will influence how often this enity hits it's target 
 	int To_hit_modifer = 0; 
 
-	// Damage_dice
+	// Damage_dice us for picking 
 	enum Damage_dice 
 	{
 		die4,
@@ -309,8 +309,23 @@ struct Eninty_Mob
 		die20,
 		die100
 	}; 
+
 	string Name = "";
 
+	enum eninty_type
+	{
+		Zergling,
+		Zealous
+	};
+
+	switch (eninty_type) // Needs to be in a function with in the struct
+	{
+	case:Zergling
+
+
+	default:
+		break;
+	}
 };
 
 int main() 
