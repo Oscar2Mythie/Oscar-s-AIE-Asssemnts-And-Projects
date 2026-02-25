@@ -8,7 +8,7 @@
 */
 
 #include <iostream>; // needed for cout and cin
-#include <cassert>; // needed for assert methods
+#include <assert.h>; // needed for assert methods
 using namespace std;
 
 /*
@@ -287,13 +287,29 @@ Test and commit this to version control.
 * 
 */
 
-struct Zerglin
+struct Eninty_Mob
 {
+	// this pair of health will be keeping track of the eninty's health
+	pair<int,int> Health {100, 100}; // Health.first will be the Max health and Health.second will be it's Currect health
 
-};
+	// The value that controls how hard it is to damage this eninty 
+	int Armour_class = 10; 
 
-struct Zealous
-{
+	// To_hit_modifer will influence how often this enity hits it's target 
+	int To_hit_modifer = 0; 
+
+	// Damage_dice
+	enum Damage_dice 
+	{
+		die4,
+		die6,
+		die8,
+		die10,
+		die12,
+		die20,
+		die100
+	}; 
+	string Name = "";
 
 };
 
