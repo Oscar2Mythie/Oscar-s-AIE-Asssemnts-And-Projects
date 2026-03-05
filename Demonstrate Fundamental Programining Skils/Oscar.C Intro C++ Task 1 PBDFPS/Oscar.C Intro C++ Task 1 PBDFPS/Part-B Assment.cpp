@@ -2,7 +2,7 @@
 *
 * Created by Oscar CRowley on the 18 / 02 / 2026
 * This is for the Assessment Task Part B - Demonstrate fundamental programming skills
-* Last Update was on the 19 / 02 / 2026
+* Last Update was on the 05 / 03 / 2026
 * 
 * 
 */
@@ -287,46 +287,159 @@ Test and commit this to version control.
 * 
 */
 
+enum eninty_type
+{
+	Zergling,
+	Zealous
+};
+
+enum eninty_Damage_dice
+{
+	die4,
+	die6,
+	die8,
+	die10,
+	die12,
+	die20,
+	die100
+};
+
 struct Eninty_Mob
 {
 	// this pair of health will be keeping track of the eninty's health
-	pair<int,int> Health {100, 100}; // Health.first will be the Max health and Health.second will be it's Currect health
+	pair<int,int> Health; // Health.first will be the Max health and Health.second will be it's Currect health
 
 	// The value that controls how hard it is to damage this eninty 
-	int Armour_class = 10; 
+	int Armour_class; 
 
 	// To_hit_modifer will influence how often this enity hits it's target 
-	int To_hit_modifer = 0; 
+	int To_hit_modifer; 
 
 	// Damage_dice us for picking 
-	enum Damage_dice 
+
+
+	eninty_type Name;
+
+	eninty_Damage_dice damege_Dice;
+
+
+
+
+	void Eninty_Mob_Attack(Eninty_Mob &target)
 	{
-		die4,
-		die6,
-		die8,
-		die10,
-		die12,
-		die20,
-		die100
-	}; 
+		string Name_target = "";
+		string Name_self = "";
 
-	string Name = "";
+		if (target.Name == Zergling)
+		{
+			Name_target = "Zergling";
+			Name_self = "Zealous";
+		}
+		else
+		{
+			Name_target = "Zealous";
+			Name_self = "Zergling";
+		}
 
-	enum eninty_type
-	{
-		Zergling,
-		Zealous
-	};
+		short int rolled_to_hit = rand() % 21;
 
-	switch (eninty_type) // Needs to be in a function with in the struct
-	{
-	case:Zergling
+		cout << "\nrolled a " << rolled_to_hit << " on the d20 agaisnt " << Name_target << endl;
 
 
-	default:
-		break;
+		if (target.Armour_class <= (rolled_to_hit + To_hit_modifer))
+		{
+			cout << "which hits the " << Name_target << "\n" << endl;
+
+			switch (damege_Dice)
+			{
+			case die4:
+
+				cout << "dealing 1d4 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - rand() % 5);
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die6:
+
+				cout << "dealing 1d6 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - rand() % 7);
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die8:
+
+				cout << "dealing 1d8 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - rand() % 9);
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die10:
+
+				cout << "dealing 1d10 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - rand() % 11);
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die12:
+
+				cout << "dealing 1d12 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - (rand() % 13));
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die20:
+
+				cout << "dealing 1d20 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - (rand() % 21));
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			case die100:
+
+				cout << "dealing 1d100 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
+				target.Health.second = (target.Health.second - (rand() % 101));
+				cout << "after damage is now:" << target.Health.second << endl;
+
+				break;
+			default:
+				break;
+			}
+
+			if (target.Health.second <= 0)
+			{
+				cout << "\n" << Name_self << " Has given the final blow to The " << Name_target << endl;
+			}
+			else
+			{
+				cout << "\n" << Name_target << " has taken damage from " << Name_self << endl;
+			}
+		}
+		else
+		{
+			cout << "\n missing the " << Name_target << endl;
+		}
+
+
 	}
+
 };
+
+void do_battle(Eninty_Mob Zerg, Eninty_Mob Protoss)
+{
+
+	cout << " \n --- starting do_battle --- " << endl;
+
+	srand((char)time(NULL));
+
+	do
+	{
+		Zerg.Eninty_Mob_Attack(Protoss);
+		Protoss.Eninty_Mob_Attack(Zerg);
+
+	} while (Zerg.Health.second >= 0 && Protoss.Health.second >= 0);
+
+	cout << " \n --- Ending do_battle --- " << endl;
+}
 
 int main() 
 {
@@ -383,8 +496,12 @@ int main()
 
 	// __________ 10) Mob Battle __________ //
 
+	Eninty_Mob Zerg = { {30,30} , 12 , 2, Zergling ,die8 };
+	//			Max health , Current Health, Arrmor class, to hit mod , enity type, dmage die
+	Eninty_Mob Protoss = { {100,100} , 10 , -1 ,Zealous , die12 };
 
-
+	do_battle(Zerg, Protoss);
+	
 	// __________ 10) Mob Battle __________ //
 
 
