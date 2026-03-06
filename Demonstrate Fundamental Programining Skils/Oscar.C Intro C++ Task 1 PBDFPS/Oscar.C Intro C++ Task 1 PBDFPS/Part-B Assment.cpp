@@ -2,7 +2,7 @@
 *
 * Created by Oscar CRowley on the 18 / 02 / 2026
 * This is for the Assessment Task Part B - Demonstrate fundamental programming skills
-* Last Update was on the 05 / 03 / 2026
+* Last Update was on the 06 / 03 / 2026
 * 
 * 
 */
@@ -97,6 +97,8 @@ Test and commit this to version control.
 * This Bubble_Sort function Sorts the starting Array into Assending order. from Smallest number in index 0 to largets number in the last index 20. 
 * This Function yakes two valurbales...  A int which will be the Starting Array and the size_t which will be the size of the Array.
 * 
+* used this video to build my understanding https://youtu.be/Dv4qLJcxus8?si=dzniCavp19vlkn7z
+* 
 */
 
 void Bubble_Sort(int Arrray_Bubble_Sort[], size_t Arrray_Bubble_Sort_Size)
@@ -182,31 +184,35 @@ int binary_Search(int Arrray_binary_Search[], int search_Target, size_t Arrray_b
 		{
 			if (search_Target == Arrray_binary_Search[Loop_Count]) // if search_Target matches an elemnt value, return the Loop_Count value as the index number
 			{
+				// display and return which index was found with the target value 
 				cout << "\nFound " << search_Target << " At index : " << Loop_Count;
 				cout << " \n --- Ending binary_Search --- " << endl;
 				return Loop_Count;
 			}
 			else if (Loop_Count == (Arrray_binary_Search_Size - 1)) // Stops the Search if it Loop Count is higher then the Array size 
 			{
-			cout << "could not find " << search_Target << " within The Arrray_Linear_Search Array" << endl;
-			cout << " \n --- Ending binary_Search --- " << endl;
-			return -1;
+				// display that the taget was not found with in the array
+				cout << "could not find " << search_Target << " within The Arrray_Linear_Search Array" << endl;
+				cout << " \n --- Ending binary_Search --- " << endl;
+				return -1;
 			}
 
 		}
 	}
 	else if (search_Target < Arrray_binary_Search[Starting_mid_point])// is the search_Target more then Starting_mid_point 	
 	{
-		for (int Loop_Count = Starting_mid_point; Loop_Count > 0; Loop_Count--)
+		for (int Loop_Count = Starting_mid_point; Loop_Count > 0; Loop_Count--) // searchs the array with smaller index values starting from the mid starting point
 		{
 			if (search_Target == Arrray_binary_Search[Loop_Count])
 			{
+				// display and return which index was found with the target value 
 				cout << "\nFound " << search_Target << " At index : " << Loop_Count;
 				cout << " \n --- Ending binary_Search --- " << endl;
 				return Loop_Count;
 			}
-			else if (Loop_Count == 1)
+			else if (Loop_Count == 1) // Stops the Search if it Loop Count is smaller then the Array size 
 			{
+				// display that the taget was not found with in the array
 				cout << "could not find " << search_Target << " within The Arrray_Linear_Search Array" << endl;
 				cout << " \n --- Ending binary_Search --- " << endl;
 				return -1;
@@ -215,6 +221,7 @@ int binary_Search(int Arrray_binary_Search[], int search_Target, size_t Arrray_b
 	}
 	else if (search_Target == Arrray_binary_Search[Starting_mid_point])
 	{
+		// display and return which index was found with the target value 
 		cout << "\nFound " << search_Target << " At index : " << Starting_mid_point;
 		cout << " \n --- Ending binary_Search --- " << endl;
 		return Starting_mid_point;
@@ -246,16 +253,19 @@ void int_Pointers_Swap(int *Pointer_Nobles_coin, int *Pointer_Treasury)
 {
 	cout << " \n --- Starting int_Pointers_Swap --- " << endl;
 
-	int Holding_Nobles_coin = *Pointer_Nobles_coin;
-	int Holding_Treasury = *Pointer_Treasury;
+	int Holding_Nobles_coin = *Pointer_Nobles_coin; // hold the starting values of Pointer_Nobles_coin
+	int Holding_Treasury = *Pointer_Treasury; // holds the starting value of Pointer_Treasury
 
+	// display the starting values and  merory addresses
 	cout << "\n The values of Treasury: " << Holding_Treasury << ": and the values of Noble Coin: " << Holding_Nobles_coin << " which is at Memory address of" << endl;
 	cout << "Treasury Address: " << Pointer_Treasury << endl;
 	cout << "Noble Coin: " << Pointer_Nobles_coin << endl;
 
+	// swap the values via pointers to the merory address
 	*Pointer_Treasury = Holding_Nobles_coin;
 	*Pointer_Nobles_coin = Holding_Treasury;
 
+	// display the new values and of the same merory address
 	cout << "\n The values of Treasury: " << *Pointer_Treasury << ": and the values of Noble Coin: " << *Pointer_Nobles_coin << " which is at Memory address of" << endl;
 	cout << "Treasury Address: " << Pointer_Treasury << endl;
 	cout << "Noble Coin: " << Pointer_Nobles_coin << endl;
@@ -283,17 +293,22 @@ Test and commit this to version control.
 
 /*
 * 
+* mob battle uses Enum's and Sturcts to create a simalation of two enity's, an Zergling from serg and a Zealous from protoss, Fighting each other using dnd like combat   
+* each mob has it's own eninty_type , Damage dice , name , health , Armour_class and hit modifer. All of these will impact how well they fight each other. 
 * 
+* in the main , The values are placed  into each Eninty mob. effecitly creating the Mobs. in this exmaple only a Zerg zergling and a protoss  Zealous are made. 
+* The Zergling has alot less health and a weaker weapon to fight with, but has stronger defence and a better chance to deal damge. 
+On the other hand, the protoss has a greater pool of health and can deal more damage, Yet has lower defance and lower chance to deal damage.
 * 
 */
 
-enum eninty_type
+enum eninty_type //A list of units the Mob could be
 {
 	Zergling,
 	Zealous
 };
 
-enum eninty_Damage_dice
+enum eninty_Damage_dice // A list od dice a mob can use to deal damage
 {
 	die4,
 	die6,
@@ -304,7 +319,7 @@ enum eninty_Damage_dice
 	die100
 };
 
-struct Eninty_Mob
+struct Eninty_Mob // This Struct is a custom data of mobs , holding both their status like health, damage dice and name, while also containing the function of it's attack 
 {
 	// this pair of health will be keeping track of the eninty's health
 	pair<int,int> Health; // Health.first will be the Max health and Health.second will be it's Currect health
@@ -318,105 +333,105 @@ struct Eninty_Mob
 	// Damage_dice us for picking 
 
 
-	eninty_type Name;
+	eninty_type Name; // who is this mob?
 
-	eninty_Damage_dice damege_Dice;
-
-
+	eninty_Damage_dice damege_Dice; // which die will this used for it's attack
 
 
-	void Eninty_Mob_Attack(Eninty_Mob &target)
+
+
+	void Eninty_Mob_Attack(Eninty_Mob &target) // This function hold the logic of who this mob is fighting, with what damage die, how often, and who they are. 
 	{
-		string Name_target = "";
-		string Name_self = "";
+		string Name_target = ""; // holder of who that are fighting 
+		string Name_self = ""; // holder of who they are
 
-		if (target.Name == Zergling)
+		if (target.Name == Zergling) // who is the Target? if Zergling then change Name_target to Zergling and Name_self to Zealous.
 		{
 			Name_target = "Zergling";
 			Name_self = "Zealous";
 		}
-		else
+		else // who is the Target? if Not Zergling then change Name_target to Zealous and Name_self to Zergling.
 		{
 			Name_target = "Zealous";
 			Name_self = "Zergling";
 		}
 
-		short int rolled_to_hit = rand() % 21;
+		short int rolled_to_hit = rand() % 21; // Roll a d20 and see if mob hits it targets 
 
-		cout << "\nrolled a " << rolled_to_hit << " on the d20 agaisnt " << Name_target << endl;
+		cout << "\nrolled a " << rolled_to_hit << " on the d20 agaisnt " << Name_target << endl; // display what is rolled agasint who
 
 
-		if (target.Armour_class <= (rolled_to_hit + To_hit_modifer))
+		if (target.Armour_class <= (rolled_to_hit + To_hit_modifer)) // Dose the d20 roll beat/ is greater then the value of Armour_class
 		{
-			cout << "which hits the " << Name_target << "\n" << endl;
+			cout << "which hits the " << Name_target << "\n" << endl; // if it dose hit, Say it dose hit the Target
 
-			switch (damege_Dice)
+			switch (damege_Dice) // what dmagae dice is being used?
 			{
 			case die4:
 
-				cout << "dealing 1d4 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - rand() % 5);
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d4 damage to " << Name_target << "\n it's health was " << target.Health.second << endl; // display the dice being used for damage 
+				target.Health.second = (target.Health.second - rand() % 5); // reduce the Currect health by an the alue of the rolled d4  
+				cout << "after damage is now:" << target.Health.second << endl; //  display the New health value
 
 				break;
 			case die6:
 
-				cout << "dealing 1d6 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - rand() % 7);
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d6 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - rand() % 7); // reduce the Currect health by an the alue of the rolled d4 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			case die8:
 
-				cout << "dealing 1d8 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - rand() % 9);
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d8 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - rand() % 9); // reduce the Currect health by an the alue of the rolled d6 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			case die10:
 
-				cout << "dealing 1d10 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - rand() % 11);
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d10 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - rand() % 11); // reduce the Currect health by an the alue of the rolled d8 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			case die12:
 
-				cout << "dealing 1d12 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - (rand() % 13));
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d12 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - (rand() % 13)); // reduce the Currect health by an the alue of the rolled d12 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			case die20:
 
-				cout << "dealing 1d20 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - (rand() % 21));
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d20 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - (rand() % 21)); // reduce the Currect health by an the alue of the rolled d20 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			case die100:
 
-				cout << "dealing 1d100 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;
-				target.Health.second = (target.Health.second - (rand() % 101));
-				cout << "after damage is now:" << target.Health.second << endl;
+				cout << "dealing 1d100 damage to " << Name_target << "\n it's health was " << target.Health.second << endl;// display the dice being used for damage 
+				target.Health.second = (target.Health.second - (rand() % 101)); // reduce the Currect health by an the alue of the rolled d100 
+				cout << "after damage is now:" << target.Health.second << endl;//  display the New health value
 
 				break;
 			default:
 				break;
 			}
 
-			if (target.Health.second <= 0)
+			if (target.Health.second <= 0) // Has the target ran out of health?
 			{
-				cout << "\n" << Name_self << " Has given the final blow to The " << Name_target << endl;
+				cout << "\n" << Name_self << " Has given the final blow to The " << Name_target << endl; // if yes, display who killed their target?
 			}
 			else
 			{
-				cout << "\n" << Name_target << " has taken damage from " << Name_self << endl;
+				cout << "\n" << Name_target << " has taken damage from " << Name_self << endl; // else, display who took damage from who?
 			}
 		}
 		else
 		{
-			cout << "\n missing the " << Name_target << endl;
+			cout << "\n missing the " << Name_target << endl; // Should the rool to hit Not beat the Armour_class value, display that it miss it's target.
 		}
 
 
@@ -424,7 +439,7 @@ struct Eninty_Mob
 
 };
 
-void do_battle(Eninty_Mob Zerg, Eninty_Mob Protoss)
+void do_battle(Eninty_Mob Zerg, Eninty_Mob Protoss) // this function creates a seed for randomizing dice rolls and hold the loop that has the two mobs battle each other 
 {
 
 	cout << " \n --- starting do_battle --- " << endl;
@@ -433,10 +448,10 @@ void do_battle(Eninty_Mob Zerg, Eninty_Mob Protoss)
 
 	do
 	{
-		Zerg.Eninty_Mob_Attack(Protoss);
-		Protoss.Eninty_Mob_Attack(Zerg);
+		Zerg.Eninty_Mob_Attack(Protoss); // Zerg attacks the Protoss
+		Protoss.Eninty_Mob_Attack(Zerg); // Protoss atacks protoss
 
-	} while (Zerg.Health.second >= 0 && Protoss.Health.second >= 0);
+	} while (Zerg.Health.second > 0 && Protoss.Health.second > 0); // while both still has health over 0, keep fightting 
 
 	cout << " \n --- Ending do_battle --- " << endl;
 }
@@ -447,38 +462,38 @@ int main()
 
 	// These asserts calls in linear_Search function and tests each element till it either finds a match or rounds out of elements of the aray
 
-	assert(linear_Search(Staring_Arrray,3, Arrray_Size) == 2);
-	assert(linear_Search(Staring_Arrray, 7, Arrray_Size) == 11);
-	assert(linear_Search(Staring_Arrray, 67, Arrray_Size) == 0);
-	assert(linear_Search(Staring_Arrray, 88, Arrray_Size) == -1);
+	assert(linear_Search(Staring_Arrray,3, Arrray_Size) == 2); // index 2 should hold the the value of 3
+	assert(linear_Search(Staring_Arrray, 7, Arrray_Size) == 11); // index 11 should hold the the value of 7
+	assert(linear_Search(Staring_Arrray, 67, Arrray_Size) == 0); // index 0 should hold the the value of 67
+	assert(linear_Search(Staring_Arrray, 88, Arrray_Size) == -1); // there Should not be a value of 88
 	
 
 	cout << "\n\n Array is ready! Please input a whole number to search. \n Number Input: ";
-	int User_linear_search_target = 0;
-	cin >> User_linear_search_target;
+	int User_linear_search_target = 0; 
+	cin >> User_linear_search_target; // hold the int value the user inputs to use for searching the array
 
-	linear_Search(Staring_Arrray, User_linear_search_target, Arrray_Size);
+	linear_Search(Staring_Arrray, User_linear_search_target, Arrray_Size); // starting a index 0 , find the user inputed umber in the array 
 
 	// __________ 6) Linear Search __________ //
 
 	// __________ 7) Bubble Sort __________ //
 
-	Bubble_Sort(Staring_Arrray, Arrray_Size);
+	Bubble_Sort(Staring_Arrray, Arrray_Size); // Lets short the array from smallest to largets
 
 	// __________ 7) Bubble Sort __________ //
 
 	// __________ 8)  Binary Search __________ //
 
-	assert(binary_Search(Staring_Arrray, 11, Arrray_Size) == 4);
-	assert(binary_Search(Staring_Arrray, 23, Arrray_Size) == 8);
-	assert(binary_Search(Staring_Arrray, 97, Arrray_Size) == 19);
-	assert(binary_Search(Staring_Arrray, 88, Arrray_Size) == -1);
-	assert(binary_Search(Staring_Arrray, 1, Arrray_Size) == -1);
+	assert(binary_Search(Staring_Arrray, 11, Arrray_Size) == 4); // index 4 should hold 11
+	assert(binary_Search(Staring_Arrray, 23, Arrray_Size) == 8); // index 8 should hold 23
+	assert(binary_Search(Staring_Arrray, 97, Arrray_Size) == 19); // index 19 should hold 97
+	assert(binary_Search(Staring_Arrray, 88, Arrray_Size) == -1); // should not be able to find the number on the bigger side of the array
+	assert(binary_Search(Staring_Arrray, 1, Arrray_Size) == -1); // should not be ale to find the number on the smaller side of the array 
 
 	cout << "\n\n Sorted Array is ready! Please input a whole number to search. \n Number Input: ";
 	int User_binary_Search_target = 0;
 	cin >> User_binary_Search_target;
-	binary_Search(Staring_Arrray, User_binary_Search_target, Arrray_Size);
+	binary_Search(Staring_Arrray, User_binary_Search_target, Arrray_Size); // lets the user to test to search of a number within the array starting from the middle point
 
 	// __________ 8)  Binary Search __________ //
 
@@ -490,7 +505,7 @@ int main()
 	int* Pointer_Nobles_coin = &Nobles_coin;
 	int* Pointer_Treasury = &Treasury;
 
-	int_Pointers_Swap(Pointer_Nobles_coin, Pointer_Treasury);
+	int_Pointers_Swap(Pointer_Nobles_coin, Pointer_Treasury); // swhiches the values of  Nobles_coin and Treasury via pointers and refancing 
 
 	// __________ 9)  Pointers __________ //
 
@@ -500,7 +515,7 @@ int main()
 	//			Max health , Current Health, Arrmor class, to hit mod , enity type, dmage die
 	Eninty_Mob Protoss = { {100,100} , 10 , -1 ,Zealous , die12 };
 
-	do_battle(Zerg, Protoss);
+	do_battle(Zerg, Protoss); // Start the battle between the two mobs
 	
 	// __________ 10) Mob Battle __________ //
 
