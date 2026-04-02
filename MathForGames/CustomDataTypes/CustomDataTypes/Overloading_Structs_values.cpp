@@ -1,6 +1,6 @@
 /*
 
-Created by Oscar crowley 18/03/2025. Last updated on the 25/03/2026
+Created by Oscar crowley 18/03/2025. Last updated on the 1/04/2026
 
 */
 
@@ -14,7 +14,6 @@ struct Float_Vector3_Struct
 	float Vector3_x = 0; // place holders for the 3 Vector valuse for a Vector3
 	float Vector3_y = 0;
 	float Vector3_z = 0;
-
 
 	Float_Vector3_Struct(float V3x, float V3y, float V3z) // Sets the values to the desired values from it's creation  
 	{
@@ -201,20 +200,15 @@ struct Float_Vector3_Struct
 		 return  result; // return either true or false   
 	 }
 
-	 bool operator<(const Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
+	 bool operator<(Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
 	 {
 		 Float_Vector3_Struct temporary_squraed = *this * (*this); // Create a squared clone vectors from self
-		 Float_Vector3_Struct Testing_squraed_Vector3 = Testing_Vector3;
-		 Testing_squraed_Vector3 *= Testing_squraed_Vector3;
+		 Float_Vector3_Struct Testing_squraed_Vector3 = (Testing_Vector3 * Testing_Vector3);
 
-		 bool result = false; // defaults to No it dose not match
+		 float this_Squared_Magatune = temporary_squraed.Vector3_x + temporary_squraed.Vector3_y + temporary_squraed.Vector3_z;
+		 float Testing_Squared_Magatune2 = Testing_squraed_Vector3.Vector3_x + Testing_squraed_Vector3.Vector3_y + Testing_squraed_Vector3.Vector3_z;
 
-		 if (temporary_squraed < Testing_squraed_Vector3) 
-		 {
-			 result = true;
-		 }
-
-		 return  result; // return either true or false   
+		 return (this_Squared_Magatune < Testing_Squared_Magatune2);
 	 }
 
 	Float_Vector3_Struct operator=(const Float_Vector3_Struct &Rhs_Vector)  //  Assigning New vector values from another vector
@@ -406,14 +400,8 @@ struct Float_Vector4_Struct
 	bool operator==(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
 	{
 		Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
-		bool result = false; // defaults to No it dose not match
 
-		if ((temporary.Vector4_x == Testing_Vector4.Vector4_x) && (temporary.Vector4_y == Testing_Vector4.Vector4_y) && (temporary.Vector4_z == Testing_Vector4.Vector4_z))
-		{
-			result = true; // sets to true when vectors match
-		}
-
-		return  result; // return either true or false   
+		return  ((temporary.Vector4_x == Testing_Vector4.Vector4_x) && (temporary.Vector4_y == Testing_Vector4.Vector4_y) && (temporary.Vector4_z == Testing_Vector4.Vector4_z) && (temporary.Vector4_w == Testing_Vector4.Vector4_w)); // return either true or false   
 	}
 
 	bool operator!=(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
@@ -421,7 +409,7 @@ struct Float_Vector4_Struct
 		Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 		bool result = true; // defaults to No it dose not match
 
-		if ((temporary.Vector4_x == Testing_Vector4.Vector4_x) && (temporary.Vector4_y == Testing_Vector4.Vector4_y) && (temporary.Vector4_z == Testing_Vector4.Vector4_z))
+		if ((temporary.Vector4_x == Testing_Vector4.Vector4_x) && (temporary.Vector4_y == Testing_Vector4.Vector4_y) && (temporary.Vector4_z == Testing_Vector4.Vector4_z) && (temporary.Vector4_w == Testing_Vector4.Vector4_w))
 		{
 			result = false; // sets to false when vectors match
 		}
@@ -429,16 +417,15 @@ struct Float_Vector4_Struct
 		return  result; // return either true or false   
 	}
 
-	bool operator<(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
+	bool operator<(Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
 	{
-		Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
-		bool result = false; // defaults to No it dose not match
+		Float_Vector4_Struct temporary_squraed = *this * (*this); // Create a squared clone vectors from self
+		Float_Vector4_Struct Testing_squraed_Vector4 = (Testing_Vector4 * Testing_Vector4); // Create a Sqaured clone vector from testing Vector
 
-		temporary.Vector4_x = temporary.Vector4_x * temporary.Vector4_x;
-		temporary.Vector4_y = temporary.Vector4_y * temporary.Vector4_y;
-		temporary.Vector4_z = temporary.Vector4_z * temporary.Vector4_z;
+		float this_Squared_Magatune = temporary_squraed.Vector4_x + temporary_squraed.Vector4_y + temporary_squraed.Vector4_z +temporary_squraed.Vector4_w; // add all sqaured Vectors together from self clone
+		float Testing_Squared_Magatune2 = Testing_squraed_Vector4.Vector4_x + Testing_squraed_Vector4.Vector4_y + Testing_squraed_Vector4.Vector4_z + Testing_squraed_Vector4.Vector4_w; // add all sqaured vectors together from testing clone 
 
-		return  result; // return either true or false   
+		return (this_Squared_Magatune < Testing_Squared_Magatune2); 
 	}
 
 	Float_Vector4_Struct operator=(const Float_Vector4_Struct& Rhs_Vector)  //  Assigning New vector values from another vector
@@ -446,8 +433,9 @@ struct Float_Vector4_Struct
 		Vector4_x = Rhs_Vector.Vector4_x;
 		Vector4_y = Rhs_Vector.Vector4_y;
 		Vector4_z = Rhs_Vector.Vector4_z;
+		Vector4_w = Rhs_Vector.Vector4_w;
 
-		return *this; // return the three new vector values.    
+		return *this; // return the four new vector values.    
 	}
 
 	Float_Vector4_Struct operator-()  //  making the Vectors swhich from postive to negtive
@@ -455,6 +443,7 @@ struct Float_Vector4_Struct
 		Vector4_x *= -1;
 		Vector4_y *= -1;
 		Vector4_z *= -1;
+		Vector4_w *= -1;
 
 		return *this; // return the three updated vector values.    
 	}
@@ -464,6 +453,7 @@ struct Float_Vector4_Struct
 		cout << Float_Vector4_Struct::Vector4_x << endl;
 		cout << Float_Vector4_Struct::Vector4_y << endl;
 		cout << Float_Vector4_Struct::Vector4_z << endl;
+		cout << Float_Vector4_Struct::Vector4_w << endl;
 		cout << endl;
 	}
 
@@ -473,50 +463,180 @@ struct Float_Vector4_Struct
 	}
 };
 
-int main() 
+struct Float_Matrix3_Struct
 {
-	Float_Vector3_Struct First_Vector(2, 4, 6), Second_Vector(1,3,5);
-	Float_Vector3_Struct Current_Vector = First_Vector + Second_Vector;
+	union 
+	{
+		struct 
+		{
+			float
+//				local X axis		local y axis		World origin Point
+				Mat3_Local_Xaxis_x_m1, Mat3_Local_Yaxis_x_m2, Mat3_Local_Trans_axis_x_m3, //  X axis  
+				Mat3_Local_Xaxis_Y_m4, Mat3_Local_Yaxis_y_m5, Mat3_Local_Trans_axis_Y_m6, //  Y axis
+//				\/ place holder and Must start as 0 \/			A point or A vector  
+				Mat3_place_Holder_w_m7, Mat3_place_Holder_w_m8, Mat3_Point_Or_Vector_m9;
+		};
+		float Mat3_Array[9]; // Holds values of the Matrix3 in eleaments of a array 
+		float Mat3_grid[3][3]; // Holds values of the Matrix3 in eleaments of a 3 by 3 grid
+	};
 
-	Float_Vector3_Struct Copy_vector = First_Vector;
-	Copy_vector.display();
+	Float_Matrix3_Struct operator=(const Float_Matrix3_Struct& Rhs_Matrix3) // assigning values from a matrix3
+	{
 
-	Current_Vector.display();
+	}
 
-	Current_Vector = (Current_Vector + 154);
-	Current_Vector.display();
+	Float_Matrix3_Struct operator*(const Float_Vector3_Struct& Rhs_Float_Vector3_Struct) // multiply the matrix3 by Vector3
+	{
 
-	Current_Vector = Current_Vector - First_Vector;
-	Current_Vector.display();
+	}
 
-	Current_Vector = (Current_Vector - -7.4);
-	Current_Vector.display();
+	Float_Matrix3_Struct operator*(const Float_Matrix3_Struct& Rhs_Matrix3) // multiply the matrix3 by matrix3
+	{
 
-	Current_Vector = Current_Vector * Second_Vector;
-	Current_Vector.display();
+	}
 
-	Current_Vector = Current_Vector / First_Vector;
-	Current_Vector.display();
+	Float_Matrix3_Struct operator*=(const Float_Matrix3_Struct& Rhs_Matrix3) // multiply the matrix3 by matrix3 and assigning
+	{
 
-	Current_Vector = (Current_Vector * 2.5);
-	Current_Vector.display();
+	}
 
-	Current_Vector = (Current_Vector / -3.4);
-	Current_Vector.display();
+	Float_Matrix3_Struct operator==(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 dose match another matrix3
+	{
 
-	Current_Vector = First_Vector;
-	Current_Vector.display();
+	}
 
-	if (Current_Vector == First_Vector) 
+	Float_Matrix3_Struct operator!=(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 does'nt match another matrix3
+	{
+
+	}
+
+	Float_Matrix3_Struct operator[](const Float_Matrix3_Struct& Rhs_Matrix3) // Calls A element value of the matrix3
+	{
+
+	}
+};
+
+void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct Second_Vector3) // vector3 that is Overloaded
+{
+	cout << "*** Running Overloaded Vector 3's ***" << endl;
+	
+	Float_Vector3_Struct Current_Vector3 = First_Vector3 + Second_Vector3; // Create a Current Vectors by asigning it the sum of First_Vector3 and Second_Vector3
+	Float_Vector3_Struct Copy_vector3 = First_Vector3; // asigning An new vactor the same values of the First_Vector3
+	Copy_vector3.display(); // display the copy Vector3
+
+	Current_Vector3.display(); // Display the Current_Vector3
+
+	Current_Vector3 = (Current_Vector3 + 154); // add all values of Current_Vector3 with an float using the overloaded + operartor 
+	Current_Vector3.display(); // display the Current_Vector3
+
+	Current_Vector3 = Current_Vector3 - First_Vector3; // subtrack all values of Current_Vector3 with Vector3 using the overloaded - operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = (Current_Vector3 - -7.4); // subtrack all values of Current_Vector3 with float value  using the overloaded - operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = Current_Vector3 * First_Vector3; // muitply all values of Current_Vector3 with an Vector3 using the overloaded * operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = (Current_Vector3 * 2.5); // muitply all values of Current_Vector3 with an float using the overloaded * operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = Current_Vector3 / First_Vector3; // divide all values of Current_Vector3 with an Vector3 using the overloaded / operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = (Current_Vector3 / -3.4); // divide all values of Current_Vector3 with an float using the overloaded / operartor 
+	Current_Vector3.display();
+
+	Current_Vector3 = First_Vector3;  // Set the values from Current_Vector3 to  be the same as a vector3 with the overloaded = operator
+	Current_Vector3.display();
+
+	if (Current_Vector3 == First_Vector3) // test if both vectors are equal to each other by testing each vector value with pverloaed == operartor
 	{
 		cout << "Current_Vector Matches First_Vector" << endl;
 	}
 
-	Current_Vector = -Current_Vector;
-	Current_Vector.display();
+	Current_Vector3 = -Current_Vector3; // change all the vector3 values from postive to negtive or negtive to posstive with the overloaded -Vector3 operartor
+	Current_Vector3.display();
 
-	if (Current_Vector < Second_Vector) 
+	if (Current_Vector3 < Second_Vector3) // Test if one vector3 is greater then other Vectorwith the overloaded < operator 
 	{
 		cout << "Current_Vector is less then Second_Vector" << endl;
 	}
+	else
+	{
+		cout << "Current_Vector isn't less then Second_Vector" << endl;
+	}
+
+	cout << "index 1 value of the Second_Vector3 is : " << Second_Vector3[1] << endl;
+
+	cout << "\n*** Ending Overloaded Vector 3's ***" << endl;
+}
+
+void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct Second_Vector4) // vector3 that is Overloaded
+{
+
+	cout << "\n *** Running Overloaded Vector 4's ***" << endl;
+
+	Float_Vector4_Struct Current_Vector4 = First_Vector4 + Second_Vector4; // Create a Current Vectors by asigning it the sum of First_Vector3 and Second_Vector3
+	Float_Vector4_Struct Copy_vector4 = First_Vector4; // asigning An new vactor the same values of the First_Vector3
+	Copy_vector4.display(); // display the copy Vector3
+
+	Current_Vector4.display(); // Display the Current_Vector3
+
+	Current_Vector4 = (Current_Vector4 + 154); // add all values of Current_Vector3 with an float using the overloaded + operartor 
+	Current_Vector4.display(); // display the Current_Vector3
+
+	Current_Vector4 = Current_Vector4 - Second_Vector4; // subtrack all values of Current_Vector3 with Vector3 using the overloaded - operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = (Current_Vector4 - -7.4); // subtrack all values of Current_Vector3 with float value  using the overloaded - operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = Current_Vector4 * First_Vector4; // muitply all values of Current_Vector3 with an Vector3 using the overloaded * operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = (Current_Vector4 * 2.5); // muitply all values of Current_Vector3 with an float using the overloaded * operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = Current_Vector4 / Second_Vector4; // divide all values of Current_Vector3 with an Vector3 using the overloaded / operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = (Current_Vector4 / -3.4); // divide all values of Current_Vector3 with an float using the overloaded / operartor 
+	Current_Vector4.display();
+
+	Current_Vector4 = First_Vector4;  // Set the values from Current_Vector3 to  be the same as a vector3 with the overloaded = operator
+	Current_Vector4.display();
+
+	if (Current_Vector4 == First_Vector4) // test if both vectors are equal to each other by testing each vector value with pverloaed == operartor
+	{
+		cout << "Current_Vector Matches First_Vector" << endl;
+	}
+
+	Current_Vector4 = -Current_Vector4; // change all the vector3 values from postive to negtive or negtive to posstive with the overloaded -Vector3 operartor
+	Current_Vector4.display();
+
+	if (Current_Vector4 < Second_Vector4) // Test if one vector3 is greater then other Vectorwith the overloaded < operator 
+	{
+		cout << "Current_Vector is less then Second_Vector" << endl;
+	}
+	else
+	{
+		cout << "Current_Vector isn't less then Second_Vector" << endl;
+	}
+
+	cout << "index 1 value of the Second_Vector4 is : " << Second_Vector4[1] << endl;
+
+	cout << "\n*** Ending Overloaded Vector 4's ***" << endl;
+}
+
+int main() 
+{
+	Float_Vector3_Struct First_Vector3(2, 4, 6), Second_Vector3(1, 3, 5); // Create two New vector3
+
+	Vector3_Overloaded(First_Vector3,Second_Vector3); // Testing Vector3 has overloaded it's operators
+
+	Float_Vector4_Struct Third_Vector4(34, 956, 27, 65), forth_vector4(47, 42, 365, 2); // Create two new vector4
+
+	Vector4_Overloaded(Third_Vector4, forth_vector4); // Testing Vector4 has overloaded it's operators
+
 }
