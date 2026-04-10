@@ -148,7 +148,7 @@ struct Float_Vector3_Struct
 		return temporary; // return the three divided vector values.    
 	}
 
-	float& operator[](const int Return_Vector_value)  //dividing  self cloned Vector data to Target float
+	float& operator[](const int Return_Vector_value)  //returning an element as if it was an array
 	{
 
 		float Returning_data = -1;
@@ -472,7 +472,7 @@ struct Float_Matrix3_Struct
 			float
 //				local X axis		local y axis		World origin Point
 				Mat3_Local_Xaxis_x_m1, Mat3_Local_Yaxis_x_m2, Mat3_Local_Trans_axis_x_m3, //  X axis  
-				Mat3_Local_Xaxis_Y_m4, Mat3_Local_Yaxis_y_m5, Mat3_Local_Trans_axis_Y_m6, //  Y axis
+				Mat3_Local_Xaxis_y_m4, Mat3_Local_Yaxis_y_m5, Mat3_Local_Trans_axis_y_m6, //  Y axis
 //				\/ place holder and Must start as 0 \/			A point or A vector  
 				Mat3_place_Holder_w_m7, Mat3_place_Holder_w_m8, Mat3_Point_Or_Vector_m9;
 		};
@@ -480,37 +480,137 @@ struct Float_Matrix3_Struct
 		float Mat3_grid[3][3]; // Holds values of the Matrix3 in eleaments of a 3 by 3 grid
 	};
 
-	Float_Matrix3_Struct operator=(const Float_Matrix3_Struct& Rhs_Matrix3) // assigning values from a matrix3
+	Float_Matrix3_Struct() // constructor
 	{
-
+		for (int loopCount = 0; loopCount < 9; loopCount++)
+		{
+			if (loopCount % 4 == 0)
+			{
+				Mat3_Array[loopCount] = 1;
+			}
+			else
+			{
+				Mat3_Array[loopCount] = 0;
+			}
+		}
 	}
 
-	Float_Matrix3_Struct operator*(const Float_Vector3_Struct& Rhs_Float_Vector3_Struct) // multiply the matrix3 by Vector3
+	Float_Matrix3_Struct(Float_Matrix3_Struct& Copy_Matrix3_Struct) // copy constructor
 	{
+		for (int loopCount = 0; loopCount < 9; loopCount++)
+		{
+			Mat3_Array[loopCount] = Copy_Matrix3_Struct.Mat3_Array[loopCount];
+		}
+	}
 
+	Float_Matrix3_Struct(initializer_list<float> Mat3_V_list) 
+	{
+		int Mat3_V = 0;
+		for (float Loop : Mat3_V_list)
+		{
+			Mat3_Array[Mat3_V] = Loop;
+			Mat3_V++;
+		}
+	}
+
+	Float_Matrix3_Struct operator=(const Float_Matrix3_Struct& Rhs_Matrix3) // assigning values from a matrix3
+	{
+		
+		for (int X_Loop = 0; X_Loop < 3; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
+			{
+				Mat3_grid[X_Loop][Y_loop] = Rhs_Matrix3.Mat3_grid[X_Loop][Y_loop];
+			}
+		}
+
+		return *this;
+	}
+
+	Float_Vector3_Struct operator*(const Float_Vector3_Struct& Rhs_Float_Vector3_Struct) // multiply the matrix3 by Vector3
+	{
+		Float_Vector3_Struct tempary_Float_Vector3 = Rhs_Float_Vector3_Struct;
+		
+		for (int X_Loop = 0; X_Loop < 3; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
+			{
+				tempary_Float_Vector3[Y_loop] *= Mat3_grid[X_Loop][Y_loop];
+			}
+		}
+
+		tempary_Float_Vector3.display();
+		return tempary_Float_Vector3;
 	}
 
 	Float_Matrix3_Struct operator*(const Float_Matrix3_Struct& Rhs_Matrix3) // multiply the matrix3 by matrix3
 	{
+		for (int X_Loop = 0; X_Loop < 3; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
+			{
+				for (int add_loop = 0; add_loop < 3; add_loop++)
+				{
+					Mat3_grid[X_Loop][Y_loop] += (Mat3_grid[X_Loop][add_loop] * Rhs_Matrix3.Mat3_grid[add_loop][Y_loop]);
 
+				}
+			}
+		}
+
+		return *this;
 	}
 
 	Float_Matrix3_Struct operator*=(const Float_Matrix3_Struct& Rhs_Matrix3) // multiply the matrix3 by matrix3 and assigning
 	{
+		*this = *this * Rhs_Matrix3;
 
+		return *this;
 	}
 
-	Float_Matrix3_Struct operator==(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 dose match another matrix3
+	bool operator==(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 dose match another matrix3
 	{
+		int  Match_Count = 0;
 
+		for (int Loop = 0; Loop < 9; Loop++) 
+		{
+			if (Mat3_Array[Loop] = Rhs_Matrix3.Mat3_Array[Loop])
+			{
+				Match_Count++;
+			}
+		}
+
+		return (Match_Count == 9);
 	}
 
-	Float_Matrix3_Struct operator!=(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 does'nt match another matrix3
+	bool operator!=(const Float_Matrix3_Struct& Rhs_Matrix3) // testting if matrix3 does'nt match another matrix3
 	{
+		int  Match_Count = 0;
 
+		for (int Loop = 0; Loop < 9; Loop++)
+		{
+			if (Mat3_Array[Loop] = Rhs_Matrix3.Mat3_Array[Loop])
+			{
+				Match_Count++;
+			}
+		}
+
+		return (Match_Count < 9);
 	}
 
-	Float_Matrix3_Struct operator[](const Float_Matrix3_Struct& Rhs_Matrix3) // Calls A element value of the matrix3
+	float operator[](const int& index_of_matrix) // Calls A element value of the matrix3
+	{
+		return Mat3_Array[index_of_matrix];
+	}
+
+	void display() 
+	{
+		cout << "\n Cuurent Matrix3 values" << endl;
+		cout << Mat3_Local_Xaxis_x_m1 << "  " << Mat3_Local_Yaxis_x_m2 << "   " << Mat3_Local_Trans_axis_x_m3 << endl;
+		cout << Mat3_Local_Xaxis_y_m4 << "  " << Mat3_Local_Yaxis_y_m5 << "   " << Mat3_Local_Trans_axis_y_m6 << endl;
+		cout << Mat3_place_Holder_w_m7 << "  " << Mat3_place_Holder_w_m8 << "   " << Mat3_Point_Or_Vector_m9 << endl;
+	}
+
+	~Float_Matrix3_Struct() 
 	{
 
 	}
@@ -629,6 +729,53 @@ void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct
 	cout << "\n*** Ending Overloaded Vector 4's ***" << endl;
 }
 
+void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct Second_Matrix3, Float_Vector3_Struct First_Vector3)
+{
+	First_Matrix3.display();
+	Second_Matrix3.display();
+
+	Float_Matrix3_Struct Current_Matrix3 = First_Matrix3;
+
+	Current_Matrix3 * First_Matrix3;
+	Current_Matrix3.display();
+
+	First_Vector3 = Current_Matrix3 * First_Vector3;
+	Current_Matrix3.display();
+
+	Current_Matrix3 *= Second_Matrix3;
+	Current_Matrix3.display();
+
+	
+	if (First_Matrix3 == Second_Matrix3)
+	{
+		cout << "\n Matrix3 dose  match " << endl;
+		Current_Matrix3.display();
+	}
+	else
+	{
+		cout << "Matrix3 dose not match ... reseting data" << endl;
+		Current_Matrix3 = Second_Matrix3;
+		Current_Matrix3.display();
+	};
+
+	if (Current_Matrix3 != Second_Matrix3)
+	{
+		cout << "Matrix3 dose not match ... Seting New vlaues" << endl;
+		Current_Matrix3 * First_Matrix3;
+		Current_Matrix3.display();
+
+	}
+	else
+	{
+		cout << "Matrix3 dose  match ... Doing notthing" << endl;
+		Current_Matrix3.display();
+	}
+
+	cout << "\n Current_Matrix3 Yy value is: " << Current_Matrix3[4] << endl;
+
+
+}
+
 int main() 
 {
 	Float_Vector3_Struct First_Vector3(2, 4, 6), Second_Vector3(1, 3, 5); // Create two New vector3
@@ -639,4 +786,7 @@ int main()
 
 	Vector4_Overloaded(Third_Vector4, forth_vector4); // Testing Vector4 has overloaded it's operators
 
+	Float_Matrix3_Struct First_Matrix3{1,4,3,8,2,9,0,0,1}, Second_Matrix3;
+
+	Matrix3_Overloaded(First_Matrix3, Second_Matrix3, First_Vector3);
 }
