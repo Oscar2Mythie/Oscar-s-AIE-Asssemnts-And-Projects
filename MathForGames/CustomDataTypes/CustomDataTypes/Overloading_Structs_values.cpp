@@ -1,6 +1,6 @@
 /*
 
-Created by Oscar crowley 18/03/2025. Last updated on the 1/04/2026
+Created by Oscar crowley 18/03/2025. Last updated on the 22/04/2026
 
 */
 
@@ -28,6 +28,8 @@ struct Float_Vector3_Struct
 		Vector3_y = Other_Vector3.Vector3_y;
 		Vector3_z = Other_Vector3.Vector3_z;
 	}
+
+	// *** \/\/\/ Over loading Vector3's \/\/\/ ***
 
 	Float_Vector3_Struct operator+(const Float_Vector3_Struct&adding_Target)  //adding self cloned Vector data to Target Vector
 	{
@@ -229,8 +231,68 @@ struct Float_Vector3_Struct
 		return *this; // return the three updated vector values.    
 	}
 
+		// *** /\/\/\ Over loading Vector3's /\/\/\ ***
+
+		// *** \/\/\/ Member functions for Vector3's \/\/\/ ***
+
+		float V3_Dot_prod(Float_Vector3_Struct& Rhs_V3) 
+		{
+			Float_Vector3_Struct tempary_Float_Vector3 = *this;
+			
+			float Dot_Prod_result = 0;
+
+			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
+			{
+				Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V3[Y_loop];
+			}
+
+			return Dot_Prod_result;
+		}
+
+		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3)
+		{
+			return Float_Vector3_Struct
+			(
+			(Vector3_y * Rhs_V3.Vector3_z) - (Vector3_z * Rhs_V3.Vector3_y), 
+			(Vector3_z * Rhs_V3.Vector3_x) - (Vector3_x * Rhs_V3.Vector3_z), 
+			(Vector3_x * Rhs_V3.Vector3_y) - (Vector3_y * Rhs_V3.Vector3_x)
+			);
+		}
+
+		float V3_Magnitude() const 
+		{
+			return sqrtf((Vector3_x * Vector3_x) + (Vector3_y * Vector3_y) + (Vector3_z * Vector3_z));
+		}
+
+		void Normalise() 
+		{
+			float Norm = V3_Magnitude();
+
+			cout << "Normalise x and you get: " << (Vector3_x /= Norm) << endl;
+			Vector3_x /= Norm;
+			cout << "Normalise y and you get: " << (Vector3_y /= Norm) << endl;
+			Vector3_y /= Norm;
+			cout << "Normalise z and you get: " << (Vector3_y /= Norm) << endl;
+			Vector3_z /= Norm;
+			cout << endl;
+		}
+
+		Float_Vector3_Struct Normalised() const 
+		{
+			Float_Vector3_Struct Norm_copy = *this;
+			Norm_copy.Normalise();
+			Norm_copy.display();
+
+			return Norm_copy;
+		}
+
+
+		// *** /\/\/\ Member functions for Vector3's /\/\/\ ***
+
 	void display() // display the three Vector vlaues
 	{
+		cout << "-- Vector 3 values --" << endl;
+		
 		cout << Float_Vector3_Struct::Vector3_x << endl;
 		cout << Float_Vector3_Struct::Vector3_y << endl;
 		cout << Float_Vector3_Struct::Vector3_z << endl;
@@ -450,6 +512,8 @@ struct Float_Vector4_Struct
 
 	void display() // display the three Vector vlaues
 	{
+		cout << "-- Vector 4 values --" << endl;
+		
 		cout << Float_Vector4_Struct::Vector4_x << endl;
 		cout << Float_Vector4_Struct::Vector4_y << endl;
 		cout << Float_Vector4_Struct::Vector4_z << endl;
@@ -531,12 +595,18 @@ struct Float_Matrix3_Struct
 	{
 		Float_Vector3_Struct tempary_Float_Vector3 = Rhs_Float_Vector3_Struct;
 		
+		float Add_muilt_holder = 0;
+
 		for (int X_Loop = 0; X_Loop < 3; X_Loop++)
 		{
 			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
 			{
-				tempary_Float_Vector3[Y_loop] *= Mat3_grid[X_Loop][Y_loop];
+				Add_muilt_holder += tempary_Float_Vector3[Y_loop] * Mat3_grid[X_Loop][Y_loop];
 			}
+
+			tempary_Float_Vector3[X_Loop] = Add_muilt_holder;
+
+			Add_muilt_holder = 0;
 		}
 
 		tempary_Float_Vector3.display();
@@ -616,6 +686,167 @@ struct Float_Matrix3_Struct
 	}
 };
 
+struct Float_Matrix4_Struct
+{
+	union
+	{
+		struct
+		{
+			float
+				//			local X axis		local y axis		local Z axis		World origin Point
+				Mat4_Local_Xaxis_x_m1, Mat4_Local_Yaxis_x_m2, Mat4_Local_Zaxis_x_m3, Mat4_Local_Trans_axis_x_m4, //  X axis  
+				Mat4_Local_Xaxis_y_m5, Mat4_Local_Yaxis_y_m6, Mat4_Local_Zaxis_y_m7, Mat4_Local_Trans_axis_y_m8, //  Y axis
+				Mat4_Local_Xaxis_z_m9, Mat4_Local_Yaxis_z_m10, Mat4_Local_Zaxis_z_m11, Mat4_Local_Trans_axis_z_m12, //  z axis
+				//				\/ place holder and Must start as 0 \/						A point or A vector  
+				Mat4_place_Holder_w_m13, Mat4_place_Holder_w_m14, Mat4_place_Holder_w_m15, Mat4_Point_Or_Vector_m16;
+		};
+		float Mat4_Array[16]; // Holds values of the Matrix3 in eleaments of a array 
+		float Mat4_grid[4][4]; // Holds values of the Matrix3 in eleaments of a 4 by 4 grid
+	};
+
+	Float_Matrix4_Struct() // constructor
+	{
+		for (int loopCount = 0; loopCount < 16; loopCount++)
+		{
+			if (loopCount % 5 == 0)
+			{
+				Mat4_Array[loopCount] = 1;
+			}
+			else
+			{
+				Mat4_Array[loopCount] = 0;
+			}
+		}
+	}
+
+	Float_Matrix4_Struct(Float_Matrix4_Struct& Copy_Matrix4_Struct) // copy constructor
+	{
+		for (int loopCount = 0; loopCount < 16; loopCount++)
+		{
+			Mat4_Array[loopCount] = Copy_Matrix4_Struct.Mat4_Array[loopCount];
+		}
+	}
+
+	Float_Matrix4_Struct(initializer_list<float> Mat4_V_list)
+	{
+		int Mat4_V = 0;
+		for (float Loop : Mat4_V_list)
+		{
+			Mat4_Array[Mat4_V] = Loop;
+			Mat4_V++;
+		}
+	}
+
+	Float_Matrix4_Struct operator=(const Float_Matrix4_Struct& Rhs_Matrix4) // assigning values from a matrix3
+	{
+
+		for (int X_Loop = 0; X_Loop < 4; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 4; Y_loop++)
+			{
+				Mat4_grid[X_Loop][Y_loop] = Rhs_Matrix4.Mat4_grid[X_Loop][Y_loop];
+			}
+		}
+
+		return *this;
+	}
+
+	Float_Vector4_Struct operator*(const Float_Vector4_Struct& Rhs_Float_Vector4_Struct) // multiply the matrix3 by Vector3
+	{
+		Float_Vector4_Struct tempary_Float_Vector4 = Rhs_Float_Vector4_Struct;
+
+		float Add_muilt_holder = 0;
+
+		for (int X_Loop = 0; X_Loop < 4; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 4; Y_loop++)
+			{
+				Add_muilt_holder += tempary_Float_Vector4[Y_loop] * Mat4_grid[X_Loop][Y_loop];
+			}
+
+			tempary_Float_Vector4[X_Loop] = Add_muilt_holder;
+
+			Add_muilt_holder = 0;
+		}
+
+		tempary_Float_Vector4.display();
+		return tempary_Float_Vector4;
+	}
+
+	Float_Matrix4_Struct operator*(const Float_Matrix4_Struct& Rhs_Matrix4) // multiply the matrix3 by matrix3
+	{
+		for (int X_Loop = 0; X_Loop < 4; X_Loop++)
+		{
+			for (int Y_loop = 0; Y_loop < 4; Y_loop++)
+			{
+				for (int add_loop = 0; add_loop < 4; add_loop++)
+				{
+					Mat4_grid[X_Loop][Y_loop] += (Mat4_grid[X_Loop][add_loop] * Rhs_Matrix4.Mat4_grid[add_loop][Y_loop]);
+
+				}
+			}
+		}
+
+		return *this;
+	}
+
+	Float_Matrix4_Struct operator*=(const Float_Matrix4_Struct& Rhs_Matrix4) // multiply the matrix3 by matrix3 and assigning
+	{
+		*this = *this * Rhs_Matrix4;
+
+		return *this;
+	}
+
+	bool operator==(const Float_Matrix4_Struct& Rhs_Matrix4) // testting if matrix3 dose match another matrix3
+	{
+		int  Match_Count = 0;
+
+		for (int Loop = 0; Loop < 16; Loop++)
+		{
+			if (Mat4_Array[Loop] = Rhs_Matrix4.Mat4_Array[Loop])
+			{
+				Match_Count++;
+			}
+		}
+
+		return (Match_Count == 9);
+	}
+
+	bool operator!=(const Float_Matrix4_Struct& Rhs_Matrix4) // testting if matrix3 does'nt match another matrix3
+	{
+		int  Match_Count = 0;
+
+		for (int Loop = 0; Loop < 16; Loop++)
+		{
+			if (Mat4_Array[Loop] = Rhs_Matrix4.Mat4_Array[Loop])
+			{
+				Match_Count++;
+			}
+		}
+
+		return (Match_Count < 9);
+	}
+
+	float operator[](const int& index_of_matrix) // Calls A element value of the matrix3
+	{
+		return Mat4_Array[index_of_matrix];
+	}
+
+	void display() // display the Matrix4 values in a lose grid like fastion
+	{
+		cout << "\n Cuurent Matrix4 values" << endl;
+		cout << Mat4_Local_Xaxis_x_m1 << "  " << Mat4_Local_Yaxis_x_m2 << "   " << Mat4_Local_Zaxis_x_m3 << "   " << Mat4_Local_Trans_axis_x_m4 << endl;
+		cout << Mat4_Local_Xaxis_y_m5 << "  " << Mat4_Local_Yaxis_y_m6 << "   " << Mat4_Local_Zaxis_y_m7 << "   " << Mat4_Local_Trans_axis_y_m8 << endl;
+		cout << Mat4_Local_Xaxis_z_m9 << "  " << Mat4_Local_Yaxis_z_m10 << "   " << Mat4_Local_Zaxis_z_m11 << "   " << Mat4_Local_Trans_axis_z_m12 << endl;
+		cout << Mat4_place_Holder_w_m13 << "  " << Mat4_place_Holder_w_m14 << "   " << Mat4_place_Holder_w_m15 << "   " << Mat4_Point_Or_Vector_m16 << endl;
+	}
+
+	~Float_Matrix4_Struct()
+	{
+
+	}
+};
+
 void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct Second_Vector3) // vector3 that is Overloaded
 {
 	cout << "*** Running Overloaded Vector 3's ***" << endl;
@@ -669,7 +900,26 @@ void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct
 
 	cout << "index 1 value of the Second_Vector3 is : " << Second_Vector3[1] << endl;
 
-	cout << "\n*** Ending Overloaded Vector 3's ***" << endl;
+	cout << "\n*** Ending Overloaded Vector 3's *-*" << endl;
+
+	cout << "\n *-* Starting Member functions for Vector 3's *-*" << endl;
+
+	cout << "\n Dot product between First_Vector3 and Second_Vector3 equals: " << First_Vector3.V3_Dot_prod(Second_Vector3) << endl;
+
+	Current_Vector3 = First_Vector3.V3_Cross_prod(Second_Vector3);
+	cout << "\n Cross product between Second_Vector3 and First_Vector3 equals: " << endl;
+	Current_Vector3.display();
+
+	cout << "Magnitude of Current_Vector3 is: " << Current_Vector3.V3_Magnitude() << endl;
+
+	cout << "what happens when we Normalise Current_Vector3?\n" << endl;
+
+	Current_Vector3.Normalise();
+
+	cout << "Lets see Second_Vector3 Normalised\n" << endl;
+	Second_Vector3.Normalised();
+
+	cout << "\n*-* Ending Member functions for Vector 3's *-*" << endl;
 }
 
 void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct Second_Vector4) // vector3 that is Overloaded
@@ -731,6 +981,8 @@ void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct
 
 void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct Second_Matrix3, Float_Vector3_Struct First_Vector3)
 {
+	cout << "\n*** Running Overloaded Matrix 3's ***" << endl;
+
 	First_Matrix3.display();
 	Second_Matrix3.display();
 
@@ -773,8 +1025,58 @@ void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct
 
 	cout << "\n Current_Matrix3 Yy value is: " << Current_Matrix3[4] << endl;
 
-
+	cout << "\n*** Ending Overloaded Matrix 3's ***" << endl;
 }
+
+void Matrix4_Overloaded(Float_Matrix4_Struct Third_Matrix4, Float_Matrix4_Struct Forth_Matrix4, Float_Vector4_Struct forth_vector4)
+{
+	cout << "\n*** Running Overloaded Matrix 4's ***" << endl;
+
+	Third_Matrix4.display();
+	Forth_Matrix4.display();
+
+	Float_Matrix4_Struct Current_Matrix4 = Third_Matrix4;
+
+	Current_Matrix4* Forth_Matrix4;
+	Current_Matrix4.display();
+
+	forth_vector4 = Current_Matrix4 * forth_vector4;
+	Current_Matrix4.display();
+
+	Current_Matrix4 *= Forth_Matrix4;
+	Current_Matrix4.display();
+
+
+	if (Third_Matrix4 == Forth_Matrix4)
+	{
+		cout << "\n Matrix4 dose  match " << endl;
+		Current_Matrix4.display();
+	}
+	else
+	{
+		cout << "Matrix4 dose not match ... reseting data" << endl;
+		Current_Matrix4 = Forth_Matrix4;
+		Current_Matrix4.display();
+	};
+
+	if (Current_Matrix4 != Forth_Matrix4)
+	{
+		cout << "Matrix4 dose not match ... Seting New vlaues" << endl;
+		Current_Matrix4* Third_Matrix4;
+		Current_Matrix4.display();
+
+	}
+	else
+	{
+		cout << "Matrix4 doset match ... Doing notthing" << endl;
+		Current_Matrix4.display();
+	}
+
+	cout << "\n Current_Matrix4 Zz value is: " << Current_Matrix4[9] << endl;
+
+	cout << "\n*** Ending Overloaded Matrix 4's ***" << endl;
+}
+
 
 int main() 
 {
@@ -789,4 +1091,8 @@ int main()
 	Float_Matrix3_Struct First_Matrix3{1,4,3,8,2,9,0,0,1}, Second_Matrix3;
 
 	Matrix3_Overloaded(First_Matrix3, Second_Matrix3, First_Vector3);
+
+	Float_Matrix4_Struct Third_Matrix4{1,4,3,8,2,9,0,2,5,7,3,7,0,0,0,1}, Forth_Matrix4;
+
+	Matrix4_Overloaded(Third_Matrix4, Forth_Matrix4, forth_vector4);
 }
