@@ -175,6 +175,31 @@ struct Float_Vector3_Struct
 
 	}
 
+	float operator[](const int Return_Vector_value) const  //returning an const element as if it was an array
+	{
+
+		float Returning_data = -1;
+
+		if (Return_Vector_value == 0)
+		{
+			return Vector3_x;
+
+		}
+		else if (Return_Vector_value == 1)
+		{
+			return Vector3_y;
+		}
+		else if (Return_Vector_value == 2)
+		{
+			return Vector3_z;
+		}
+		else
+		{
+			return Returning_data;
+		}
+
+	}
+
 
 	 bool operator==(const Float_Vector3_Struct &Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
 	{
@@ -235,7 +260,7 @@ struct Float_Vector3_Struct
 
 		// *** \/\/\/ Member functions for Vector3's \/\/\/ ***
 
-		float V3_Dot_prod(Float_Vector3_Struct& Rhs_V3) 
+		float V3_Dot_prod(const Float_Vector3_Struct& Rhs_V3)  // creating an Dot product from an vector 3
 		{
 			Float_Vector3_Struct tempary_Float_Vector3 = *this;
 			
@@ -249,7 +274,7 @@ struct Float_Vector3_Struct
 			return Dot_Prod_result;
 		}
 
-		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3)
+		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3) // creating an croos product from an vector 3
 		{
 			return Float_Vector3_Struct
 			(
@@ -259,14 +284,16 @@ struct Float_Vector3_Struct
 			);
 		}
 
-		float V3_Magnitude() const 
+		float V3_Magnitude() const // Get the Magnitude from an vector 3
 		{
 			return sqrtf((Vector3_x * Vector3_x) + (Vector3_y * Vector3_y) + (Vector3_z * Vector3_z));
 		}
 
-		void Normalise() 
+		void Normalise() // normalises the vector 3 in place
 		{
-			float Norm = V3_Magnitude();
+			float Norm = V3_Magnitude(); // Get the Magnitude
+
+			// divide the Vector3 by it's Magnitude
 
 			cout << "Normalise x and you get: " << (Vector3_x /= Norm) << endl;
 			Vector3_x /= Norm;
@@ -277,7 +304,7 @@ struct Float_Vector3_Struct
 			cout << endl;
 		}
 
-		Float_Vector3_Struct Normalised() const 
+		Float_Vector3_Struct Normalised() const // sends the Normalise vector
 		{
 			Float_Vector3_Struct Norm_copy = *this;
 			Norm_copy.Normalise();
@@ -286,6 +313,43 @@ struct Float_Vector3_Struct
 			return Norm_copy;
 		}
 
+		bool IsApproximatelyEqual(Float_Vector3_Struct& Rhs_Vector3, float equal_within_value) // an function that acts like an equals if it got within the range of target value
+		{
+			Float_Vector3_Struct tempary_Float_Vector3_Diffrence = *this; // grabs this Vector values
+
+			tempary_Float_Vector3_Diffrence = tempary_Float_Vector3_Diffrence - Rhs_Vector3; // gets the difference betwen the vector 3's  
+
+			float default_equal_within_value = 1e-4; // in case equal_within_value was given a zero or no data, this would be the defualt value
+
+			if (equal_within_value == 0) // no data or is 0?
+			{
+				equal_within_value = default_equal_within_value; // set value to default
+			}
+
+			for (int Loop = 0; Loop < 3; Loop ++)
+			{
+				if (tempary_Float_Vector3_Diffrence[Loop] > equal_within_value || tempary_Float_Vector3_Diffrence[Loop] < -equal_within_value ) // outside of the target range?
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		float AngleBetween(Float_Vector3_Struct Rhs_vector3) // finds the angle between this vector another vector 3
+		{
+			return acos(Normalised().V3_Dot_prod(Rhs_vector3.Normalised()));
+		}
+
+		float Distance(Float_Vector3_Struct Rhs_vector3) // gets the distance between two vector 3's, using the V3_Magnitude() function
+		{
+			Float_Vector3_Struct tempary_Float_Vector3 = *this;
+
+			tempary_Float_Vector3 = tempary_Float_Vector3 - Rhs_vector3;
+
+			return (tempary_Float_Vector3.V3_Magnitude());
+		}
 
 		// *** /\/\/\ Member functions for Vector3's /\/\/\ ***
 
@@ -328,6 +392,8 @@ struct Float_Vector4_Struct
 		Vector4_z = Other_Vector4.Vector4_z;
 		Vector4_w = Other_Vector4.Vector4_w;
 	}
+
+	// *** \/\/\/ Over loading Vector3's \/\/\/ ***
 
 	Float_Vector4_Struct operator+(const Float_Vector4_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
 	{
@@ -458,6 +524,35 @@ struct Float_Vector4_Struct
 
 	}
 
+	float operator[](const int Return_Vector_value) const //instead of calling on the values by going this.Vector4_x, call the values as if it was an a element of array
+	{
+
+		float Returning_data = 0; // default value to return
+
+		if (Return_Vector_value == 0) // if the requested element int value was 0, return Vector4_x
+		{
+			return Vector4_x;
+
+		}
+		else if (Return_Vector_value == 1) // if the requested element int value was 1, return Vector4_y
+		{
+			return Vector4_y;
+		}
+		else if (Return_Vector_value == 2) // if the requested element int value was 2, return Vector4_z
+		{
+			return Vector4_z;
+		}
+		else if (Return_Vector_value == 3) // if the requested element int value was 3, return Vector4_w
+		{
+			return Vector4_w;
+		}
+		else // // if the requested element int value was out side the range of 0 to 3 return 0
+		{
+			return Returning_data;
+		}
+
+	}
+
 
 	bool operator==(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
 	{
@@ -509,6 +604,102 @@ struct Float_Vector4_Struct
 
 		return *this; // return the three updated vector values.    
 	}
+
+	// *** /\/\/\ Over loading Vector4's /\/\/\ ***
+
+	// *** \/\/\/ Member functions for Vector4's \/\/\/ ***
+
+	float V4_Dot_prod(const Float_Vector4_Struct& Rhs_V4)
+	{
+		Float_Vector4_Struct tempary_Float_Vector3 = *this;
+
+		float Dot_Prod_result = 0;
+
+		for (int Y_loop = 0; Y_loop < 4; Y_loop++)
+		{
+			Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V4[Y_loop];
+		}
+
+		return Dot_Prod_result;
+	}
+
+	Float_Vector4_Struct V4_Cross_prod(const Float_Vector4_Struct Rhs_V4)
+	{
+		return Float_Vector4_Struct
+		(
+			(Vector4_y * Rhs_V4.Vector4_z) - (Vector4_z * Rhs_V4.Vector4_y),
+			(Vector4_z * Rhs_V4.Vector4_x) - (Vector4_x * Rhs_V4.Vector4_z),
+			(Vector4_x * Rhs_V4.Vector4_y) - (Vector4_y * Rhs_V4.Vector4_x),
+			0
+		);
+	}
+
+	float V4_Magnitude() const
+	{
+		return sqrtf((Vector4_x * Vector4_x) + (Vector4_y * Vector4_y) + (Vector4_z * Vector4_z));
+	}
+
+	void Normalise()
+	{
+		float Norm = V4_Magnitude();
+
+		cout << "Normalise x and you get: " << (Vector4_x /= Norm) << endl;
+		Vector4_x /= Norm;
+		cout << "Normalise y and you get: " << (Vector4_y /= Norm) << endl;
+		Vector4_y /= Norm;
+		cout << "Normalise z and you get: " << (Vector4_y /= Norm) << endl;
+		Vector4_z /= Norm;
+		cout << endl;
+	}
+
+	Float_Vector4_Struct Normalised() const
+	{
+		Float_Vector4_Struct Norm_copy = *this;
+		Norm_copy.Normalise();
+		Norm_copy.display();
+
+		return Norm_copy;
+	}
+
+	bool IsApproximatelyEqual(Float_Vector4_Struct& Rhs_Vector4, float equal_within_value)
+	{
+		Float_Vector4_Struct tempary_Float_Vector3_Diffrence = *this;
+
+		tempary_Float_Vector3_Diffrence = tempary_Float_Vector3_Diffrence - Rhs_Vector4;
+
+		float default_equal_within_value = 1e-4;
+
+		if (equal_within_value == 0)
+		{
+			equal_within_value = default_equal_within_value;
+		}
+
+		for (int Loop = 0; Loop < 4; Loop++)
+		{
+			if (tempary_Float_Vector3_Diffrence[Loop] > equal_within_value || tempary_Float_Vector3_Diffrence[Loop] < -equal_within_value)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	float AngleBetween(Float_Vector4_Struct Rhs_vector4)
+	{
+		return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised()));
+	}
+
+	float Distance(Float_Vector4_Struct Rhs_vector4)
+	{
+		Float_Vector4_Struct tempary_Float_Vector4 = *this;
+
+		tempary_Float_Vector4 = tempary_Float_Vector4 - Rhs_vector4;
+
+		return (tempary_Float_Vector4.V4_Magnitude());
+	}
+
+	// *** /\/\/\ Member functions for Vector4's /\/\/\ ***
 
 	void display() // display the three Vector vlaues
 	{
@@ -919,6 +1110,12 @@ void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct
 	cout << "Lets see Second_Vector3 Normalised\n" << endl;
 	Second_Vector3.Normalised();
 
+	cout << " is Second_Vector3 Approximately Equal to First_Vector3 with default?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, NULL) << endl;
+
+	cout << " is Second_Vector3 Approximately Equal to First_Vector3 by 3.5?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, 3.5) << endl;
+
+	cout << "what is the Distance between Current_Vector3 and First_Vector3: " << Current_Vector3.Distance(First_Vector3) << endl;
+
 	cout << "\n*-* Ending Member functions for Vector 3's *-*" << endl;
 }
 
@@ -977,6 +1174,31 @@ void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct
 	cout << "index 1 value of the Second_Vector4 is : " << Second_Vector4[1] << endl;
 
 	cout << "\n*** Ending Overloaded Vector 4's ***" << endl;
+
+	cout << "\n *-* Starting Member functions for Vector 4's *-*" << endl;
+
+	cout << "\n Dot product between First_Vector4 and Second_Vector4 equals: " << First_Vector4.V4_Dot_prod(Second_Vector4) << endl;
+
+	Current_Vector4 = First_Vector4.V4_Cross_prod(Second_Vector4);
+	cout << "\n Cross product between Second_Vector4 and First_Vector4 equals: " << endl;
+	Current_Vector4.display();
+
+	cout << "Magnitude of Current_Vector4 is: " << Current_Vector4.V4_Magnitude() << endl;
+
+	cout << "what happens when we Normalise Current_Vector4?\n" << endl;
+
+	Current_Vector4.Normalise();
+
+	cout << "Lets see Second_Vector4 Normalised\n" << endl;
+	Second_Vector4.Normalised();
+
+	cout << " is Second_Vector4 Approximately Equal to First_Vector4 with default?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, NULL) << endl;
+
+	cout << " is Second_Vector4 Approximately Equal to First_Vector4 by 3.5?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, 3.5) << endl;
+
+	cout << "what is the Distance between Current_Vector4 and First_Vector4: " << Current_Vector4.Distance(First_Vector4) << endl;
+
+	cout << "\n*-* Ending Member functions for Vector 4's *-*" << endl;
 }
 
 void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct Second_Matrix3, Float_Vector3_Struct First_Vector3)
