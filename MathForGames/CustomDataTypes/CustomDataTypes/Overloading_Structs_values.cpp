@@ -1,6 +1,6 @@
 /*
 
-Created by Oscar crowley 18/03/2025. Last updated on the 22/04/2026
+Created by Oscar crowley 18/03/2025. Last updated on the 29/04/2026
 
 */
 
@@ -313,27 +313,20 @@ struct Float_Vector3_Struct
 			return Norm_copy;
 		}
 
-		bool IsApproximatelyEqual(Float_Vector3_Struct& Rhs_Vector3, float equal_within_value) // an function that acts like an equals if it got within the range of target value
+		bool IsApproximatelyEqual(Float_Vector3_Struct& Rhs_Vector3, float equal_within_value = 1e-4) // an function that acts like an equals if it got within the range of target value
 		{
 			Float_Vector3_Struct tempary_Float_Vector3_Diffrence = *this; // grabs this Vector values
 
-			tempary_Float_Vector3_Diffrence = tempary_Float_Vector3_Diffrence - Rhs_Vector3; // gets the difference betwen the vector 3's  
-
-			float default_equal_within_value = 1e-4; // in case equal_within_value was given a zero or no data, this would be the defualt value
-
-			if (equal_within_value == 0) // no data or is 0?
-			{
-				equal_within_value = default_equal_within_value; // set value to default
-			}
-
 			for (int Loop = 0; Loop < 3; Loop ++)
 			{
-				if (tempary_Float_Vector3_Diffrence[Loop] > equal_within_value || tempary_Float_Vector3_Diffrence[Loop] < -equal_within_value ) // outside of the target range?
+				if ((tempary_Float_Vector3_Diffrence[Loop]- Rhs_Vector3[Loop]) < equal_within_value || (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector3[Loop]) > -equal_within_value) // inside of the target range?
+				{
+				}
+				else
 				{
 					return false;
 				}
 			}
-
 			return true;
 		}
 
@@ -349,6 +342,15 @@ struct Float_Vector3_Struct
 			tempary_Float_Vector3 = tempary_Float_Vector3 - Rhs_vector3;
 
 			return (tempary_Float_Vector3.V3_Magnitude());
+		}
+
+		float Angle2D()
+		{
+			float tempary_dot = (Vector3_x * 1) + (Vector3_y * 0);
+			float tempary_Magnitude_X = sqrtf((Vector3_x * Vector3_x)+(Vector3_y * Vector3_y));
+			float tempary_Magnitude_Y = sqrtf((1 * 1) + (0 * 0));
+
+			return acos(tempary_dot / (tempary_Magnitude_X * tempary_Magnitude_Y));
 		}
 
 		// *** /\/\/\ Member functions for Vector3's /\/\/\ ***
@@ -661,28 +663,23 @@ struct Float_Vector4_Struct
 		return Norm_copy;
 	}
 
-	bool IsApproximatelyEqual(Float_Vector4_Struct& Rhs_Vector4, float equal_within_value)
+	bool IsApproximatelyEqual(Float_Vector4_Struct& Rhs_Vector4, float equal_within_value = 1e-4)
 	{
 		Float_Vector4_Struct tempary_Float_Vector3_Diffrence = *this;
 
-		tempary_Float_Vector3_Diffrence = tempary_Float_Vector3_Diffrence - Rhs_Vector4;
-
-		float default_equal_within_value = 1e-4;
-
-		if (equal_within_value == 0)
-		{
-			equal_within_value = default_equal_within_value;
-		}
-
 		for (int Loop = 0; Loop < 4; Loop++)
 		{
-			if (tempary_Float_Vector3_Diffrence[Loop] > equal_within_value || tempary_Float_Vector3_Diffrence[Loop] < -equal_within_value)
+			if ((tempary_Float_Vector3_Diffrence[Loop]- Rhs_Vector4[Loop]) < equal_within_value || (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector4[Loop]) > -equal_within_value)
 			{
-				return false;
+
+			}
+			else
+			{
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	float AngleBetween(Float_Vector4_Struct Rhs_vector4)
@@ -750,7 +747,8 @@ struct Float_Matrix3_Struct
 		}
 	}
 
-	Float_Matrix3_Struct(Float_Matrix3_Struct& Copy_Matrix3_Struct) // copy constructor
+
+	Float_Matrix3_Struct(const Float_Matrix3_Struct& Copy_Matrix3_Struct) // copy constructor
 	{
 		for (int loopCount = 0; loopCount < 9; loopCount++)
 		{
@@ -767,6 +765,8 @@ struct Float_Matrix3_Struct
 			Mat3_V++;
 		}
 	}
+
+	// *** \/\/\/ Over loading Matrix3's \/\/\/ ***
 
 	Float_Matrix3_Struct operator=(const Float_Matrix3_Struct& Rhs_Matrix3) // assigning values from a matrix3
 	{
@@ -863,6 +863,73 @@ struct Float_Matrix3_Struct
 		return Mat3_Array[index_of_matrix];
 	}
 
+	// *** /\/\/\ Over loading Matrix3's /\/\/\ ***
+
+	// *** \/\/\/ Member functions for Matrix3's \/\/\/ ***
+	Float_Matrix3_Struct MakeRotate_2D(float a)
+	{
+		return 
+		{
+			cos(a), -sin(a),0,
+			sin(a), cos(a),0,
+			0,0,1
+		};
+	}
+
+	Float_Matrix3_Struct MakeScale(float Scale_X, float Scale_Y)
+	{
+		return
+		{
+			Scale_X, 0, 0,
+			0, Scale_Y, 0,
+			0, 0, 1
+		};
+	}
+
+	Float_Matrix3_Struct MakeTranslate(Float_Vector3_Struct& Rhs_Vector3)
+	{
+		return Float_Matrix3_Struct
+		{
+			0,0,Rhs_Vector3.Vector3_x,
+			0,0,Rhs_Vector3.Vector3_y,
+			0,0,1
+		};
+	}
+
+	Float_Vector3_Struct GetTanslate()
+	{
+		return Float_Vector3_Struct(Mat3_grid[2][0], Mat3_grid[2][1], Mat3_grid[2][2]);
+	}
+
+	Float_Vector3_Struct GetRight_Y() 
+	{
+		return Float_Vector3_Struct(Mat3_grid[1][0], Mat3_grid[1][1], Mat3_grid[1][2]);
+	}
+
+	Float_Vector3_Struct GetForward_X() 
+	{
+		return Float_Vector3_Struct(Mat3_grid[0][0], Mat3_grid[0][1], Mat3_grid[0][2]);
+	}
+
+	bool IsApproximatelyEqual(Float_Matrix3_Struct& Rhs_Matrix3, float equal_within_value = 1e-4)
+	{
+		Float_Matrix3_Struct tempary_Float_Matrix3_Diffrence = *this; // grabs this Vector values
+
+		for (int Loop = 0; Loop < 9; Loop++)
+		{
+			if ((tempary_Float_Matrix3_Diffrence[Loop]- Rhs_Matrix3[Loop]) < equal_within_value && (tempary_Float_Matrix3_Diffrence[Loop] - Rhs_Matrix3[Loop]) > -equal_within_value) // inside of the target range?
+			{
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// *** /\/\/\ Member functions for Matrix3's /\/\/\ ***
+	 
 	void display() 
 	{
 		cout << "\n Cuurent Matrix3 values" << endl;
@@ -910,7 +977,7 @@ struct Float_Matrix4_Struct
 		}
 	}
 
-	Float_Matrix4_Struct(Float_Matrix4_Struct& Copy_Matrix4_Struct) // copy constructor
+	Float_Matrix4_Struct(const Float_Matrix4_Struct& Copy_Matrix4_Struct) // copy constructor
 	{
 		for (int loopCount = 0; loopCount < 16; loopCount++)
 		{
@@ -927,6 +994,8 @@ struct Float_Matrix4_Struct
 			Mat4_V++;
 		}
 	}
+
+	// *** \/\/\/ Over loading Matrix4's \/\/\/ ***
 
 	Float_Matrix4_Struct operator=(const Float_Matrix4_Struct& Rhs_Matrix4) // assigning values from a matrix3
 	{
@@ -1023,6 +1092,121 @@ struct Float_Matrix4_Struct
 		return Mat4_Array[index_of_matrix];
 	}
 
+	// *** /\/\/\ Over loading Matrix4's /\/\/\ ***
+
+	// *** \/\/\/ Member functions for Matrix3's \/\/\/ ***
+
+	static Float_Matrix4_Struct Rotate_X(float a)
+	{
+		return
+		{
+			1,	0,	0,0,
+			0, cosf(a), -sinf(a),0,
+			0, sinf(a), cosf(a),1
+		};
+	}
+
+	static Float_Matrix4_Struct Rotate_Y(float a)
+	{
+		return
+		{
+			cosf(a), 0, -sinf(a),0,
+				0,	 1,		0,0,
+			sinf(a), 0, cosf(a),1
+		};
+	}
+
+	static Float_Matrix4_Struct Rotate_Z(float a)
+	{
+		return
+		{
+			cosf(a),sinf(a), 0,0,
+			-sinf(a),cosf(a),0,0,
+			0,0,	0, 1
+		};
+	}
+
+	static Float_Matrix4_Struct Euler_Rotate(float Pitch_X, float Yaw_Y, float roll_Z)
+	{
+		Float_Matrix4_Struct X = Rotate_X(Pitch_X);
+		Float_Matrix4_Struct Y = Rotate_Y(Yaw_Y);
+		Float_Matrix4_Struct Z = Rotate_Z(roll_Z);
+
+		return (Z * Y * X);
+	}
+
+	static Float_Matrix4_Struct MakeScale(float Scale_X, float Scale_Y, float Scale_Z)
+	{
+		return
+		{
+			Scale_X, 0, 0,0,
+			0, Scale_Y, 0,0,
+			0, 0, Scale_Z,0,
+			0, 0, 0, 1
+		};
+	}
+
+	Float_Vector4_Struct GetRight_X()
+	{
+		return Float_Vector4_Struct(Mat4_grid[0][0], Mat4_grid[0][1], Mat4_grid[0][2], Mat4_grid[0][3]);
+	}
+
+	Float_Vector4_Struct GetRight_Y()
+	{
+		return Float_Vector4_Struct(Mat4_grid[1][0], Mat4_grid[1][1], Mat4_grid[1][2], Mat4_grid[1][3]);
+	}
+
+	Float_Vector4_Struct GetForward_Z()
+	{
+		return Float_Vector4_Struct(Mat4_grid[2][0], Mat4_grid[2][1], Mat4_grid[2][2], Mat4_grid[2][3]);
+	}
+
+	Float_Vector4_Struct GetPosition_W()
+	{
+		return Float_Vector4_Struct(Mat4_grid[3][0], Mat4_grid[3][1], Mat4_grid[3][2], Mat4_grid[3][3]);
+	}
+
+	bool IsApproximatelyEqual(Float_Matrix4_Struct& Rhs_Matrix4, float equal_within_value = 1e-4)
+	{
+		Float_Matrix4_Struct tempary_Float_Matrix4_Diffrence = *this; // grabs this Vector values
+
+		for (int Loop = 0; Loop < 16; Loop++)
+		{
+			if ((tempary_Float_Matrix4_Diffrence[Loop] - Rhs_Matrix4[Loop]) < equal_within_value && (tempary_Float_Matrix4_Diffrence[Loop] - Rhs_Matrix4[Loop]) > -equal_within_value) // inside of the target range?
+			{
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	Float_Matrix4_Struct SetTranslate(Float_Vector4_Struct& Rhs_Vector)
+	{
+		Float_Matrix4_Struct tempary_Float_Matrix4 = *this;
+		
+		Mat4_grid[0][3] = Rhs_Vector.Vector4_x;
+		Mat4_grid[1][3] = Rhs_Vector.Vector4_y;
+		Mat4_grid[2][3] = Rhs_Vector.Vector4_z;
+
+		return *this;
+	}
+
+	Float_Matrix4_Struct MakeTranslate(Float_Vector4_Struct& Rhs_Vector) 
+	{
+		Float_Matrix4_Struct tempary_Float_Matrix4 = *this;
+
+		tempary_Float_Matrix4.Mat4_grid[0][3] = Rhs_Vector.Vector4_x;
+		tempary_Float_Matrix4.Mat4_grid[1][3] = Rhs_Vector.Vector4_y;
+		tempary_Float_Matrix4.Mat4_grid[2][3] = Rhs_Vector.Vector4_z;
+
+		return tempary_Float_Matrix4;
+	}
+
+	// *** /\/\/\ Member functions for Matrix4's /\/\/\ ***
+
 	void display() // display the Matrix4 values in a lose grid like fastion
 	{
 		cout << "\n Cuurent Matrix4 values" << endl;
@@ -1038,7 +1222,7 @@ struct Float_Matrix4_Struct
 	}
 };
 
-void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct Second_Vector3) // vector3 that is Overloaded
+void Vector3_Overload_Mem_Functions(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct Second_Vector3) // vector3 that is Overloaded
 {
 	cout << "*** Running Overloaded Vector 3's ***" << endl;
 	
@@ -1093,6 +1277,7 @@ void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct
 
 	cout << "\n*** Ending Overloaded Vector 3's *-*" << endl;
 
+
 	cout << "\n *-* Starting Member functions for Vector 3's *-*" << endl;
 
 	cout << "\n Dot product between First_Vector3 and Second_Vector3 equals: " << First_Vector3.V3_Dot_prod(Second_Vector3) << endl;
@@ -1110,16 +1295,18 @@ void Vector3_Overloaded(Float_Vector3_Struct First_Vector3, Float_Vector3_Struct
 	cout << "Lets see Second_Vector3 Normalised\n" << endl;
 	Second_Vector3.Normalised();
 
-	cout << " is Second_Vector3 Approximately Equal to First_Vector3 with default?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, NULL) << endl;
+	cout << " is Second_Vector3 Approximately Equal to First_Vector3 with default?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3) << endl;
 
 	cout << " is Second_Vector3 Approximately Equal to First_Vector3 by 3.5?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, 3.5) << endl;
 
 	cout << "what is the Distance between Current_Vector3 and First_Vector3: " << Current_Vector3.Distance(First_Vector3) << endl;
 
+	cout << "\n Here is the 2d angle of First_Vector3 comapred to world origin(1,0): " << First_Vector3.Angle2D() << "\n ^^^ hard coded ^^^" << endl;
+
 	cout << "\n*-* Ending Member functions for Vector 3's *-*" << endl;
 }
 
-void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct Second_Vector4) // vector3 that is Overloaded
+void Vector4_Overload_Mem_Functions(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct Second_Vector4) // vector3 that is Overloaded
 {
 
 	cout << "\n *** Running Overloaded Vector 4's ***" << endl;
@@ -1192,7 +1379,7 @@ void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct
 	cout << "Lets see Second_Vector4 Normalised\n" << endl;
 	Second_Vector4.Normalised();
 
-	cout << " is Second_Vector4 Approximately Equal to First_Vector4 with default?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, NULL) << endl;
+	cout << " is Second_Vector4 Approximately Equal to First_Vector4 with default?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4) << endl;
 
 	cout << " is Second_Vector4 Approximately Equal to First_Vector4 by 3.5?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, 3.5) << endl;
 
@@ -1201,7 +1388,7 @@ void Vector4_Overloaded(Float_Vector4_Struct First_Vector4, Float_Vector4_Struct
 	cout << "\n*-* Ending Member functions for Vector 4's *-*" << endl;
 }
 
-void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct Second_Matrix3, Float_Vector3_Struct First_Vector3)
+void Matrix3_Overload_Mem_Functions(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct Second_Matrix3, Float_Vector3_Struct First_Vector3)
 {
 	cout << "\n*** Running Overloaded Matrix 3's ***" << endl;
 
@@ -1248,9 +1435,44 @@ void Matrix3_Overloaded(Float_Matrix3_Struct First_Matrix3, Float_Matrix3_Struct
 	cout << "\n Current_Matrix3 Yy value is: " << Current_Matrix3[4] << endl;
 
 	cout << "\n*** Ending Overloaded Matrix 3's ***" << endl;
+
+
+	cout << "\n *-* Starting Member functions for Matrix 3's *-*" << endl;
+
+	Float_Matrix3_Struct Display_Marix3;
+	Display_Marix3 = Display_Marix3.MakeRotate_2D(45);
+
+	cout << "\n making an matrix for Rotation: " << endl;
+	Display_Marix3.display();
+
+	cout << "\n making an matrix for scale: " << endl;
+	Display_Marix3 = Display_Marix3.MakeScale(24, 5);
+	Display_Marix3.display();
+
+	cout << "\n making an matrix for Translate: " << endl;
+	Display_Marix3 = Display_Marix3.MakeTranslate(First_Vector3);
+	Display_Marix3.display();
+
+	cout << "\n Getting Right Axis_direction of Current_Matrix3: " << endl;
+	Float_Vector3_Struct Axis_direction = Current_Matrix3.GetRight_Y();
+	Axis_direction.display();
+
+	cout << "\n Getting Forward Axis_direction of Second_Matrix3: " << endl;
+	Axis_direction = Second_Matrix3.GetRight_Y();
+	Axis_direction.display();
+
+	cout << "\n Getting Translation of Current_Matrix3: " << endl;
+	Float_Vector3_Struct Postion_Marix3 = Current_Matrix3.GetTanslate();
+	Postion_Marix3.display();
+
+	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3) << endl;
+
+	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3 within 6?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3,6) << endl;
+
+	cout << "\n *-* Ending Member functions for Matrix 3's *-*" << endl;
 }
 
-void Matrix4_Overloaded(Float_Matrix4_Struct Third_Matrix4, Float_Matrix4_Struct Forth_Matrix4, Float_Vector4_Struct forth_vector4)
+void Matrix4_Overload_Mem_Functions(Float_Matrix4_Struct Third_Matrix4, Float_Matrix4_Struct Forth_Matrix4, Float_Vector4_Struct forth_vector4)
 {
 	cout << "\n*** Running Overloaded Matrix 4's ***" << endl;
 
@@ -1299,22 +1521,21 @@ void Matrix4_Overloaded(Float_Matrix4_Struct Third_Matrix4, Float_Matrix4_Struct
 	cout << "\n*** Ending Overloaded Matrix 4's ***" << endl;
 }
 
-
 int main() 
 {
 	Float_Vector3_Struct First_Vector3(2, 4, 6), Second_Vector3(1, 3, 5); // Create two New vector3
 
-	Vector3_Overloaded(First_Vector3,Second_Vector3); // Testing Vector3 has overloaded it's operators
+	Vector3_Overload_Mem_Functions(First_Vector3,Second_Vector3); // Testing Vector3 has overloaded it's operators
 
 	Float_Vector4_Struct Third_Vector4(34, 956, 27, 65), forth_vector4(47, 42, 365, 2); // Create two new vector4
 
-	Vector4_Overloaded(Third_Vector4, forth_vector4); // Testing Vector4 has overloaded it's operators
+	Vector4_Overload_Mem_Functions(Third_Vector4, forth_vector4); // Testing Vector4 has overloaded it's operators
 
 	Float_Matrix3_Struct First_Matrix3{1,4,3,8,2,9,0,0,1}, Second_Matrix3;
 
-	Matrix3_Overloaded(First_Matrix3, Second_Matrix3, First_Vector3);
+	Matrix3_Overload_Mem_Functions(First_Matrix3, Second_Matrix3, First_Vector3);
 
 	Float_Matrix4_Struct Third_Matrix4{1,4,3,8,2,9,0,2,5,7,3,7,0,0,0,1}, Forth_Matrix4;
 
-	Matrix4_Overloaded(Third_Matrix4, Forth_Matrix4, forth_vector4);
+	Matrix4_Overload_Mem_Functions(Third_Matrix4, Forth_Matrix4, forth_vector4);
 }
