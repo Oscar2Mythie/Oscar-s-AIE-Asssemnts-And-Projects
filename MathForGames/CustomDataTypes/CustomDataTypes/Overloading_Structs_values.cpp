@@ -1,6 +1,6 @@
 /*
 
-Created by Oscar crowley 18/03/2025. Last updated on the 29/04/2026
+Created by Oscar crowley 18/03/2025. Last updated on the 30/04/2026
 
 */
 
@@ -42,7 +42,6 @@ struct Float_Vector3_Struct
 
 		return temporary; // return the three added vector values.    
 	}
-
 	Float_Vector3_Struct operator+(const float Target_float)  //adding  self cloned Vector data to Target float
 	{
 		Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
@@ -89,7 +88,17 @@ struct Float_Vector3_Struct
 
 		return temporary; // return the three multiplied vector values.    
 	}
+	Float_Vector3_Struct operator*(const float Target_float)  //multiplying  self cloned Vector data to Target float
+	{
+		Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
+		temporary.Vector3_x *= Target_float; // multiplying clone Vecotor.x to float
+		temporary.Vector3_y *= Target_float; // multiplying clone Vecotor.y to float
+		temporary.Vector3_z *= Target_float; // multiplying clone Vecotor.z to float
+
+
+		return temporary; // return the three divided vector values.    
+	}
 	Float_Vector3_Struct operator*=(const Float_Vector3_Struct& multiplying_Target)  //multiplying  self cloned Vector data to Target Vector
 	{
 		Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
@@ -101,20 +110,7 @@ struct Float_Vector3_Struct
 
 		return temporary; // return the three multiplied vector values.    
 	}
-
 	Float_Vector3_Struct operator*=(const float Target_float)  //multiplying  self cloned Vector data to Target float
-	{
-		Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
-
-		temporary.Vector3_x *= Target_float; // multiplying clone Vecotor.x to float
-		temporary.Vector3_y *= Target_float; // multiplying clone Vecotor.y to float
-		temporary.Vector3_z *= Target_float; // multiplying clone Vecotor.z to float
-
-
-		return temporary; // return the three divided vector values.    
-	}
-
-	Float_Vector3_Struct operator*(const float Target_float)  //multiplying  self cloned Vector data to Target float
 	{
 		Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
@@ -137,7 +133,6 @@ struct Float_Vector3_Struct
 
 		return temporary; // return the three divided vector values.    
 	}
-
 	Float_Vector3_Struct operator/(const float Target_float)  //dividing  self cloned Vector data to Target float
 	{
 		Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
@@ -174,7 +169,6 @@ struct Float_Vector3_Struct
 		}
 
 	}
-
 	float operator[](const int Return_Vector_value) const  //returning an const element as if it was an array
 	{
 
@@ -213,7 +207,6 @@ struct Float_Vector3_Struct
 
 		return  result; // return either true or false   
 	}
-
 	 bool operator!=(const Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
 	 {
 		 Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
@@ -226,16 +219,15 @@ struct Float_Vector3_Struct
 
 		 return  result; // return either true or false   
 	 }
-
 	 bool operator<(Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
 	 {
 		 Float_Vector3_Struct temporary_squraed = *this * (*this); // Create a squared clone vectors from self
-		 Float_Vector3_Struct Testing_squraed_Vector3 = (Testing_Vector3 * Testing_Vector3);
+		 Float_Vector3_Struct Testing_squraed_Vector3 = (Testing_Vector3 * Testing_Vector3); // Create squeared a vector from the vector we are testing against
 
-		 float this_Squared_Magatune = temporary_squraed.Vector3_x + temporary_squraed.Vector3_y + temporary_squraed.Vector3_z;
-		 float Testing_Squared_Magatune2 = Testing_squraed_Vector3.Vector3_x + Testing_squraed_Vector3.Vector3_y + Testing_squraed_Vector3.Vector3_z;
+		 float this_Squared_Magatune = temporary_squraed.Vector3_x + temporary_squraed.Vector3_y + temporary_squraed.Vector3_z; // Get the Squared magatune from the squeard vector clone
+		 float Testing_Squared_Magatune2 = Testing_squraed_Vector3.Vector3_x + Testing_squraed_Vector3.Vector3_y + Testing_squraed_Vector3.Vector3_z; // Get the Squared magatune from the Squared testing vector
 
-		 return (this_Squared_Magatune < Testing_Squared_Magatune2);
+		 return (this_Squared_Magatune < Testing_Squared_Magatune2); // if this_Squared_Magatune is less then Testing_Squared_Magatune2, then return true
 	 }
 
 	Float_Vector3_Struct operator=(const Float_Vector3_Struct &Rhs_Vector)  //  Assigning New vector values from another vector
@@ -247,7 +239,7 @@ struct Float_Vector3_Struct
 		return *this; // return the three new vector values.    
 	}
 
-		Float_Vector3_Struct operator-()  //  making the Vectors swhich from postive to negtive
+	Float_Vector3_Struct operator-()  //  making the Vectors swhich from postive to negtive
 	{
 		 Vector3_x *= -1 ;
 		 Vector3_y *= -1 ;
@@ -260,23 +252,23 @@ struct Float_Vector3_Struct
 
 		// *** \/\/\/ Member functions for Vector3's \/\/\/ ***
 
-		float V3_Dot_prod(const Float_Vector3_Struct& Rhs_V3)  // creating an Dot product from an vector 3
+		float V3_Dot_prod(const Float_Vector3_Struct& Rhs_V3)  // creating an Dot product from two vector 3's
 		{
-			Float_Vector3_Struct tempary_Float_Vector3 = *this;
+			Float_Vector3_Struct tempary_Float_Vector3 = *this; // Grab vector values from this vector
 			
-			float Dot_Prod_result = 0;
+			float Dot_Prod_result = 0; // A value to hold the sum of all the values
 
-			for (int Y_loop = 0; Y_loop < 3; Y_loop++)
+			for (int Y_loop = 0; Y_loop < 3; Y_loop++) // looping 3 times to get the three values within the vector3 
 			{
-				Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V3[Y_loop];
+				Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V3[Y_loop]; // incease the value by the product of the element of each vector3 values.
 			}
 
-			return Dot_Prod_result;
+			return Dot_Prod_result; // return the sum of the product beteween the values from the Vector3's
 		}
 
 		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3) // creating an croos product from an vector 3
 		{
-			return Float_Vector3_Struct
+			return Float_Vector3_Struct // return the sunbtracked values from the products from thevector3's
 			(
 			(Vector3_y * Rhs_V3.Vector3_z) - (Vector3_z * Rhs_V3.Vector3_y), 
 			(Vector3_z * Rhs_V3.Vector3_x) - (Vector3_x * Rhs_V3.Vector3_z), 
@@ -304,20 +296,20 @@ struct Float_Vector3_Struct
 			cout << endl;
 		}
 
-		Float_Vector3_Struct Normalised() const // sends the Normalise vector
+		Float_Vector3_Struct Normalised() const // sends the Normalise vector [This feels like this dose not work ... due to Normalise not returning data from being a void function]
 		{
-			Float_Vector3_Struct Norm_copy = *this;
-			Norm_copy.Normalise();
-			Norm_copy.display();
+			Float_Vector3_Struct Norm_copy = *this; // Copy this vector3's values
+			Norm_copy.Normalise(); // Normalise the vector3's values
+			Norm_copy.display(); // dispaly them to show the normalised values
 
-			return Norm_copy;
+			return Norm_copy; // return values that are now mormalised
 		}
 
 		bool IsApproximatelyEqual(Float_Vector3_Struct& Rhs_Vector3, float equal_within_value = 1e-4) // an function that acts like an equals if it got within the range of target value
 		{
 			Float_Vector3_Struct tempary_Float_Vector3_Diffrence = *this; // grabs this Vector values
 
-			for (int Loop = 0; Loop < 3; Loop ++)
+			for (int Loop = 0; Loop < 3; Loop ++) // check each value of the vector3's by subtracking each vector value. Should it result with a value greater or less then equal_within_value, return false
 			{
 				if ((tempary_Float_Vector3_Diffrence[Loop]- Rhs_Vector3[Loop]) < equal_within_value || (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector3[Loop]) > -equal_within_value) // inside of the target range?
 				{
@@ -497,7 +489,7 @@ struct Float_Vector4_Struct
 		return temporary; // return the four divided vector values.    
 	}
 
-	float& operator[](const int Return_Vector_value)  //instead of calling on the values by going this.Vector4_x, call the values as if it was an a element of array
+	float& operator[](const int Return_Vector_value)  //instead of calling on the values by going this.Vector4_x, call the values as if it was an a refrance to an element of array
 	{
 
 		float Returning_data = 0; // default value to return
@@ -584,7 +576,7 @@ struct Float_Vector4_Struct
 		float this_Squared_Magatune = temporary_squraed.Vector4_x + temporary_squraed.Vector4_y + temporary_squraed.Vector4_z +temporary_squraed.Vector4_w; // add all sqaured Vectors together from self clone
 		float Testing_Squared_Magatune2 = Testing_squraed_Vector4.Vector4_x + Testing_squraed_Vector4.Vector4_y + Testing_squraed_Vector4.Vector4_z + Testing_squraed_Vector4.Vector4_w; // add all sqaured vectors together from testing clone 
 
-		return (this_Squared_Magatune < Testing_Squared_Magatune2); 
+		return (this_Squared_Magatune < Testing_Squared_Magatune2);  // if this_Squared_Magatune is smaller then Testing_Squared_Magatune2, then return true.
 	}
 
 	Float_Vector4_Struct operator=(const Float_Vector4_Struct& Rhs_Vector)  //  Assigning New vector values from another vector
@@ -611,32 +603,32 @@ struct Float_Vector4_Struct
 
 	// *** \/\/\/ Member functions for Vector4's \/\/\/ ***
 
-	float V4_Dot_prod(const Float_Vector4_Struct& Rhs_V4)
+	float V4_Dot_prod(const Float_Vector4_Struct& Rhs_V4) // getting the dot product from two vector4's
 	{
-		Float_Vector4_Struct tempary_Float_Vector3 = *this;
+		Float_Vector4_Struct tempary_Float_Vector3 = *this; // clone the values from this vector 4
 
-		float Dot_Prod_result = 0;
+		float Dot_Prod_result = 0; // A place to store the sum total of the products between the two vector 4 vlaues
 
-		for (int Y_loop = 0; Y_loop < 4; Y_loop++)
+		for (int Y_loop = 0; Y_loop < 4; Y_loop++) // loop though all the values of the vector4
 		{
-			Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V4[Y_loop];
+			Dot_Prod_result += tempary_Float_Vector3[Y_loop] * Rhs_V4[Y_loop]; // incease the value of Dot_Prod_result by the product between the two values from the vector4's
 		}
 
-		return Dot_Prod_result;
+		return Dot_Prod_result; // return the sum of al the products from the two vector4's
 	}
 
-	Float_Vector4_Struct V4_Cross_prod(const Float_Vector4_Struct Rhs_V4)
+	Float_Vector4_Struct V4_Cross_prod(const Float_Vector4_Struct Rhs_V4) // Geting an vector from the Cross product of two vector4's 
 	{
 		return Float_Vector4_Struct
 		(
 			(Vector4_y * Rhs_V4.Vector4_z) - (Vector4_z * Rhs_V4.Vector4_y),
 			(Vector4_z * Rhs_V4.Vector4_x) - (Vector4_x * Rhs_V4.Vector4_z),
 			(Vector4_x * Rhs_V4.Vector4_y) - (Vector4_y * Rhs_V4.Vector4_x),
-			0
+			1
 		);
 	}
 
-	float V4_Magnitude() const
+	float V4_Magnitude() const // getting and returning the vector 4 Mangnitdue after by sqaure rooting the squred values of the vector4
 	{
 		return sqrtf((Vector4_x * Vector4_x) + (Vector4_y * Vector4_y) + (Vector4_z * Vector4_z));
 	}
@@ -1096,41 +1088,44 @@ struct Float_Matrix4_Struct
 
 	// *** \/\/\/ Member functions for Matrix3's \/\/\/ ***
 
-	static Float_Matrix4_Struct Rotate_X(float a)
+	static Float_Matrix4_Struct MakeRotate_X(float a)
 	{
 		return
 		{
 			1,	0,	0,0,
 			0, cosf(a), -sinf(a),0,
-			0, sinf(a), cosf(a),1
+			0, sinf(a), cosf(a),0,
+			0,0,0,1
 		};
 	}
 
-	static Float_Matrix4_Struct Rotate_Y(float a)
+	static Float_Matrix4_Struct MakeRotate_Y(float a)
 	{
 		return
 		{
 			cosf(a), 0, -sinf(a),0,
 				0,	 1,		0,0,
-			sinf(a), 0, cosf(a),1
+			sinf(a), 0, cosf(a),0,
+			0,0,0,1
 		};
 	}
 
-	static Float_Matrix4_Struct Rotate_Z(float a)
+	static Float_Matrix4_Struct MakeRotate_Z(float a)
 	{
 		return
 		{
 			cosf(a),sinf(a), 0,0,
 			-sinf(a),cosf(a),0,0,
-			0,0,	0, 1
+			0,0,0,1,
+			0,0,0,1
 		};
 	}
 
 	static Float_Matrix4_Struct Euler_Rotate(float Pitch_X, float Yaw_Y, float roll_Z)
 	{
-		Float_Matrix4_Struct X = Rotate_X(Pitch_X);
-		Float_Matrix4_Struct Y = Rotate_Y(Yaw_Y);
-		Float_Matrix4_Struct Z = Rotate_Z(roll_Z);
+		Float_Matrix4_Struct X = MakeRotate_X(Pitch_X);
+		Float_Matrix4_Struct Y = MakeRotate_Y(Yaw_Y);
+		Float_Matrix4_Struct Z = MakeRotate_Z(roll_Z);
 
 		return (Z * Y * X);
 	}
@@ -1148,22 +1143,22 @@ struct Float_Matrix4_Struct
 
 	Float_Vector4_Struct GetRight_X()
 	{
-		return Float_Vector4_Struct(Mat4_grid[0][0], Mat4_grid[0][1], Mat4_grid[0][2], Mat4_grid[0][3]);
+		return Float_Vector4_Struct(Mat4_grid[0][0], Mat4_grid[1][0], Mat4_grid[2][0], Mat4_grid[3][0]);
 	}
 
-	Float_Vector4_Struct GetRight_Y()
+	Float_Vector4_Struct GetUp_Y()
 	{
-		return Float_Vector4_Struct(Mat4_grid[1][0], Mat4_grid[1][1], Mat4_grid[1][2], Mat4_grid[1][3]);
+		return Float_Vector4_Struct(Mat4_grid[0][1], Mat4_grid[1][1], Mat4_grid[2][1], Mat4_grid[3][1]);
 	}
 
 	Float_Vector4_Struct GetForward_Z()
 	{
-		return Float_Vector4_Struct(Mat4_grid[2][0], Mat4_grid[2][1], Mat4_grid[2][2], Mat4_grid[2][3]);
+		return Float_Vector4_Struct(Mat4_grid[0][2], Mat4_grid[1][2], Mat4_grid[2][2], Mat4_grid[3][2]);
 	}
 
 	Float_Vector4_Struct GetPosition_W()
 	{
-		return Float_Vector4_Struct(Mat4_grid[3][0], Mat4_grid[3][1], Mat4_grid[3][2], Mat4_grid[3][3]);
+		return Float_Vector4_Struct(Mat4_grid[0][3], Mat4_grid[1][3], Mat4_grid[2][3], Mat4_grid[3][3]);
 	}
 
 	bool IsApproximatelyEqual(Float_Matrix4_Struct& Rhs_Matrix4, float equal_within_value = 1e-4)
@@ -1519,6 +1514,46 @@ void Matrix4_Overload_Mem_Functions(Float_Matrix4_Struct Third_Matrix4, Float_Ma
 	cout << "\n Current_Matrix4 Zz value is: " << Current_Matrix4[9] << endl;
 
 	cout << "\n*** Ending Overloaded Matrix 4's ***" << endl;
+
+	cout << "\n *-* Starting Member functions for Matrix 4's *-*" << endl;
+
+	Float_Matrix4_Struct display_Matrix4 ;
+
+	display_Matrix4 = Forth_Matrix4.MakeRotate_X(30);
+	display_Matrix4.display();
+
+	display_Matrix4 = Forth_Matrix4.MakeRotate_Y(60);
+	display_Matrix4.display();
+
+	display_Matrix4 = Forth_Matrix4.MakeRotate_Z(90);
+	display_Matrix4.display();
+
+	display_Matrix4 = Forth_Matrix4.MakeScale(2,10.5,-5.25);
+	display_Matrix4.display();
+
+	display_Matrix4 = Forth_Matrix4.MakeTranslate(forth_vector4);
+	display_Matrix4.display();
+
+	Forth_Matrix4.SetTranslate(forth_vector4);
+	Forth_Matrix4.display();
+
+	Float_Vector4_Struct display_Vector4 = Forth_Matrix4.GetRight_X();
+	display_Vector4.display();
+
+	display_Vector4 = Forth_Matrix4.GetUp_Y();
+	forth_vector4.display();
+
+	display_Vector4 = Forth_Matrix4.GetForward_Z();
+	forth_vector4.display();
+
+	display_Vector4 = Forth_Matrix4.GetPosition_W();
+	forth_vector4.display();
+
+	cout << "\n is Forth_Matrix4 Approximately Equal within the defualt of 1e-4?:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4) << endl;
+
+	cout << "\n is Forth_Matrix4 Approximately Equal within the value of 13.9:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4,13.9) << endl;
+
+	cout << "\n *-* Ending Member functions for Matrix 4's *-*" << endl;
 }
 
 int main() 
