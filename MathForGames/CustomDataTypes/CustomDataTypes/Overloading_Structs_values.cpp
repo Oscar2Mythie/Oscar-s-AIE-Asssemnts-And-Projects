@@ -1,6 +1,6 @@
 /*
 
-Created by Oscar crowley 18/03/2025. Last updated on the 30/04/2026
+Created by Oscar crowley 18/03/2025. Last updated on the 3/05/2026
 
 */
 
@@ -633,20 +633,22 @@ struct Float_Vector4_Struct
 		return sqrtf((Vector4_x * Vector4_x) + (Vector4_y * Vector4_y) + (Vector4_z * Vector4_z));
 	}
 
-	void Normalise()
+	void Normalise() //Normalise the vector4's values via dividing the Vector4's values with it'smagnitude  
 	{
-		float Norm = V4_Magnitude();
+		float Norm = V4_Magnitude(); // get the Magnitude of this vector4
 
 		cout << "Normalise x and you get: " << (Vector4_x /= Norm) << endl;
-		Vector4_x /= Norm;
+		Vector4_x /= Norm; // update X value 
+
 		cout << "Normalise y and you get: " << (Vector4_y /= Norm) << endl;
-		Vector4_y /= Norm;
+		Vector4_y /= Norm; // update Y value
+
 		cout << "Normalise z and you get: " << (Vector4_y /= Norm) << endl;
-		Vector4_z /= Norm;
+		Vector4_z /= Norm;// update Z value 
 		cout << endl;
 	}
 
-	Float_Vector4_Struct Normalised() const
+	Float_Vector4_Struct Normalised() const // Send an Normalise copy of this Vector 
 	{
 		Float_Vector4_Struct Norm_copy = *this;
 		Norm_copy.Normalise();
@@ -655,31 +657,31 @@ struct Float_Vector4_Struct
 		return Norm_copy;
 	}
 
-	bool IsApproximatelyEqual(Float_Vector4_Struct& Rhs_Vector4, float equal_within_value = 1e-4)
+	bool IsApproximatelyEqual(Float_Vector4_Struct& Rhs_Vector4, float equal_within_value = 1e-4) // checks if this vector is equal to another vector within range. it checks by defualt if it's equal within 1-e4 
 	{
-		Float_Vector4_Struct tempary_Float_Vector3_Diffrence = *this;
+		Float_Vector4_Struct tempary_Float_Vector3_Diffrence = *this; // clone this vector4' values 
 
-		for (int Loop = 0; Loop < 4; Loop++)
+		for (int Loop = 0; Loop < 4; Loop++) // lopp thought all it's elements and check to see if any value falls out side of range of the equal_within_value  
 		{
-			if ((tempary_Float_Vector3_Diffrence[Loop]- Rhs_Vector4[Loop]) < equal_within_value || (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector4[Loop]) > -equal_within_value)
+			if ((tempary_Float_Vector3_Diffrence[Loop]- Rhs_Vector4[Loop]) < equal_within_value || (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector4[Loop]) > -equal_within_value) // if any fail, return false
 			{
 
 			}
 			else
 			{
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
-	float AngleBetween(Float_Vector4_Struct Rhs_vector4)
+	float AngleBetween(Float_Vector4_Struct Rhs_vector4) // Find the angle between this vector4 and other vector4 
 	{
-		return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised()));
+		return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
 	}
 
-	float Distance(Float_Vector4_Struct Rhs_vector4)
+	float Distance(Float_Vector4_Struct Rhs_vector4) // find the diffrentnce between two Magnitude's to find the two vector4's  
 	{
 		Float_Vector4_Struct tempary_Float_Vector4 = *this;
 
@@ -726,7 +728,7 @@ struct Float_Matrix3_Struct
 
 	Float_Matrix3_Struct() // constructor
 	{
-		for (int loopCount = 0; loopCount < 9; loopCount++)
+		for (int loopCount = 0; loopCount < 9; loopCount++) //
 		{
 			if (loopCount % 4 == 0)
 			{
@@ -748,7 +750,7 @@ struct Float_Matrix3_Struct
 		}
 	}
 
-	Float_Matrix3_Struct(initializer_list<float> Mat3_V_list) 
+	Float_Matrix3_Struct(initializer_list<float> Mat3_V_list)  // allows the Matrix3 to take a list of values and asagin them into the each value slot 
 	{
 		int Mat3_V = 0;
 		for (float Loop : Mat3_V_list)
@@ -858,7 +860,7 @@ struct Float_Matrix3_Struct
 	// *** /\/\/\ Over loading Matrix3's /\/\/\ ***
 
 	// *** \/\/\/ Member functions for Matrix3's \/\/\/ ***
-	Float_Matrix3_Struct MakeRotate_2D(float a)
+	Float_Matrix3_Struct MakeRotate_2D(float a)  // create a matrix3 with Rotate values 
 	{
 		return 
 		{
@@ -868,7 +870,7 @@ struct Float_Matrix3_Struct
 		};
 	}
 
-	Float_Matrix3_Struct MakeScale(float Scale_X, float Scale_Y)
+	Float_Matrix3_Struct MakeScale(float Scale_X, float Scale_Y) // make an Matrix3 for a scale in 2d
 	{
 		return
 		{
@@ -878,7 +880,7 @@ struct Float_Matrix3_Struct
 		};
 	}
 
-	Float_Matrix3_Struct MakeTranslate(Float_Vector3_Struct& Rhs_Vector3)
+	Float_Matrix3_Struct MakeTranslate(Float_Vector3_Struct& Rhs_Vector3) // make an Matrix3 with an Translate of an object
 	{
 		return Float_Matrix3_Struct
 		{
@@ -888,26 +890,26 @@ struct Float_Matrix3_Struct
 		};
 	}
 
-	Float_Vector3_Struct GetTanslate()
+	Float_Vector3_Struct GetTanslate() // Get the values from the 3rd column of the Mat3_grid
 	{
 		return Float_Vector3_Struct(Mat3_grid[2][0], Mat3_grid[2][1], Mat3_grid[2][2]);
 	}
 
-	Float_Vector3_Struct GetRight_Y() 
+	Float_Vector3_Struct GetRight_Y()  // get the vlaues from the middle Column
 	{
 		return Float_Vector3_Struct(Mat3_grid[1][0], Mat3_grid[1][1], Mat3_grid[1][2]);
 	}
 
-	Float_Vector3_Struct GetForward_X() 
+	Float_Vector3_Struct GetForward_X() // gte the vlaues from the right column
 	{
 		return Float_Vector3_Struct(Mat3_grid[0][0], Mat3_grid[0][1], Mat3_grid[0][2]);
 	}
 
-	bool IsApproximatelyEqual(Float_Matrix3_Struct& Rhs_Matrix3, float equal_within_value = 1e-4)
+	bool IsApproximatelyEqual(Float_Matrix3_Struct& Rhs_Matrix3, float equal_within_value = 1e-4) // test this matrix3 with another matrix3 and see if they are equal with each other within range of diffencet   
 	{
 		Float_Matrix3_Struct tempary_Float_Matrix3_Diffrence = *this; // grabs this Vector values
 
-		for (int Loop = 0; Loop < 9; Loop++)
+		for (int Loop = 0; Loop < 9; Loop++)  // loop thought all the elements of the two Matrix3's 
 		{
 			if ((tempary_Float_Matrix3_Diffrence[Loop]- Rhs_Matrix3[Loop]) < equal_within_value && (tempary_Float_Matrix3_Diffrence[Loop] - Rhs_Matrix3[Loop]) > -equal_within_value) // inside of the target range?
 			{
@@ -1086,9 +1088,9 @@ struct Float_Matrix4_Struct
 
 	// *** /\/\/\ Over loading Matrix4's /\/\/\ ***
 
-	// *** \/\/\/ Member functions for Matrix3's \/\/\/ ***
+	// *** \/\/\/ Member functions for Matrix4's \/\/\/ ***
 
-	static Float_Matrix4_Struct MakeRotate_X(float a)
+	static Float_Matrix4_Struct MakeRotate_X(float a) // create a Rotation matrix4 for roating on the X axis
 	{
 		return
 		{
@@ -1099,7 +1101,7 @@ struct Float_Matrix4_Struct
 		};
 	}
 
-	static Float_Matrix4_Struct MakeRotate_Y(float a)
+	static Float_Matrix4_Struct MakeRotate_Y(float a) // create a Rotation matrix4 for roating on the Y axis
 	{
 		return
 		{
@@ -1110,18 +1112,18 @@ struct Float_Matrix4_Struct
 		};
 	}
 
-	static Float_Matrix4_Struct MakeRotate_Z(float a)
+	static Float_Matrix4_Struct MakeRotate_Z(float a) // create a Rotation matrix4 for roating on the Z axis
 	{
 		return
 		{
 			cosf(a),sinf(a), 0,0,
 			-sinf(a),cosf(a),0,0,
-			0,0,0,1,
+			0,0,1,0,
 			0,0,0,1
 		};
 	}
 
-	static Float_Matrix4_Struct Euler_Rotate(float Pitch_X, float Yaw_Y, float roll_Z)
+	static Float_Matrix4_Struct Euler_Rotate(float Pitch_X, float Yaw_Y, float roll_Z) // Create 3 matrix4 for each of the axis's, then return the product of the three matrix4. 
 	{
 		Float_Matrix4_Struct X = MakeRotate_X(Pitch_X);
 		Float_Matrix4_Struct Y = MakeRotate_Y(Yaw_Y);
@@ -1130,7 +1132,7 @@ struct Float_Matrix4_Struct
 		return (Z * Y * X);
 	}
 
-	static Float_Matrix4_Struct MakeScale(float Scale_X, float Scale_Y, float Scale_Z)
+	static Float_Matrix4_Struct MakeScale(float Scale_X, float Scale_Y, float Scale_Z) // Make an Matrix4 with values for scaling. 
 	{
 		return
 		{
@@ -1141,31 +1143,31 @@ struct Float_Matrix4_Struct
 		};
 	}
 
-	Float_Vector4_Struct GetRight_X()
+	Float_Vector4_Struct GetRight_X() // return a vector with values from the left column of this mattrix
 	{
 		return Float_Vector4_Struct(Mat4_grid[0][0], Mat4_grid[1][0], Mat4_grid[2][0], Mat4_grid[3][0]);
 	}
 
-	Float_Vector4_Struct GetUp_Y()
+	Float_Vector4_Struct GetUp_Y() // return a vector with values from the left-middle column of this mattrix
 	{
 		return Float_Vector4_Struct(Mat4_grid[0][1], Mat4_grid[1][1], Mat4_grid[2][1], Mat4_grid[3][1]);
 	}
 
-	Float_Vector4_Struct GetForward_Z()
+	Float_Vector4_Struct GetForward_Z() // return a vector with values from the right-middle column of this mattrix
 	{
 		return Float_Vector4_Struct(Mat4_grid[0][2], Mat4_grid[1][2], Mat4_grid[2][2], Mat4_grid[3][2]);
 	}
 
-	Float_Vector4_Struct GetPosition_W()
+	Float_Vector4_Struct GetPosition_W() // return a vector with values from the right column of this mattrix
 	{
 		return Float_Vector4_Struct(Mat4_grid[0][3], Mat4_grid[1][3], Mat4_grid[2][3], Mat4_grid[3][3]);
 	}
 
-	bool IsApproximatelyEqual(Float_Matrix4_Struct& Rhs_Matrix4, float equal_within_value = 1e-4)
+	bool IsApproximatelyEqual(Float_Matrix4_Struct& Rhs_Matrix4, float equal_within_value = 1e-4) //
 	{
-		Float_Matrix4_Struct tempary_Float_Matrix4_Diffrence = *this; // grabs this Vector values
+		Float_Matrix4_Struct tempary_Float_Matrix4_Diffrence = *this; // test this matrix4 with another matrix4 and see if they are equal with each other within range of diffencet 
 
-		for (int Loop = 0; Loop < 16; Loop++)
+		for (int Loop = 0; Loop < 16; Loop++) // loop though all the elmemnts of the matrix4 and compaire the diffrance between them. if the diffrance is within equal_within_value range, return true.
 		{
 			if ((tempary_Float_Matrix4_Diffrence[Loop] - Rhs_Matrix4[Loop]) < equal_within_value && (tempary_Float_Matrix4_Diffrence[Loop] - Rhs_Matrix4[Loop]) > -equal_within_value) // inside of the target range?
 			{
@@ -1178,7 +1180,7 @@ struct Float_Matrix4_Struct
 		return true;
 	}
 
-	Float_Matrix4_Struct SetTranslate(Float_Vector4_Struct& Rhs_Vector)
+	Float_Matrix4_Struct SetTranslate(Float_Vector4_Struct& Rhs_Vector) // update the right column with values from an translate vector4
 	{
 		Float_Matrix4_Struct tempary_Float_Matrix4 = *this;
 		
@@ -1189,7 +1191,7 @@ struct Float_Matrix4_Struct
 		return *this;
 	}
 
-	Float_Matrix4_Struct MakeTranslate(Float_Vector4_Struct& Rhs_Vector) 
+	Float_Matrix4_Struct MakeTranslate(Float_Vector4_Struct& Rhs_Vector)  // Make an Matrix4 with an vector 4 data save in the right column
 	{
 		Float_Matrix4_Struct tempary_Float_Matrix4 = *this;
 
@@ -1275,28 +1277,28 @@ void Vector3_Overload_Mem_Functions(Float_Vector3_Struct First_Vector3, Float_Ve
 
 	cout << "\n *-* Starting Member functions for Vector 3's *-*" << endl;
 
-	cout << "\n Dot product between First_Vector3 and Second_Vector3 equals: " << First_Vector3.V3_Dot_prod(Second_Vector3) << endl;
+	cout << "\n Dot product between First_Vector3 and Second_Vector3 equals: " << First_Vector3.V3_Dot_prod(Second_Vector3) << endl; // display the Dot product between First_Vector3 and Second_Vector3
 
-	Current_Vector3 = First_Vector3.V3_Cross_prod(Second_Vector3);
+	Current_Vector3 = First_Vector3.V3_Cross_prod(Second_Vector3); // Set the Current vector3 values to the cross product of First_Vector3 and Second_Vector3
 	cout << "\n Cross product between Second_Vector3 and First_Vector3 equals: " << endl;
 	Current_Vector3.display();
 
-	cout << "Magnitude of Current_Vector3 is: " << Current_Vector3.V3_Magnitude() << endl;
+	cout << "Magnitude of Current_Vector3 is: " << Current_Vector3.V3_Magnitude() << endl; // display the Magnitude of this Current_Vector3
 
 	cout << "what happens when we Normalise Current_Vector3?\n" << endl;
 
-	Current_Vector3.Normalise();
+	Current_Vector3.Normalise(); // Normalise Current_Vector3 values
 
 	cout << "Lets see Second_Vector3 Normalised\n" << endl;
-	Second_Vector3.Normalised();
+	Second_Vector3.Normalised(); // Create an copy Second_Vector3 and normlised
 
-	cout << " is Second_Vector3 Approximately Equal to First_Vector3 with default?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3) << endl;
+	cout << " is Second_Vector3 Approximately Equal to First_Vector3 with default?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3) << endl; // Test if econd_Vector3 Approximately Equal to First_Vector3 with default of 1e-4
 
-	cout << " is Second_Vector3 Approximately Equal to First_Vector3 by 3.5?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, 3.5) << endl;
+	cout << " is Second_Vector3 Approximately Equal to First_Vector3 by 3.5?: " << Second_Vector3.IsApproximatelyEqual(First_Vector3, 3.5) << endl; // Test if second_Vector3 Approximately Equal to First_Vector3 by a range of 3.5
 
-	cout << "what is the Distance between Current_Vector3 and First_Vector3: " << Current_Vector3.Distance(First_Vector3) << endl;
+	cout << "what is the Distance between Current_Vector3 and First_Vector3: " << Current_Vector3.Distance(First_Vector3) << endl; // display the Distance between Current_Vector3 and First_Vector3
 
-	cout << "\n Here is the 2d angle of First_Vector3 comapred to world origin(1,0): " << First_Vector3.Angle2D() << "\n ^^^ hard coded ^^^" << endl;
+	cout << "\n Here is the 2d angle of First_Vector3 comapred to world origin(1,0): " << First_Vector3.Angle2D() << "\n ^^^ hard coded ^^^" << endl; // find the 2d angle of the First_Vector3 with world origin 1,0
 
 	cout << "\n*-* Ending Member functions for Vector 3's *-*" << endl;
 }
