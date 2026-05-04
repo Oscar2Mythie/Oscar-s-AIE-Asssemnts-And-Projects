@@ -1348,39 +1348,41 @@ void Vector4_Overload_Mem_Functions(Float_Vector4_Struct First_Vector4, Float_Ve
 
 	if (Current_Vector4 < Second_Vector4) // Test if one vector3 is greater then other Vectorwith the overloaded < operator 
 	{
-		cout << "Current_Vector is less then Second_Vector" << endl;
+		cout << "Current_Vector is less then Second_Vector" << endl; 
 	}
 	else
 	{
 		cout << "Current_Vector isn't less then Second_Vector" << endl;
 	}
 
-	cout << "index 1 value of the Second_Vector4 is : " << Second_Vector4[1] << endl;
+	cout << "index 1 value of the Second_Vector4 is : " << Second_Vector4[1] << endl; // displays the value of the second element of the Second_Vector4 
 
 	cout << "\n*** Ending Overloaded Vector 4's ***" << endl;
 
 	cout << "\n *-* Starting Member functions for Vector 4's *-*" << endl;
 
-	cout << "\n Dot product between First_Vector4 and Second_Vector4 equals: " << First_Vector4.V4_Dot_prod(Second_Vector4) << endl;
+	cout << "\n Dot product between First_Vector4 and Second_Vector4 equals: " << First_Vector4.V4_Dot_prod(Second_Vector4) << endl; // Display the dot product between First_Vector4 and Second_Vector4
 
-	Current_Vector4 = First_Vector4.V4_Cross_prod(Second_Vector4);
-	cout << "\n Cross product between Second_Vector4 and First_Vector4 equals: " << endl;
-	Current_Vector4.display();
+	Current_Vector4 = First_Vector4.V4_Cross_prod(Second_Vector4); // Set the values of the Current_Vector4 to cross product between First_Vector4 and Second_Vector4
+	cout << "\n Cross product between Second_Vector4 and First_Vector4 equals: " << endl; 
+	Current_Vector4.display(); 
 
-	cout << "Magnitude of Current_Vector4 is: " << Current_Vector4.V4_Magnitude() << endl;
+	cout << "Magnitude of Current_Vector4 is: " << Current_Vector4.V4_Magnitude() << endl; // display the Magnitude of Current_Vector4
 
 	cout << "what happens when we Normalise Current_Vector4?\n" << endl;
 
-	Current_Vector4.Normalise();
+	Current_Vector4.Normalise(); // Normalise Current_Vector4 values 
 
 	cout << "Lets see Second_Vector4 Normalised\n" << endl;
-	Second_Vector4.Normalised();
+	Second_Vector4.Normalised(); // create an normlaised copy of Second_Vector4
 
-	cout << " is Second_Vector4 Approximately Equal to First_Vector4 with default?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4) << endl;
+	cout << " is Second_Vector4 Approximately Equal to First_Vector4 with default?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4) << endl; 
+	// dsiplay 0 or 1 after testing if Second_Vector4 is approximately equal to First_Vector4 within the default range of 1e-4
 
-	cout << " is Second_Vector4 Approximately Equal to First_Vector4 by 3.5?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, 3.5) << endl;
+	cout << " is Second_Vector4 Approximately Equal to First_Vector4 by 3.5?: " << Second_Vector4.IsApproximatelyEqual(First_Vector4, 3.5) << endl; 
+	// dsiplay 0 or 1 after testing if Second_Vector4 is approximately equal to First_Vector4 within the range of 3.5
 
-	cout << "what is the Distance between Current_Vector4 and First_Vector4: " << Current_Vector4.Distance(First_Vector4) << endl;
+	cout << "what is the Distance between Current_Vector4 and First_Vector4: " << Current_Vector4.Distance(First_Vector4) << endl; // display the Distance between Current_Vector4 and First_Vector4
 
 	cout << "\n*-* Ending Member functions for Vector 4's *-*" << endl;
 }
@@ -1389,22 +1391,22 @@ void Matrix3_Overload_Mem_Functions(Float_Matrix3_Struct First_Matrix3, Float_Ma
 {
 	cout << "\n*** Running Overloaded Matrix 3's ***" << endl;
 
-	First_Matrix3.display();
+	First_Matrix3.display(); // display the 2 Matrix3's
 	Second_Matrix3.display();
 
-	Float_Matrix3_Struct Current_Matrix3 = First_Matrix3;
+	Float_Matrix3_Struct Current_Matrix3 = First_Matrix3; // create an Matrix3 that has the same values of First_Matrix3 called Current_Matrix3
 
-	Current_Matrix3 * First_Matrix3;
+	Current_Matrix3 * First_Matrix3; // muitplay the Current_Matrix3 by First_Matrix3
 	Current_Matrix3.display();
 
-	First_Vector3 = Current_Matrix3 * First_Vector3;
+	First_Vector3 = Current_Matrix3 * First_Vector3; // asagin the value of the product between First_Vector3 and the Current_Matrix3 
 	Current_Matrix3.display();
 
-	Current_Matrix3 *= Second_Matrix3;
+	Current_Matrix3 *= Second_Matrix3; // multiply Current_Matrix3 with Second_Matrix3 amd assign the result to Current_Matrix3   
 	Current_Matrix3.display();
 
 	
-	if (First_Matrix3 == Second_Matrix3)
+	if (First_Matrix3 == Second_Matrix3) // test if First_Matrix3 is equal to Second_Matrix3
 	{
 		cout << "\n Matrix3 dose  match " << endl;
 		Current_Matrix3.display();
@@ -1416,7 +1418,7 @@ void Matrix3_Overload_Mem_Functions(Float_Matrix3_Struct First_Matrix3, Float_Ma
 		Current_Matrix3.display();
 	};
 
-	if (Current_Matrix3 != Second_Matrix3)
+	if (Current_Matrix3 != Second_Matrix3) // test if Current_Matrix3 is not equal to Second_Matrix3
 	{
 		cout << "Matrix3 dose not match ... Seting New vlaues" << endl;
 		Current_Matrix3 * First_Matrix3;
@@ -1429,42 +1431,42 @@ void Matrix3_Overload_Mem_Functions(Float_Matrix3_Struct First_Matrix3, Float_Ma
 		Current_Matrix3.display();
 	}
 
-	cout << "\n Current_Matrix3 Yy value is: " << Current_Matrix3[4] << endl;
+	cout << "\n Current_Matrix3 Yy value is: " << Current_Matrix3[4] << endl; // display Current_Matrix3 5th element's value
 
 	cout << "\n*** Ending Overloaded Matrix 3's ***" << endl;
 
 
 	cout << "\n *-* Starting Member functions for Matrix 3's *-*" << endl;
 
-	Float_Matrix3_Struct Display_Marix3;
-	Display_Marix3 = Display_Marix3.MakeRotate_2D(45);
+	Float_Matrix3_Struct Display_Marix3; //  create an blank Matrix3
+	Display_Marix3 = Display_Marix3.MakeRotate_2D(45); // use the blank Matrix3 to make an Rotate matrix
 
 	cout << "\n making an matrix for Rotation: " << endl;
 	Display_Marix3.display();
 
 	cout << "\n making an matrix for scale: " << endl;
-	Display_Marix3 = Display_Marix3.MakeScale(24, 5);
+	Display_Marix3 = Display_Marix3.MakeScale(24, 5); // Turn the Display_Marix3 into an Scale matrix
 	Display_Marix3.display();
 
 	cout << "\n making an matrix for Translate: " << endl;
-	Display_Marix3 = Display_Marix3.MakeTranslate(First_Vector3);
+	Display_Marix3 = Display_Marix3.MakeTranslate(First_Vector3); // Turn the Display_Marix3 into an Translate matrix
 	Display_Marix3.display();
 
 	cout << "\n Getting Right Axis_direction of Current_Matrix3: " << endl;
-	Float_Vector3_Struct Axis_direction = Current_Matrix3.GetRight_Y();
+	Float_Vector3_Struct Axis_direction = Current_Matrix3.GetRight_Y(); // Get the right direction of Current_Matrix3 using it's middel column of values    
 	Axis_direction.display();
 
-	cout << "\n Getting Forward Axis_direction of Second_Matrix3: " << endl;
+	cout << "\n Getting Forward Axis_direction of Second_Matrix3: " << endl; // Get the right direction of Current_Matrix3 using it's left column of values 
 	Axis_direction = Second_Matrix3.GetRight_Y();
 	Axis_direction.display();
 
 	cout << "\n Getting Translation of Current_Matrix3: " << endl;
-	Float_Vector3_Struct Postion_Marix3 = Current_Matrix3.GetTanslate();
+	Float_Vector3_Struct Postion_Marix3 = Current_Matrix3.GetTanslate(); // Get the right direction of Current_Matrix3 using it's right column of values  
 	Postion_Marix3.display();
 
-	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3) << endl;
+	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3) << endl; // test if Current_Matrix3 is approximately equal to First_Matrix3 within the default range of 1e-4
 
-	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3 within 6?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3,6) << endl;
+	cout << "\n is Current_Matrix3 Approximately Equal to Second_Matrix3 within 6?: " << Current_Matrix3.IsApproximatelyEqual(First_Matrix3,6) << endl; // test if Current_Matrix3 is approximately equal to First_Matrix3 within the range of 6
 
 	cout << "\n *-* Ending Member functions for Matrix 3's *-*" << endl;
 }
@@ -1476,19 +1478,19 @@ void Matrix4_Overload_Mem_Functions(Float_Matrix4_Struct Third_Matrix4, Float_Ma
 	Third_Matrix4.display();
 	Forth_Matrix4.display();
 
-	Float_Matrix4_Struct Current_Matrix4 = Third_Matrix4;
+	Float_Matrix4_Struct Current_Matrix4 = Third_Matrix4; // create an matrix4 with the values of Third_Matrix4
 
-	Current_Matrix4* Forth_Matrix4;
+	Current_Matrix4* Forth_Matrix4; // muitplay Current_Matrix4 with Forth_Matrix4
 	Current_Matrix4.display();
 
-	forth_vector4 = Current_Matrix4 * forth_vector4;
+	forth_vector4 = Current_Matrix4 * forth_vector4; //asgain the value of the product between Current_Matrix4 and forth_vector4 to forth_vector4 
 	Current_Matrix4.display();
 
-	Current_Matrix4 *= Forth_Matrix4;
+	Current_Matrix4 *= Forth_Matrix4; //asgain the value of the product between Current_Matrix4 and forth_vector4 to forth_vector4 
 	Current_Matrix4.display();
 
 
-	if (Third_Matrix4 == Forth_Matrix4)
+	if (Third_Matrix4 == Forth_Matrix4) // test if Third_Matrix4 is equal to Forth_Matrix4
 	{
 		cout << "\n Matrix4 dose  match " << endl;
 		Current_Matrix4.display();
@@ -1500,7 +1502,7 @@ void Matrix4_Overload_Mem_Functions(Float_Matrix4_Struct Third_Matrix4, Float_Ma
 		Current_Matrix4.display();
 	};
 
-	if (Current_Matrix4 != Forth_Matrix4)
+	if (Current_Matrix4 != Forth_Matrix4) // test if Third_Matrix4 isn't equal to Forth_Matrix4 
 	{
 		cout << "Matrix4 dose not match ... Seting New vlaues" << endl;
 		Current_Matrix4* Third_Matrix4;
@@ -1513,48 +1515,48 @@ void Matrix4_Overload_Mem_Functions(Float_Matrix4_Struct Third_Matrix4, Float_Ma
 		Current_Matrix4.display();
 	}
 
-	cout << "\n Current_Matrix4 Zz value is: " << Current_Matrix4[9] << endl;
+	cout << "\n Current_Matrix4 Zz value is: " << Current_Matrix4[9] << endl; // display the 10th value of the matrix4
 
 	cout << "\n*** Ending Overloaded Matrix 4's ***" << endl;
 
 	cout << "\n *-* Starting Member functions for Matrix 4's *-*" << endl;
 
-	Float_Matrix4_Struct display_Matrix4 ;
-
-	display_Matrix4 = Forth_Matrix4.MakeRotate_X(30);
+	Float_Matrix4_Struct display_Matrix4 ; // create an blank matrix4 
 	display_Matrix4.display();
 
-	display_Matrix4 = Forth_Matrix4.MakeRotate_Y(60);
+	display_Matrix4 = display_Matrix4.MakeRotate_X(47);// make an matrix4 with an roation value son the x axis
 	display_Matrix4.display();
 
-	display_Matrix4 = Forth_Matrix4.MakeRotate_Z(90);
+	display_Matrix4 = Forth_Matrix4.MakeRotate_Y(60); // make an matrix4 with an roation value son the y axis
 	display_Matrix4.display();
 
-	display_Matrix4 = Forth_Matrix4.MakeScale(2,10.5,-5.25);
+	display_Matrix4 = Forth_Matrix4.MakeRotate_Z(90); // make an matrix4 with an roation value son the z axis
 	display_Matrix4.display();
 
-	display_Matrix4 = Forth_Matrix4.MakeTranslate(forth_vector4);
+	display_Matrix4 = Forth_Matrix4.MakeScale(2,10.5,-5.25);  // make an matrix4 with scale values
 	display_Matrix4.display();
 
-	Forth_Matrix4.SetTranslate(forth_vector4);
+	display_Matrix4 = Forth_Matrix4.MakeTranslate(forth_vector4); // make an matrix4 with Translate values
+	display_Matrix4.display();
+
+	Forth_Matrix4.SetTranslate(forth_vector4); // Set the Matrix4 right column values by an vector4
 	Forth_Matrix4.display();
 
-	Float_Vector4_Struct display_Vector4 = Forth_Matrix4.GetRight_X();
+	Float_Vector4_Struct display_Vector4 = Forth_Matrix4.GetRight_X(); // Get the right direction / X axis from the left column
 	display_Vector4.display();
 
-	display_Vector4 = Forth_Matrix4.GetUp_Y();
+	display_Vector4 = Forth_Matrix4.GetUp_Y(); // Get the up direction / Y axis from the middle left column
 	forth_vector4.display();
 
-	display_Vector4 = Forth_Matrix4.GetForward_Z();
+	display_Vector4 = Forth_Matrix4.GetForward_Z(); // Get the forward direction / Z axis from the middle right column
 	forth_vector4.display();
 
-	display_Vector4 = Forth_Matrix4.GetPosition_W();
+	display_Vector4 = Forth_Matrix4.GetPosition_W();// Get the Position from the ri9ght column
 	forth_vector4.display();
 
-	cout << "\n is Forth_Matrix4 Approximately Equal within the defualt of 1e-4?:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4) << endl;
+	cout << "\n is Forth_Matrix4 Approximately Equal within the defualt of 1e-4?:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4) << endl; // test if Forth_Matrix4 is approximately equal to Third_Matrix4 within the default range of 1e-4
 
-	cout << "\n is Forth_Matrix4 Approximately Equal within the value of 13.9:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4,13.9) << endl;
-
+	cout << "\n is Forth_Matrix4 Approximately Equal within the value of 13.9:" << Forth_Matrix4.IsApproximatelyEqual(Third_Matrix4,13.9) << endl;  // test if Forth_Matrix4 is approximately equal to Third_Matrix4 within the range of 13.9
 	cout << "\n *-* Ending Member functions for Matrix 4's *-*" << endl;
 }
 
@@ -1568,11 +1570,11 @@ int main()
 
 	Vector4_Overload_Mem_Functions(Third_Vector4, forth_vector4); // Testing Vector4 has overloaded it's operators
 
-	Float_Matrix3_Struct First_Matrix3{1,4,3,8,2,9,0,0,1}, Second_Matrix3;
+	Float_Matrix3_Struct First_Matrix3{1,4,3,8,2,9,0,0,1}, Second_Matrix3; // Create two New matrix3
 
-	Matrix3_Overload_Mem_Functions(First_Matrix3, Second_Matrix3, First_Vector3);
+	Matrix3_Overload_Mem_Functions(First_Matrix3, Second_Matrix3, First_Vector3); // Testing matrix3 has overloaded it's operators
 
-	Float_Matrix4_Struct Third_Matrix4{1,4,3,8,2,9,0,2,5,7,3,7,0,0,0,1}, Forth_Matrix4;
+	Float_Matrix4_Struct Third_Matrix4{1,4,3,8,2,9,0,2,5,7,3,7,0,0,0,1}, Forth_Matrix4; // Create two New matrix4 
 
-	Matrix4_Overload_Mem_Functions(Third_Matrix4, Forth_Matrix4, forth_vector4);
+	Matrix4_Overload_Mem_Functions(Third_Matrix4, Forth_Matrix4, forth_vector4); // Testing matrix4 has overloaded it's operators
 }
