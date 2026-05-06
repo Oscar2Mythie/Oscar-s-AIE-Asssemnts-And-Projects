@@ -18,10 +18,10 @@ namespace Microsoft {
 		namespace CppUnitTestFramework
 		{
 			using MathLibrary::Approximate;
-			using MathLibrary::Vector3;
-			using MathLibrary::Vector4;
-			using MathLibrary::Matrix3;
-			using MathLibrary::Matrix4;
+			using MathLibrary::Float_Vector3_Struct;
+			using MathLibrary::Float_Vector4_Struct;
+			using MathLibrary::Float_Matrix3_Struct;
+			using MathLibrary::Float_Matrix4_Struct;
 			using MathLibrary::Color;
 
 			template<typename T>
@@ -36,24 +36,24 @@ namespace Microsoft {
 				return str + L"\n";
 			}
 
-			template<> inline std::wstring ToString(const Approximate<typename Matrix3>& t)
+			template<> inline std::wstring ToString(const Approximate<typename Float_Matrix3_Struct>& t)
 			{
-				return Stringify<Approximate<typename Matrix3>>(t, 9);
+				return Stringify<Approximate<typename Float_Matrix3_Struct>>(t, 9);
 			}
 
-			template<> inline std::wstring ToString(const Approximate<typename Matrix4>& t)
+			template<> inline std::wstring ToString(const Approximate<typename Float_Matrix4_Struct>& t)
 			{
-				return Stringify<Approximate<typename Matrix4>>(t, 16);
+				return Stringify<Approximate<typename Float_Matrix4_Struct>>(t, 16);
 			}
 
-			template<> inline std::wstring ToString(const Approximate<typename Vector3>& t)
+			template<> inline std::wstring ToString(const Approximate<typename Float_Vector3_Struct>& t)
 			{
-				return Stringify<Approximate<typename Vector3>>(t, 3);
+				return Stringify<Approximate<typename Float_Vector3_Struct>>(t, 3);
 			}
 
-			template<> inline std::wstring ToString(const Approximate<typename Vector4>& t)
+			template<> inline std::wstring ToString(const Approximate<typename Float_Vector4_Struct>& t)
 			{
-				return Stringify<Approximate<typename Vector4>>(t, 4);
+				return Stringify<Approximate<typename Float_Vector4_Struct>>(t, 4);
 			}
 
 			template<> inline std::wstring ToString(const Approximate<typename float>& t)
@@ -61,24 +61,24 @@ namespace Microsoft {
 				return ToString(t.ref);
 			}
 
-			template<> inline std::wstring ToString<Vector3>(const Vector3& t)
+			template<> inline std::wstring ToString<Float_Vector3_Struct>(const Float_Vector3_Struct& t)
 			{
-				return Stringify<Vector3>(t, 3);
+				return Stringify<Float_Vector3_Struct>(t, 3);
 			}
 
-			template<> inline std::wstring ToString<Vector4>(const Vector4& t)
+			template<> inline std::wstring ToString<Float_Vector4_Struct>(const Float_Vector4_Struct& t)
 			{
-				return Stringify<Vector4>(t, 4);
+				return Stringify<Float_Vector4_Struct>(t, 4);
 			}
 
-			template<> inline std::wstring ToString<Matrix3>(const Matrix3& t)
+			template<> inline std::wstring ToString<Float_Matrix3_Struct>(const Float_Matrix3_Struct& t)
 			{
-				return Stringify<Matrix3>(t, 9);
+				return Stringify<Float_Matrix3_Struct>(t, 9);
 			}
 
-			template<> inline std::wstring ToString<Matrix4>(const Matrix4& t)
+			template<> inline std::wstring ToString<Float_Matrix4_Struct>(const Float_Matrix4_Struct& t)
 			{
-				return Stringify<Matrix4>(t, 16);
+				return Stringify<Float_Matrix4_Struct>(t, 16);
 			}
 
 			template<> inline std::wstring ToString<Color>(const Color& t)
