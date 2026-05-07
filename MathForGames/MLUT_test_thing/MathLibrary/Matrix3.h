@@ -73,27 +73,28 @@ namespace MathLibrary
 		{
 			Float_Vector3_Struct tempary_Float_Vector3 = Rhs_Float_Vector3_Struct;
 
+			Float_Vector3_Struct tempary_Blank_Vector3;
+
 			float Add_muilt_holder = 0;
 
 			for (int X_Loop = 0; X_Loop < 3; X_Loop++)
 			{
 				for (int Y_loop = 0; Y_loop < 3; Y_loop++)
 				{
-					Add_muilt_holder += tempary_Float_Vector3[Y_loop] * Mat3_grid[X_Loop][Y_loop];
+					Add_muilt_holder += tempary_Float_Vector3[Y_loop] * Mat3_grid[Y_loop][X_Loop];
 				}
 
-				tempary_Float_Vector3[X_Loop] = Add_muilt_holder;
+				tempary_Blank_Vector3[X_Loop] = Add_muilt_holder;
 
 				Add_muilt_holder = 0;
 			}
-
-			tempary_Float_Vector3.display();
-			return tempary_Float_Vector3;
+			return tempary_Blank_Vector3;
 		}
 
 		Float_Matrix3_Struct operator*(const Float_Matrix3_Struct& Rhs_Matrix3) const // multiply the matrix3 by matrix3
 		{
-			Float_Matrix3_Struct tempary_Float_Diffrence = *this;
+
+			Float_Matrix3_Struct result_Matrix;
 
 			for (int X_Loop = 0; X_Loop < 3; X_Loop++)
 			{
@@ -102,13 +103,13 @@ namespace MathLibrary
 					float muitply_Sum = 0;
 					for (int add_loop = 0; add_loop < 3; add_loop++)
 					{
-						muitply_Sum = muitply_Sum + (tempary_Float_Diffrence.Mat3_grid[X_Loop][add_loop] * Rhs_Matrix3.Mat3_grid[add_loop][Y_loop]);
+						muitply_Sum = muitply_Sum + (Mat3_grid[add_loop][Y_loop] * Rhs_Matrix3.Mat3_grid[X_Loop][add_loop]);
 					}
-					tempary_Float_Diffrence.Mat3_grid[X_Loop][Y_loop] = muitply_Sum;
+					result_Matrix.Mat3_grid[X_Loop][Y_loop] = muitply_Sum;
 				}
 			}
 
-			return tempary_Float_Diffrence;
+			return result_Matrix;
 		}
 
 		Float_Matrix3_Struct operator*=(const Float_Matrix3_Struct& Rhs_Matrix3) // multiply the matrix3 by matrix3 and assigning
@@ -194,17 +195,17 @@ namespace MathLibrary
 
 		Float_Vector3_Struct GetTanslate() // Get the values from the bottom row
 		{
-			return Float_Vector3_Struct(Mat3_grid[0][2], Mat3_grid[1][2], Mat3_grid[2][2]);
+			return Float_Vector3_Struct(Mat3_grid[2][0], Mat3_grid[2][1], Mat3_grid[2][2]);
 		}
 
 		Float_Vector3_Struct GetRight_Y()  // get the values from the middle row
 		{
-			return Float_Vector3_Struct(Mat3_grid[0][1], Mat3_grid[1][1], Mat3_grid[1][2]);
+			return Float_Vector3_Struct(Mat3_grid[1][0], Mat3_grid[1][1], Mat3_grid[1][2]);
 		}
 
 		Float_Vector3_Struct GetForward_X() // get the values from the top row 
 		{
-			return Float_Vector3_Struct(Mat3_grid[0][0], Mat3_grid[1][0], Mat3_grid[2][0]);
+			return Float_Vector3_Struct(Mat3_grid[0][0], Mat3_grid[0][1], Mat3_grid[0][2]);
 		}
 
 		bool IsApproximatelyEqual(const Float_Matrix3_Struct& Rhs_Matrix3, float equal_within_value = 1e-4) const // test this matrix3 with another matrix3 and see if they are equal with each other within range of diffencet   

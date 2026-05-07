@@ -36,30 +36,30 @@ namespace MathLibrary
 
 		Float_Vector3_Struct operator+(const Float_Vector3_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
 		{
-			Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
+			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
-			temporary.Vector3_x = (temporary.Vector3_x + adding_Target.Vector3_x); // adding clone Vecotor.x to Target vector.x
-			temporary.Vector3_y = (temporary.Vector3_y + adding_Target.Vector3_y); // adding clone Vecotor.x to Target vector.y
-			temporary.Vector3_z = (temporary.Vector3_z + adding_Target.Vector3_z); // adding clone Vecotor.x to Target vector.z
-
-
-			return temporary; // return the three added vector values.    
-		}
-
-
-		Float_Vector3_Struct operator+=(const Float_Vector3_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
-		{
-			Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
-
-			temporary.Vector3_x = (temporary.Vector3_x + adding_Target.Vector3_x); // adding clone Vecotor.x to Target vector.x
-			temporary.Vector3_y = (temporary.Vector3_y + adding_Target.Vector3_y); // adding clone Vecotor.x to Target vector.y
-			temporary.Vector3_z = (temporary.Vector3_z + adding_Target.Vector3_z); // adding clone Vecotor.x to Target vector.z
+			temporary.Vector3_x += adding_Target.Vector3_x; // adding clone Vecotor.x to Target vector.x
+			temporary.Vector3_y += adding_Target.Vector3_y; // adding clone Vecotor.x to Target vector.y
+			temporary.Vector3_z += adding_Target.Vector3_z; // adding clone Vecotor.x to Target vector.z
 
 
 			return temporary; // return the three added vector values.    
 		}
 
-		Float_Vector3_Struct operator+(const float Target_float)  //adding  self cloned Vector data to Target float
+
+		Float_Vector3_Struct operator+=(const Float_Vector3_Struct& adding_Target) const //adding self cloned Vector data to Target Vector
+		{
+			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
+
+			temporary.Vector3_x += adding_Target.Vector3_x; // adding clone Vecotor.x to Target vector.x
+			temporary.Vector3_y += adding_Target.Vector3_y; // adding clone Vecotor.x to Target vector.y
+			temporary.Vector3_z += adding_Target.Vector3_z; // adding clone Vecotor.x to Target vector.z
+
+
+			return temporary; // return the three added vector values.    
+		}
+
+		Float_Vector3_Struct operator+(const float Target_float) //adding  self cloned Vector data to Target float
 		{
 			Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
 
@@ -71,29 +71,29 @@ namespace MathLibrary
 			return temporary; // return the three divided vector values.    
 		}
 
-		Float_Vector3_Struct operator+=(const float Target_float)  //adding  self cloned Vector data to Target float
-		{
-			Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
+		//Float_Vector3_Struct operator+=(const float Target_float)  //adding  self cloned Vector data to Target float
+		//{
+		//	Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
 
-			temporary.Vector3_x += Target_float; // adding clone Vecotor.x to float
-			temporary.Vector3_y += Target_float; // adding clone Vecotor.y to float
-			temporary.Vector3_z += Target_float; // adding clone Vecotor.z to float
-
-
-			return temporary; // return the three divided vector values.    
-		}
-
-		Float_Vector3_Struct operator+=(const float Target_float) const //adding  self cloned Vector data to Target float
-		{
-			Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
-
-			temporary.Vector3_x += Target_float; // adding clone Vecotor.x to float
-			temporary.Vector3_y += Target_float; // adding clone Vecotor.y to float
-			temporary.Vector3_z += Target_float; // adding clone Vecotor.z to float
+		//	temporary.Vector3_x += Target_float; // adding clone Vecotor.x to float
+		//	temporary.Vector3_y += Target_float; // adding clone Vecotor.y to float
+		//	temporary.Vector3_z += Target_float; // adding clone Vecotor.z to float
 
 
-			return temporary; // return the three divided vector values.    
-		}
+		//	return temporary; // return the three divided vector values.    
+		//}
+
+		//Float_Vector3_Struct operator+=(const float Target_float) const //adding  self cloned Vector data to Target float
+		//{
+		//	Float_Vector3_Struct temporary = *this; // adding a clone vectors from self
+
+		//	temporary.Vector3_x += Target_float; // adding clone Vecotor.x to float
+		//	temporary.Vector3_y += Target_float; // adding clone Vecotor.y to float
+		//	temporary.Vector3_z += Target_float; // adding clone Vecotor.z to float
+
+
+		//	return temporary; // return the three divided vector values.    
+		//}
 
 		Float_Vector3_Struct operator-(const Float_Vector3_Struct& subtracking_Target)  //subtracking self cloned Vector data to Target Vector
 		{
@@ -286,17 +286,23 @@ namespace MathLibrary
 		}
 
 
-		bool operator==(const Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
+		bool operator==(const Float_Vector3_Struct& Testing_Vector3) const //Testing  Vector data see if it matches Testing_Vector3 
 		{
+			float threshold = 0.000001;
+
 			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
-			bool result = false; // defaults to No it dose not match
-
-			if ((temporary.Vector3_x == Testing_Vector3.Vector3_x) && (temporary.Vector3_y == Testing_Vector3.Vector3_y) && (temporary.Vector3_z == Testing_Vector3.Vector3_z))
-			{
-				result = true; // sets to true when vectors match
-			}
-
-			return  result; // return either true or false   
+			return  
+				(
+					(fabsf(temporary.Vector3_x) - fabsf(Testing_Vector3.Vector3_x)) < threshold
+				)
+				&& 
+				(
+					(fabsf(temporary.Vector3_y) -fabsf(Testing_Vector3.Vector3_y)) < threshold
+				)
+				&& 
+				(
+					(fabsf(temporary.Vector3_z) -fabsf(Testing_Vector3.Vector3_z)) < threshold
+				); // return either true or false   
 		}
 		bool operator!=(const Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
 		{
