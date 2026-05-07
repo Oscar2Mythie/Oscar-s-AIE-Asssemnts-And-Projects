@@ -47,16 +47,16 @@ namespace MathLibrary
 		}
 
 
-		Float_Vector3_Struct operator+=(const Float_Vector3_Struct& adding_Target) const //adding self cloned Vector data to Target Vector
+		Float_Vector3_Struct operator+=(const Float_Vector3_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
 		{
-			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
+			 // Create a clone vectors from self
 
-			temporary.Vector3_x += adding_Target.Vector3_x; // adding clone Vecotor.x to Target vector.x
-			temporary.Vector3_y += adding_Target.Vector3_y; // adding clone Vecotor.x to Target vector.y
-			temporary.Vector3_z += adding_Target.Vector3_z; // adding clone Vecotor.x to Target vector.z
+			Vector3_x += adding_Target.Vector3_x; // adding clone Vecotor.x to Target vector.x
+			Vector3_y += adding_Target.Vector3_y; // adding clone Vecotor.x to Target vector.y
+			Vector3_z += adding_Target.Vector3_z; // adding clone Vecotor.x to Target vector.z
 
 
-			return temporary; // return the three added vector values.    
+			return *this; // return the three added vector values.    
 		}
 
 		Float_Vector3_Struct operator+(const float Target_float) //adding  self cloned Vector data to Target float

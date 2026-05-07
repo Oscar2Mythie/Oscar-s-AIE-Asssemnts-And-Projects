@@ -116,12 +116,11 @@ namespace MathLibraryTests
 
 			Assert::AreEqual(Approximate(Float_Vector3_Struct(18.5f, -44.239998f, 850)), Approximate(v3a += v3b));
 
-			Assert::AreEqual(Approximate(Float_Vector3_Struct(13.5f, -48.23f, 862)), Approximate(v3a));
+			Assert::AreEqual(Approximate(Float_Vector3_Struct(18.5f, -44.239998f, 850)), Approximate(v3a));
 
 			//Make sure += mutates
 
-			Assert::AreNotEqual(Float_Vector3_Struct(18.5f, -44.239998f, 850), v3a);
-
+			Assert::AreNotEqual(Float_Vector3_Struct(13.5f, -48.23f, 862), v3a);
 		}
 
 
