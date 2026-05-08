@@ -35,14 +35,14 @@ namespace MathLibrary
 
 		// *** \/\/\/ Over loading Vector3's \/\/\/ ***
 
-		Float_Vector4_Struct operator+(const Float_Vector4_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
+		Float_Vector4_Struct operator+(const Float_Vector4_Struct& adding_Target) const //adding self cloned Vector data to Target Vector
 		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z,this->Vector4_w }; // Create a clone vectors from self
+			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
-			temporary.Vector4_x = (temporary.Vector4_x + adding_Target.Vector4_x); // adding clone Vecotor.x to Target vector.x
-			temporary.Vector4_y = (temporary.Vector4_y + adding_Target.Vector4_y); // adding clone Vecotor.x to Target vector.y
-			temporary.Vector4_z = (temporary.Vector4_z + adding_Target.Vector4_z); // adding clone Vecotor.x to Target vector.z
-			temporary.Vector4_w = (temporary.Vector4_w + adding_Target.Vector4_w); // adding clone Vecotor.x to Target vector.w
+			temporary.Vector4_x += adding_Target.Vector4_x; // adding clone Vecotor.x to Target vector.x
+			temporary.Vector4_y += adding_Target.Vector4_y; // adding clone Vecotor.x to Target vector.y
+			temporary.Vector4_z += adding_Target.Vector4_z; // adding clone Vecotor.x to Target vector.z
+			//temporary.Vector4_w += adding_Target.Vector4_w; // adding clone Vecotor.x to Target vector.w
 
 			return temporary; // return the four added vector values.    
 		}
@@ -50,14 +50,12 @@ namespace MathLibrary
 
 		Float_Vector4_Struct operator+=(const Float_Vector4_Struct& adding_Target)  //adding self cloned Vector data to Target Vector
 		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z,this->Vector4_w }; // Create a clone vectors from self
+			Vector4_x += adding_Target.Vector4_x; // adding clone Vecotor.x to Target vector.x
+			Vector4_y += adding_Target.Vector4_y; // adding clone Vecotor.x to Target vector.y
+			Vector4_z += adding_Target.Vector4_z; // adding clone Vecotor.x to Target vector.z
+			//Vector4_w += adding_Target.Vector4_w; // adding clone Vecotor.x to Target vector.w
 
-			temporary.Vector4_x = (temporary.Vector4_x + adding_Target.Vector4_x); // adding clone Vecotor.x to Target vector.x
-			temporary.Vector4_y = (temporary.Vector4_y + adding_Target.Vector4_y); // adding clone Vecotor.x to Target vector.y
-			temporary.Vector4_z = (temporary.Vector4_z + adding_Target.Vector4_z); // adding clone Vecotor.x to Target vector.z
-			temporary.Vector4_w = (temporary.Vector4_w + adding_Target.Vector4_w); // adding clone Vecotor.x to Target vector.w
-
-			return temporary; // return the four added vector values.    
+			return* this;
 		}
 
 		Float_Vector4_Struct operator+(const float Target_float)  //adding  self cloned Vector data to Target float
@@ -93,7 +91,7 @@ namespace MathLibrary
 			temporary.Vector4_x = (temporary.Vector4_x - subtracking_Target.Vector4_x); // subtracking clone Vecotor.x to Target vector.x
 			temporary.Vector4_y = (temporary.Vector4_y - subtracking_Target.Vector4_y); // subtracking clone Vecotor.x to Target vector.y
 			temporary.Vector4_z = (temporary.Vector4_z - subtracking_Target.Vector4_z); // subtracking clone Vecotor.x to Target vector.z
-			temporary.Vector4_z = (temporary.Vector4_w - subtracking_Target.Vector4_w); // subtracking clone Vecotor.x to Target vector.w
+			//temporary.Vector4_z = (temporary.Vector4_w - subtracking_Target.Vector4_w); // subtracking clone Vecotor.x to Target vector.w
 
 
 			return temporary; // return the four subtracked vector values.    
@@ -101,18 +99,17 @@ namespace MathLibrary
 
 		Float_Vector4_Struct operator-=(const Float_Vector4_Struct& subtracking_Target)  //subtracking self cloned Vector data to Target Vector
 		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z,this->Vector4_w }; // Create a clone vectors from self
 
-			temporary.Vector4_x = (temporary.Vector4_x - subtracking_Target.Vector4_x); // subtracking clone Vecotor.x to Target vector.x
-			temporary.Vector4_y = (temporary.Vector4_y - subtracking_Target.Vector4_y); // subtracking clone Vecotor.x to Target vector.y
-			temporary.Vector4_z = (temporary.Vector4_z - subtracking_Target.Vector4_z); // subtracking clone Vecotor.x to Target vector.z
-			temporary.Vector4_z = (temporary.Vector4_w - subtracking_Target.Vector4_w); // subtracking clone Vecotor.x to Target vector.w
+			Vector4_x -= subtracking_Target.Vector4_x; // subtracking clone Vecotor.x to Target vector.x
+			Vector4_y -= subtracking_Target.Vector4_y; // subtracking clone Vecotor.x to Target vector.y
+			Vector4_z -= subtracking_Target.Vector4_z; // subtracking clone Vecotor.x to Target vector.z
+			//temporary.Vector4_z = (temporary.Vector4_w - subtracking_Target.Vector4_w); // subtracking clone Vecotor.x to Target vector.w
 
 
-			return temporary; // return the four subtracked vector values.    
+			return *this;
 		}
 
-		Float_Vector4_Struct operator-(const float Target_float)  //subtracking  self cloned Vector data to Target float
+		Float_Vector4_Struct operator-(const float Target_float) const //subtracking  self cloned Vector data to Target float
 		{
 			Float_Vector4_Struct temporary = *this; // subtracking a clone vectors from self
 
@@ -136,9 +133,9 @@ namespace MathLibrary
 			return temporary; // return the four  divided vector values.    
 		}
 
-		Float_Vector4_Struct operator*(const Float_Vector4_Struct& multiplying_Target)  //multiplying  self cloned Vector data to Target Vector
+		Float_Vector4_Struct operator*(const Float_Vector4_Struct& multiplying_Target) const //multiplying  self cloned Vector data to Target Vector
 		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z, this->Vector4_w }; // Create a clone vectors from self
+			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
 			temporary.Vector4_x = (temporary.Vector4_x * multiplying_Target.Vector4_x); // multiplying clone Vecotor.x to Target vector.x
 			temporary.Vector4_y = (temporary.Vector4_y * multiplying_Target.Vector4_y); // multiplying clone Vecotor.y to Target vector.y
@@ -150,24 +147,22 @@ namespace MathLibrary
 
 		Float_Vector4_Struct operator*=(const Float_Vector4_Struct& multiplying_Target)  //multiplying  self cloned Vector data to Target Vector
 		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z, this->Vector4_w }; // Create a clone vectors from self
+			Vector4_x *= multiplying_Target.Vector4_x; // multiplying clone Vecotor.x to Target vector.x
+			Vector4_y *= multiplying_Target.Vector4_y; // multiplying clone Vecotor.y to Target vector.y
+			Vector4_z *= multiplying_Target.Vector4_z; // multiplying clone Vecotor.z to Target vector.z
+			//Vector4_w *= multiplying_Target.Vector4_w; // multiplying clone Vecotor.w to Target vector.w
 
-			temporary.Vector4_x = (temporary.Vector4_x * multiplying_Target.Vector4_x); // multiplying clone Vecotor.x to Target vector.x
-			temporary.Vector4_y = (temporary.Vector4_y * multiplying_Target.Vector4_y); // multiplying clone Vecotor.y to Target vector.y
-			temporary.Vector4_z = (temporary.Vector4_z * multiplying_Target.Vector4_z); // multiplying clone Vecotor.z to Target vector.z
-			temporary.Vector4_w = (temporary.Vector4_w * multiplying_Target.Vector4_w); // multiplying clone Vecotor.w to Target vector.w
-
-			return temporary; // return the four multiplied vector values.    
+			return *this; // return the four multiplied vector values.    
 		}
 
-		Float_Vector4_Struct operator*(const float Target_float)  //multiplying  self cloned Vector data to Target float
+		Float_Vector4_Struct operator*(const float Target_float) const //multiplying  self cloned Vector data to Target float
 		{
 			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
 			temporary.Vector4_x *= Target_float; // multiplying clone Vecotor.x to float
 			temporary.Vector4_y *= Target_float; // multiplying clone Vecotor.y to float
 			temporary.Vector4_z *= Target_float; // multiplying clone Vecotor.z to float
-			temporary.Vector4_w *= Target_float; // multiplying clone Vecotor.w to float
+			//temporary.Vector4_w *= Target_float; // multiplying clone Vecotor.w to float
 
 
 			return temporary; // return the four divided vector values.    
@@ -175,21 +170,18 @@ namespace MathLibrary
 
 		Float_Vector4_Struct operator*=(const float Target_float)  //multiplying  self cloned Vector data to Target float
 		{
+			Vector4_x *= Target_float; // multiplying clone Vecotor.x to float
+			Vector4_y *= Target_float; // multiplying clone Vecotor.y to float
+			Vector4_z *= Target_float; // multiplying clone Vecotor.z to float
+			//Vector4_w *= Target_float; // multiplying clone Vecotor.w to float
+
+			return *this;
+		}
+
+		Float_Vector4_Struct operator/(const Float_Vector4_Struct& dividing_Target) const  //dividing  self cloned Vector data to Target Vector
+		{
 			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
-			temporary.Vector4_x *= Target_float; // multiplying clone Vecotor.x to float
-			temporary.Vector4_y *= Target_float; // multiplying clone Vecotor.y to float
-			temporary.Vector4_z *= Target_float; // multiplying clone Vecotor.z to float
-			temporary.Vector4_w *= Target_float; // multiplying clone Vecotor.w to float
-
-
-			return temporary; // return the four divided vector values.    
-		}
-
-		Float_Vector4_Struct operator/(const Float_Vector4_Struct& dividing_Target)  //dividing  self cloned Vector data to Target Vector
-		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z,this->Vector4_w }; // Create a clone vectors from self
-
 			temporary.Vector4_x = (temporary.Vector4_x / dividing_Target.Vector4_x); // dividing clone Vecotor.x to Target vector.x
 			temporary.Vector4_y = (temporary.Vector4_y / dividing_Target.Vector4_y); // dividing clone Vecotor.x to Target vector.y
 			temporary.Vector4_z = (temporary.Vector4_z / dividing_Target.Vector4_z); // dividing clone Vecotor.x to Target vector.z
@@ -199,27 +191,24 @@ namespace MathLibrary
 			return temporary; // return the four divided vector values.    
 		}
 
-		Float_Vector4_Struct operator/=(const Float_Vector4_Struct& dividing_Target)  //dividing  self cloned Vector data to Target Vector
-		{
-			Float_Vector4_Struct temporary{ this->Vector4_x,this->Vector4_y, this->Vector4_z,this->Vector4_w }; // Create a clone vectors from self
+		//Float_Vector4_Struct operator/=(const Float_Vector4_Struct& dividing_Target)  //dividing  self cloned Vector data to Target Vector
+		//{
+		//	Vector4_x /= dividing_Target.Vector4_x; // dividing clone Vecotor.x to Target vector.x
+		//	Vector4_y /= dividing_Target.Vector4_y; // dividing clone Vecotor.x to Target vector.y
+		//	Vector4_z /= dividing_Target.Vector4_z; // dividing clone Vecotor.x to Target vector.z
+		//	Vector4_w /= dividing_Target.Vector4_w; // dividing clone Vecotor.x to Target vector.w
 
-			temporary.Vector4_x = (temporary.Vector4_x / dividing_Target.Vector4_x); // dividing clone Vecotor.x to Target vector.x
-			temporary.Vector4_y = (temporary.Vector4_y / dividing_Target.Vector4_y); // dividing clone Vecotor.x to Target vector.y
-			temporary.Vector4_z = (temporary.Vector4_z / dividing_Target.Vector4_z); // dividing clone Vecotor.x to Target vector.z
-			temporary.Vector4_w = (temporary.Vector4_w / dividing_Target.Vector4_w); // dividing clone Vecotor.x to Target vector.w
+		//	return *this; // return the four divided vector values.    
+		//}
 
-
-			return temporary; // return the four divided vector values.    
-		}
-
-		Float_Vector4_Struct operator/(const float Target_float)  //dividing  self cloned Vector data to Target float
+		Float_Vector4_Struct operator/(const float Target_float) const //dividing  self cloned Vector data to Target float
 		{
 			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
 			temporary.Vector4_x /= Target_float; // dividing clone Vecotor.x to float
 			temporary.Vector4_y /= Target_float; // dividing clone Vecotor.y to float
 			temporary.Vector4_z /= Target_float; // dividing clone Vecotor.z to float
-			temporary.Vector4_w /= Target_float; // dividing clone Vecotor.w to float
+			//temporary.Vector4_w /= Target_float; // dividing clone Vecotor.w to float
 
 
 			return temporary; // return the four divided vector values.    
@@ -227,15 +216,22 @@ namespace MathLibrary
 
 		Float_Vector4_Struct operator/=(const float Target_float)  //dividing  self cloned Vector data to Target float
 		{
-			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
+			Vector4_x /= Target_float; // dividing clone Vecotor.x to float
+			Vector4_y /= Target_float; // dividing clone Vecotor.y to float
+			Vector4_z /= Target_float; // dividing clone Vecotor.z to float
+			//Vector4_w /= Target_float; // dividing clone Vecotor.w to float
 
-			temporary.Vector4_x /= Target_float; // dividing clone Vecotor.x to float
-			temporary.Vector4_y /= Target_float; // dividing clone Vecotor.y to float
-			temporary.Vector4_z /= Target_float; // dividing clone Vecotor.z to float
-			temporary.Vector4_w /= Target_float; // dividing clone Vecotor.w to float
+			return *this; // return the four divided vector values.    
+		}
 
+		Float_Vector4_Struct operator=(const Float_Vector4_Struct& Rhs_Vector)  //  Assigning New vector values from another vector
+		{
+			Vector4_x = Rhs_Vector.Vector4_x;
+			Vector4_y = Rhs_Vector.Vector4_y;
+			Vector4_z = Rhs_Vector.Vector4_z;
+			Vector4_w = Rhs_Vector.Vector4_w;
 
-			return temporary; // return the four divided vector values.    
+			return *this; // return the three new vector values.    
 		}
 
 		float& operator[](const int Return_Vector_value)  //instead of calling on the values by going this.Vector4_x, call the values as if it was an a refrance to an element of array
@@ -297,7 +293,7 @@ namespace MathLibrary
 		}
 
 
-		bool operator==(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
+		bool operator==(const Float_Vector4_Struct& Testing_Vector4) const //Testing  Vector data see if it matches Testing_Vector3 
 		{
 			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
 
@@ -306,15 +302,25 @@ namespace MathLibrary
 
 		bool operator!=(const Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
 		{
+			float threshold = 0.000001;
+
 			Float_Vector4_Struct temporary = *this; // Create a clone vectors from self
-			bool result = true; // defaults to No it dose not match
-
-			if ((temporary.Vector4_x == Testing_Vector4.Vector4_x) && (temporary.Vector4_y == Testing_Vector4.Vector4_y) && (temporary.Vector4_z == Testing_Vector4.Vector4_z) && (temporary.Vector4_w == Testing_Vector4.Vector4_w))
-			{
-				result = false; // sets to false when vectors match
-			}
-
-			return  result; // return either true or false   
+			return
+				(
+					(fabsf(temporary.Vector4_x - Testing_Vector4.Vector4_x)) < threshold
+					)
+				&&
+				(
+					(fabsf(temporary.Vector4_y - Testing_Vector4.Vector4_y)) < threshold
+					)
+				&&
+				(
+					(fabsf(temporary.Vector4_z - Testing_Vector4.Vector4_w)) < threshold
+					)
+				&&
+				(
+					(fabsf(temporary.Vector4_w - Testing_Vector4.Vector4_w)) < threshold
+					);
 		}
 
 		bool operator<(Float_Vector4_Struct& Testing_Vector4)  //Testing  Vector data see if it matches Testing_Vector3 
@@ -328,22 +334,13 @@ namespace MathLibrary
 			return (this_Squared_Magatune < Testing_Squared_Magatune2);  // if this_Squared_Magatune is smaller then Testing_Squared_Magatune2, then return true.
 		}
 
-		Float_Vector4_Struct operator=(const Float_Vector4_Struct& Rhs_Vector)  //  Assigning New vector values from another vector
-		{
-			Vector4_x = Rhs_Vector.Vector4_x;
-			Vector4_y = Rhs_Vector.Vector4_y;
-			Vector4_z = Rhs_Vector.Vector4_z;
-			Vector4_w = Rhs_Vector.Vector4_w;
-
-			return *this; // return the four new vector values.    
-		}
 
 		Float_Vector4_Struct operator-()  //  making the Vectors swhich from postive to negtive
 		{
 			Vector4_x *= -1;
 			Vector4_y *= -1;
 			Vector4_z *= -1;
-			Vector4_w *= -1;
+			//Vector4_w *= -1;
 
 			return *this; // return the three updated vector values.    
 		}
@@ -373,7 +370,7 @@ namespace MathLibrary
 				(Vector4_y * Rhs_V4.Vector4_z) - (Vector4_z * Rhs_V4.Vector4_y),
 				(Vector4_z * Rhs_V4.Vector4_x) - (Vector4_x * Rhs_V4.Vector4_z),
 				(Vector4_x * Rhs_V4.Vector4_y) - (Vector4_y * Rhs_V4.Vector4_x),
-				1
+				0
 			);
 		}
 
@@ -384,26 +381,21 @@ namespace MathLibrary
 
 		void Normalise() //Normalise the vector4's values via dividing the Vector4's values with it'smagnitude  
 		{
-			float Norm = V4_Magnitude(); // get the Magnitude of this vector4
-
-			cout << "Normalise x and you get: " << (Vector4_x /= Norm) << endl;
-			Vector4_x /= Norm; // update X value 
-
-			cout << "Normalise y and you get: " << (Vector4_y /= Norm) << endl;
-			Vector4_y /= Norm; // update Y value
-
-			cout << "Normalise z and you get: " << (Vector4_y /= Norm) << endl;
-			Vector4_z /= Norm;// update Z value 
-			cout << endl;
+			this->Normalised();
 		}
 
-		Float_Vector4_Struct Normalised() const // Send an Normalise copy of this Vector 
+		Float_Vector4_Struct Normalised() // Send an Normalise copy of this Vector 
 		{
-			Float_Vector4_Struct Norm_copy = *this;
-			Norm_copy.Normalise();
-			Norm_copy.display();
-
-			return Norm_copy;
+			float Norm = V4_Magnitude();
+			
+			if (Norm > 0.0f)
+			{
+				return *this /= Norm;
+			}
+			else
+			{
+				return {0,0,0,0};
+			}
 		}
 
 		bool IsApproximatelyEqual(const Float_Vector4_Struct& Rhs_Vector4, float equal_within_value = 1e-4) const // checks if this vector is equal to another vector within range. it checks by defualt if it's equal within 1-e4 
@@ -427,14 +419,39 @@ namespace MathLibrary
 
 		float AngleBetween(Float_Vector4_Struct Rhs_vector4) // Find the angle between this vector4 and other vector4 
 		{
+			//return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
+
+
 			return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
+
+			// code provided by Lachlan White \/\/\/
+
+			double tmp = 0;
+
+			tmp += (Vector4_x * Rhs_vector4.Vector4_x);
+
+			tmp += (Vector4_y * Rhs_vector4.Vector4_y);
+
+			tmp += (Vector4_z * Rhs_vector4.Vector4_z);
+
+			float mag1 = std::sqrt((Vector4_x * Vector4_x) + (Vector4_y * Vector4_y) + (Vector4_z * Vector4_z));
+
+			float mag2 = std::sqrt((Rhs_vector4.Vector4_x * Rhs_vector4.Vector4_x) + (Rhs_vector4.Vector4_y * Rhs_vector4.Vector4_y) + (Rhs_vector4.Vector4_z * Rhs_vector4.Vector4_z));
+
+			tmp = tmp / (mag1 * mag2);
+
+			tmp = std::acos(tmp);
+
+			return tmp;
+			// code provided by Lachlan White /\/\/\
+
 		}
 
 		float Distance(Float_Vector4_Struct Rhs_vector4) // find the diffrentnce between two Magnitude's to find the two vector4's  
 		{
 			Float_Vector4_Struct tempary_Float_Vector4 = *this;
 
-			tempary_Float_Vector4 = tempary_Float_Vector4 - Rhs_vector4;
+			tempary_Float_Vector4 -= Rhs_vector4;
 
 			return (tempary_Float_Vector4.V4_Magnitude());
 		}

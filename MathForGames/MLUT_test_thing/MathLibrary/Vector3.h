@@ -42,7 +42,6 @@ namespace MathLibrary
 			temporary.Vector3_y += adding_Target.Vector3_y; // adding clone Vecotor.x to Target vector.y
 			temporary.Vector3_z += adding_Target.Vector3_z; // adding clone Vecotor.x to Target vector.z
 
-
 			return temporary; // return the three added vector values.    
 		}
 
@@ -95,9 +94,9 @@ namespace MathLibrary
 		//	return temporary; // return the three divided vector values.    
 		//}
 
-		Float_Vector3_Struct operator-(const Float_Vector3_Struct& subtracking_Target)  //subtracking self cloned Vector data to Target Vector
+		Float_Vector3_Struct operator-(const Float_Vector3_Struct& subtracking_Target) const //subtracking self cloned Vector data to Target Vector
 		{
-			Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
+			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
 			temporary.Vector3_x = (temporary.Vector3_x - subtracking_Target.Vector3_x); // subtracking clone Vecotor.x to Target vector.x
 			temporary.Vector3_y = (temporary.Vector3_y - subtracking_Target.Vector3_y); // subtracking clone Vecotor.x to Target vector.y
@@ -109,17 +108,15 @@ namespace MathLibrary
 
 		Float_Vector3_Struct operator-=(const Float_Vector3_Struct& subtracking_Target)  //subtracking self cloned Vector data to Target Vector
 		{
-			Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
 
-			temporary.Vector3_x = (temporary.Vector3_x - subtracking_Target.Vector3_x); // subtracking clone Vecotor.x to Target vector.x
-			temporary.Vector3_y = (temporary.Vector3_y - subtracking_Target.Vector3_y); // subtracking clone Vecotor.x to Target vector.y
-			temporary.Vector3_z = (temporary.Vector3_z - subtracking_Target.Vector3_z); // subtracking clone Vecotor.x to Target vector.z
-
-
-			return temporary; // return the three subtracked vector values.    
+			Vector3_x -= subtracking_Target.Vector3_x; // subtracking clone Vecotor.x to Target vector.x
+			Vector3_y -= subtracking_Target.Vector3_y; // subtracking clone Vecotor.x to Target vector.y
+			Vector3_z -= subtracking_Target.Vector3_z; // subtracking clone Vecotor.x to Target vector.z
+  
+			return *this;
 		}
 
-		Float_Vector3_Struct operator-(const float Target_float)  //subtracking  self cloned Vector data to Target float
+		Float_Vector3_Struct operator-(const float Target_float) const  //subtracking  self cloned Vector data to Target float
 		{
 			Float_Vector3_Struct temporary = *this; // subtracking a clone vectors from self
 
@@ -154,7 +151,7 @@ namespace MathLibrary
 
 			return temporary; // return the three multiplied vector values.    
 		}
-		Float_Vector3_Struct operator*(const float Target_float)  //multiplying  self cloned Vector data to Target float
+		Float_Vector3_Struct operator*(const float Target_float) const  //multiplying  self cloned Vector data to Target float
 		{
 			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
@@ -167,25 +164,23 @@ namespace MathLibrary
 		}
 		Float_Vector3_Struct operator*=(const Float_Vector3_Struct& multiplying_Target)  //multiplying  self cloned Vector data to Target Vector
 		{
-			Float_Vector3_Struct temporary{ this->Vector3_x,this->Vector3_y, this->Vector3_z }; // Create a clone vectors from self
 
-			temporary.Vector3_x *= multiplying_Target.Vector3_x; // multiplying clone Vecotor.x to Target vector.x
-			temporary.Vector3_y *= multiplying_Target.Vector3_y; // multiplying clone Vecotor.y to Target vector.y
-			temporary.Vector3_z *= multiplying_Target.Vector3_z; // multiplying clone Vecotor.z to Target vector.z
+			Vector3_x *= multiplying_Target.Vector3_x; // multiplying clone Vecotor.x to Target vector.x
+			Vector3_y *= multiplying_Target.Vector3_y; // multiplying clone Vecotor.y to Target vector.y
+			Vector3_z *= multiplying_Target.Vector3_z; // multiplying clone Vecotor.z to Target vector.z
 
 
-			return temporary; // return the three multiplied vector values.    
+			return *this; // return the three multiplied vector values.    
 		}
 		Float_Vector3_Struct operator*=(const float Target_float)  //multiplying  self cloned Vector data to Target float
-		{
-			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
+		{ 
 
-			temporary.Vector3_x *= Target_float; // multiplying clone Vecotor.x to float
-			temporary.Vector3_y *= Target_float; // multiplying clone Vecotor.y to float
-			temporary.Vector3_z *= Target_float; // multiplying clone Vecotor.z to float
+			Vector3_x *= Target_float; // multiplying clone Vecotor.x to float
+			Vector3_y *= Target_float; // multiplying clone Vecotor.y to float
+			Vector3_z *= Target_float; // multiplying clone Vecotor.z to float
 
 
-			return temporary; // return the three divided vector values.    
+			return *this; // return the three divided vector values.    
 		}
 
 		Float_Vector3_Struct operator/(const Float_Vector3_Struct& dividing_Target)  //dividing  self cloned Vector data to Target Vector
@@ -212,7 +207,7 @@ namespace MathLibrary
 			return temporary; // return the three divided vector values.    
 		}
 
-		Float_Vector3_Struct operator/(const float Target_float)  //dividing  self cloned Vector data to Target float
+		Float_Vector3_Struct operator/(const float Target_float) const //dividing  self cloned Vector data to Target float
 		{
 			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 
@@ -226,14 +221,11 @@ namespace MathLibrary
 
 		Float_Vector3_Struct operator/=(const float Target_float)  //dividing  self cloned Vector data to Target float
 		{
-			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
+			Vector3_x /= Target_float; // dividing clone Vecotor.x to float
+			Vector3_y /= Target_float; // dividing clone Vecotor.y to float
+			Vector3_z /= Target_float; // dividing clone Vecotor.z to float   
 
-			temporary.Vector3_x /= Target_float; // dividing clone Vecotor.x to float
-			temporary.Vector3_y /= Target_float; // dividing clone Vecotor.y to float
-			temporary.Vector3_z /= Target_float; // dividing clone Vecotor.z to float
-
-
-			return temporary; // return the three divided vector values.    
+			return *this;
 		}
 
 		float& operator[](const int Return_Vector_value)  //returning an element as if it was an array
@@ -293,15 +285,15 @@ namespace MathLibrary
 			Float_Vector3_Struct temporary = *this; // Create a clone vectors from self
 			return  
 				(
-					(fabsf(temporary.Vector3_x) - fabsf(Testing_Vector3.Vector3_x)) < threshold
+					(fabsf(temporary.Vector3_x - Testing_Vector3.Vector3_x)) < threshold
 				)
 				&& 
 				(
-					(fabsf(temporary.Vector3_y) -fabsf(Testing_Vector3.Vector3_y)) < threshold
+					(fabsf(temporary.Vector3_y - Testing_Vector3.Vector3_y)) < threshold
 				)
 				&& 
 				(
-					(fabsf(temporary.Vector3_z) -fabsf(Testing_Vector3.Vector3_z)) < threshold
+					(fabsf(temporary.Vector3_z - Testing_Vector3.Vector3_z)) < threshold
 				); // return either true or false   
 		}
 		bool operator!=(const Float_Vector3_Struct& Testing_Vector3)  //Testing  Vector data see if it matches Testing_Vector3 
@@ -338,11 +330,13 @@ namespace MathLibrary
 
 		Float_Vector3_Struct operator-()  //  making the Vectors swhich from postive to negtive
 		{
-			Vector3_x *= -1;
-			Vector3_y *= -1;
-			Vector3_z *= -1;
+			Float_Vector3_Struct Vector3_negtive = *this;
+			
+			Vector3_negtive.Vector3_x *= -1;
+			Vector3_negtive.Vector3_y *= -1;
+			Vector3_negtive.Vector3_z *= -1;
 
-			return *this; // return the three updated vector values.    
+			return Vector3_negtive; // return the three updated vector values.    
 		}
 
 		// *** /\/\/\ Over loading Vector3's /\/\/\ ***
@@ -363,7 +357,7 @@ namespace MathLibrary
 			return Dot_Prod_result; // return the sum of the product beteween the values from the Vector3's
 		}
 
-		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3) // creating an croos product from an vector 3
+		Float_Vector3_Struct V3_Cross_prod(const Float_Vector3_Struct Rhs_V3) const // creating an croos product from an vector 3
 		{
 			return Float_Vector3_Struct // return the sunbtracked values from the products from thevector3's
 			(
@@ -380,26 +374,21 @@ namespace MathLibrary
 
 		void Normalise() // normalises the vector 3 in place
 		{
-			float Norm = V3_Magnitude(); // Get the Magnitude
-
-			// divide the Vector3 by it's Magnitude
-
-			cout << "Normalise x and you get: " << (Vector3_x /= Norm) << endl;
-			Vector3_x /= Norm;
-			cout << "Normalise y and you get: " << (Vector3_y /= Norm) << endl;
-			Vector3_y /= Norm;
-			cout << "Normalise z and you get: " << (Vector3_y /= Norm) << endl;
-			Vector3_z /= Norm;
-			cout << endl;
+			*this = Normalised(); 
 		}
 
-		Float_Vector3_Struct Normalised() const // sends the Normalise vector [This feels like this dose not work ... due to Normalise not returning data from being a void function]
+		Float_Vector3_Struct Normalised()  // sends the Normalise vector [This feels like this dose not work ... due to Normalise not returning data from being a void function]
 		{
-			Float_Vector3_Struct Norm_copy = *this; // Copy this vector3's values
-			Norm_copy.Normalise(); // Normalise the vector3's values
-			Norm_copy.display(); // dispaly them to show the normalised values
+			float Norm = V3_Magnitude(); // Get the Magnitude
 
-			return Norm_copy; // return values that are now mormalised
+			if (Norm > 0.0f)
+			{
+				return *this /= Norm;
+			}
+			else
+			{
+				return {0,0,0};
+			}
 		}
 
 		bool IsApproximatelyEqual(const Float_Vector3_Struct& Rhs_Vector3, float equal_within_value = 1e-4) const // an function that acts like an equals if it got within the range of target value
@@ -409,7 +398,7 @@ namespace MathLibrary
 
 			for (int Loop = 0; Loop < 3; Loop++) // check each value of the vector3's by subtracking each vector value. Should it result with a value greater or less then equal_within_value, return false
 			{
-				if ((tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector3[Loop]) < equal_within_value && (tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector3[Loop]) > -equal_within_value) // inside of the target range?
+				if ((fabsf(tempary_Float_Vector3_Diffrence[Loop]) - fabsf(Rhs_Vector3[Loop])) < equal_within_value) // inside of the target range?
 				{
 				}
 				else

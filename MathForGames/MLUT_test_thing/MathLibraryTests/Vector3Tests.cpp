@@ -14,8 +14,9 @@ namespace MathLibraryTests
 {
 	// A, B, C defines the points of a triangle in 3d space in counter-clockwise order
 	// This function should calculate the normal vector of this triangle
-	Float_Vector3_Struct CalculateTriangleNormal(const Float_Vector3_Struct& A,const Float_Vector3_Struct& B,const Float_Vector3_Struct& C){
-		return Float_Vector3_Struct(0,0,0);
+	Float_Vector3_Struct CalculateTriangleNormal(const Float_Vector3_Struct& Va, const Float_Vector3_Struct& Vb, const Float_Vector3_Struct& Vc)
+	{
+		return ((Vb - Va).V3_Cross_prod(Vc - Va)).Normalised();
 	}
 
 	TEST_CLASS(Vector3Tests)
