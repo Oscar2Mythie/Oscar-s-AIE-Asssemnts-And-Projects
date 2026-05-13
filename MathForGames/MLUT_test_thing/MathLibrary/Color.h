@@ -69,5 +69,10 @@ namespace MathLibrary
         {
             return(rgba == Rhs_Color.rgba);
         }
+
+        void shift_by_16() 
+        {
+            rgba = rgba >> 16;
+        }
     };
 }

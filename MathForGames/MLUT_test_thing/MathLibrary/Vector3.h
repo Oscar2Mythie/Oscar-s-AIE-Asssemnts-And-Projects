@@ -398,7 +398,7 @@ namespace MathLibrary
 
 			for (int Loop = 0; Loop < 3; Loop++) // check each value of the vector3's by subtracking each vector value. Should it result with a value greater or less then equal_within_value, return false
 			{
-				if ((fabsf(tempary_Float_Vector3_Diffrence[Loop]) - fabsf(Rhs_Vector3[Loop])) < equal_within_value) // inside of the target range?
+				if (fabsf(tempary_Float_Vector3_Diffrence[Loop] - Rhs_Vector3[Loop]) <= equal_within_value) // inside of the target range?
 				{
 				}
 				else

@@ -117,5 +117,13 @@ namespace MathLibraryTests
 			const auto a = actual.GetAlpha();
 			Assert::AreEqual((unsigned char)25, a);
 		}
+
+		// testing Shifting the values to the right by by 16 bits
+		TEST_METHOD(shift_by_16)
+		{
+			Color actual(134, 19, 96, 213);
+			actual.shift_by_16();
+			Assert::AreEqual(Color(0,0,134,19).rgba, actual.rgba);
+		}
 	};
 }

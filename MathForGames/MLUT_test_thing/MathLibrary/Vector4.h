@@ -422,7 +422,7 @@ namespace MathLibrary
 			//return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
 
 
-			return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
+			//return acos(Normalised().V4_Dot_prod(Rhs_vector4.Normalised())); // using cos to find the angle
 
 			// code provided by Lachlan White \/\/\/
 
