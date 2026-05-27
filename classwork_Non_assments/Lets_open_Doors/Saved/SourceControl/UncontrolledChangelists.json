@@ -1,0 +1,27 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/StarterContent/Architecture/Floor_400x400.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Keys/Blue_prints/BP_Door_Key.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Keys/Matrials/Mat_Purple_Key.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Keys/Blue_prints/Mat_Purple_Key.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Buttons/Matrials/Mat_Gold_Button.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Buttons/Blue_Prints/bp__Gold_Door_Button.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Obj_Door/Matrials/Matrails_Botton_locked/Mat_Frame_Gold_Button_Locked.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Obj_Door/Blue_Prints/BP_Door_Button_Locked.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/User_HUD/WD_Interact_screen/keyboard_key_e.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/User_HUD/WD_Interact_screen/WD_HUD_Press_to_interact_icon.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/20/UM2YU1RRECU3RACGDBI93U.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/C/F5/ZZVG1N1SYPW2DLWUWCC4LE.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/DQ/TBM51FFJLC9AZRU1WA9LII.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Keys/Door_Buttons/Matrials/Mat_Brown_Base_Button.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Obj_Door/Matrials/Matrails_Botton_locked/Mat_Main_Gold_Button_Locked.uasset"
+			]
+		}
+	]
+}
