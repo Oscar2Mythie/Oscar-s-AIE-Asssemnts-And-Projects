@@ -1,0 +1,14 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/StarterContent/Architecture/Floor_400x400.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/Obj_Door/Blue_Prints/BP_Door_End.uasset",
+				"C:/Users/s230656/Desktop/VS projest/Oscar's AIE Asssemnts And Projects/classwork_Non_assments/Lets_open_Doors/Content/User_HUD/Gameplay_display/WD_HUD_Game_play.uasset"
+			]
+		}
+	]
+}
