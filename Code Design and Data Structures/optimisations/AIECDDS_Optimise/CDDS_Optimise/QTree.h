@@ -13,27 +13,34 @@ public :
 
 	enum SubTree
 	{
-		nw_Side = 0,
-		ne_Side,
-		sw_Side,
-		se_Side,
+		nwTL_Side = 0,
+		neTR_Side,
+		swBL_Side,
+		seBR_Side,
 	};
 
 	QTree();
 
+	QTree(std::pair<Vector2, Vector2>);
+
 	~QTree();
 
-protected :
-	Vector2 Qsize = { -1,-1 }; // width and height
-	Vector2 Qpostion = { -1,-1 }; // x postion and Y postion. 0,0 is the top left corner
+	bool insert(Critter*);
+	void Subdivide();
 
+	void Update(float deltatime);
+	void Draw();
 
-	std :: vector<Critter> QCritter_Array; // dyymatic Array of Critters in it's regenion 
+private:
+			/*  Size - Postion	*/
+	std::pair<Vector2, Vector2> Qtree_Boundary = { {-1,-1} , {-1,-1} }; 
+	QTree** QTree_childen; // place holder for pointers that will point to childen
+	Critter** Critters_DP; // dyymatic double pointer Array of Critters in it's regenion 
 
-	QTree* nw_Side = nullptr; // top left
-	QTree* ne_Side = nullptr; // top right
-	QTree* sw_Side = nullptr; // bottom left
-	QTree* se_Side = nullptr; // bottom right
+	//QTree* nw_Side = nullptr; // top left
+	//QTree* ne_Side = nullptr; // top right
+	//QTree* sw_Side = nullptr; // bottom left
+	//QTree* se_Side = nullptr; // bottom right
 
 
 
