@@ -1,4 +1,6 @@
 #include "QTree.h"
+#include "iostream"
+#include "raymath.h"
 
 QTree::QTree() : Critters_DP(nullptr), QTree_childen(nullptr)
 {
@@ -47,6 +49,12 @@ QTree::~QTree()
 bool QTree::insert(Critter* New_Critter) 
 {
 
+	//Needs contains check
+
+	if (!contains(New_Critter)) 
+	{
+		return false;
+	}
 
 	if (QTree_childen == nullptr)
 	{
@@ -55,6 +63,7 @@ bool QTree::insert(Critter* New_Critter)
 			Critters_DP = new Critter*[QTree_Capacity];
 			memset(Critters_DP, 0, sizeof(Critter*) * QTree_Capacity);
 		}
+
 		if (Critters_DP[QTree_Capacity - 1] == nullptr) 
 		{
 			for (int i = 0; i < QTree_Capacity; i++) 
@@ -127,6 +136,83 @@ void QTree::Subdivide()
 	}
 }
 
+void QTree::Update_QTree(const int MAX_VELOCITY, float delta_frameTime)
+{
+	
+	if (QTree_childen == nullptr) 
+	{
+		// check for critter-on-critter collisions
+		for (int i = 0; i < QTree_Capacity; i++) {
+
+			if (Critters_DP == nullptr) { break; }
+
+			if (Critters_DP[i] == nullptr) { continue; }
+
+			for (int j = 0; j < QTree_Capacity; j++) {
+
+				if (Critters_DP[j] == nullptr) { continue; }
+
+				if (i == j || Critters_DP[i]->IsDirty()) continue; // note: the other critter (j) could be dirty - that's OK    
+				// check every critter against every other critter
+				float dist = Vector2Distance(Critters_DP[i]->GetPosition(), Critters_DP[j]->GetPosition());
+				if (dist < Critters_DP[i]->GetRadius() + Critters_DP[j]->GetRadius()) {// <-- collision!.. do math to get critters bouncing
+					Vector2 normal = Vector2Normalize(Vector2Subtract(Critters_DP[j]->GetPosition(), Critters_DP[i]->GetPosition()));
+
+					if (isnan(normal.x) || isnan(normal.y)) 
+					{
+						normal = { (float)(rand() % 100 / 100),(float)(rand() % 100 / 100) };
+					}
+
+					Critters_DP[i]->SetVelocity(Vector2Scale(normal, -MAX_VELOCITY)); // not even close to real physics, but fine for our needs
+					Critters_DP[i]->SetDirty(); // set the critter to *dirty* so we know not to process any more collisions on it
+					// we still want to check for collisions in the case where 1 critter is dirty - so we need a check 
+					// to make sure the other critter is clean before we do the collision response
+					if (!Critters_DP[j]->IsDirty()) {
+						Critters_DP[j]->SetVelocity(Vector2Scale(normal, MAX_VELOCITY));
+						Critters_DP[j]->SetDirty();
+					}
+					break;
+				}
+			}
+		}
+
+		for (int i = 0; i < QTree_Capacity; i++) {
+
+			if (Critters_DP == nullptr) { break; }
+
+			if (Critters_DP[i] == nullptr) { continue; }
+
+			Critters_DP[i]->Update(delta_frameTime);
+			// check each critter against screen bounds
+			if (Critters_DP[i]->GetX() < Qtree_Boundary.second.x) {
+				Critters_DP[i]->SetX(Qtree_Boundary.second.x);
+				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetX() > Qtree_Boundary.second.x + Qtree_Boundary.first.x) {
+				Critters_DP[i]->SetX(Qtree_Boundary.second.x + Qtree_Boundary.first.x);
+				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetY() < Qtree_Boundary.second.y) {
+				Critters_DP[i]->SetY(Qtree_Boundary.second.y);
+				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetY() > Qtree_Boundary.second.y + Qtree_Boundary.first.y) {
+				Critters_DP[i]->SetY(Qtree_Boundary.second.y + Qtree_Boundary.first.y);
+				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			}
+		}
+	}
+	else if (QTree_childen != nullptr)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			QTree_childen[i]->Update_QTree(MAX_VELOCITY,delta_frameTime);
+		}
+	}
+	
+
+}
+
 void QTree::Draw() 
 {
 	DrawLine(Qtree_Boundary.second.x, Qtree_Boundary.second.y,Qtree_Boundary.second.x + Qtree_Boundary.first.x, Qtree_Boundary.second.y,BLACK); // Top left to Top right
@@ -155,4 +241,28 @@ void QTree::Draw()
 			}
 		}
 	}
+
+
+}
+
+void QTree::Qtree_Debug()
+{
+	std::cout << "Logic reached here" << std::endl;
+	std::cout << sizeof(Critter) << std::endl;
+}
+
+bool QTree::contains(Critter* critter)
+{
+	Vector2 pos = critter->GetPosition();
+
+	return
+
+		pos.x >= Qtree_Boundary.second.x && 
+
+		pos.x < Qtree_Boundary.second.x + Qtree_Boundary.first.x &&
+
+		pos.y >= Qtree_Boundary.second.y &&
+
+		pos.y < Qtree_Boundary.second.y + Qtree_Boundary.first.y;
+
 }

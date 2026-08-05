@@ -3,6 +3,9 @@
 #include <random>
 #include <time.h>
 #include "Critter.h"
+#include "QTree.h"
+#include "iostream"
+
 
 
 int main(int argc, char* argv[]){
@@ -10,20 +13,37 @@ int main(int argc, char* argv[]){
     float timer = 1;
     int screenWidth = 900;
     int screenHeight = 900;
-    InitWindow(screenWidth, screenHeight, "CDDS Optimization - sample project");
+    Vector2 ScreenSize = {screenWidth , screenHeight};
+    InitWindow(ScreenSize.x,ScreenSize.y, "CDDS Optimization - sample project");
     //SetTargetFPS(60);
     srand(time(NULL)); 
+    //__________________________________QTree Initialization----------------------------------------------------
+
+
+    std::pair<Vector2,Vector2> QTree_Starting_boundry = {ScreenSize,{0,0}};
+
+    QTree RootTree(QTree_Starting_boundry);
+     
+    //__________________________________QTree Initialization----------------------------------------------------
 
     //----------------------------------create some critters----------------------------------------------------
+
+    //Critter* crittersprt[1000]; // index 0 is pointer?
     Critter critters[1000];
     const int CRITTER_COUNT = 200;
     const int MAX_VELOCITY = 80;
-    for (int i = 0; i < CRITTER_COUNT; i++){       
+    for (int i = 0; i < CRITTER_COUNT; i++)
+    {       
         Vector2 velocity = // create a random direction vector for the velocity
         { 
             -100 + (rand() % 200), 
             -100 + (rand() % 200) 
         }; 
+
+        if (velocity.x == 0 && velocity.y == 0) 
+        {
+            velocity = { (float)(rand() % 100 / 100), (float)(rand() % 100 / 100) };
+        }
         velocity = Vector2Scale(Vector2Normalize(velocity), MAX_VELOCITY); // normalize and scale by a random speed
         critters[i].Init( // create a critter in a random location
             { 
@@ -34,8 +54,11 @@ int main(int argc, char* argv[]){
             12, 
             "res/10.png"
         );
+        // TODO: Overload for critters?
+        RootTree.insert(&critters[i]);
     }
 
+        RootTree.Qtree_Debug();
     //-----------------------------------create destroyer--------------------------------------------------------
     Critter destroyer;
     Vector2 velocity = 
@@ -53,45 +76,45 @@ int main(int argc, char* argv[]){
         float delta = GetFrameTime();
         //---------------------------------------------------destroyer-----------------------------------
         // update the destroyer by check against screen bounds
-        destroyer.Update(delta);
-        if (destroyer.GetX() < 0) {
-            destroyer.SetX(0);
-            destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
-        }
-        if (destroyer.GetX() > screenWidth) {
-            destroyer.SetX(screenWidth);
-            destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
-        }
-        if (destroyer.GetY() < 0) {
-            destroyer.SetY(0);
-            destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
-        }
-        if (destroyer.GetY() > screenHeight) {
-            destroyer.SetY(screenHeight);
-            destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
-        }
+        //destroyer.Update(delta);
+        //if (destroyer.GetX() < 0) {
+        //    destroyer.SetX(0);
+        //    destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
+        //}
+        //if (destroyer.GetX() > screenWidth) {
+        //    destroyer.SetX(screenWidth);
+        //    destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
+        //}
+        //if (destroyer.GetY() < 0) {
+        //    destroyer.SetY(0);
+        //    destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
+        //}
+        //if (destroyer.GetY() > screenHeight) {
+        //    destroyer.SetY(screenHeight);
+        //    destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
+        //}
 
-        //------------------------------------------------------------critters--------------------------
-        // update the critters - (dirty flags will be cleared during update)
+        ////------------------------------------------------------------critters--------------------------
+         //update the critters - (dirty flags will be cleared during update)
         for (int i = 0; i < CRITTER_COUNT; i++){
-            critters[i].Update(delta);
-            // check each critter against screen bounds
-            if (critters[i].GetX() < 0) {
-                critters[i].SetX(0);
-                critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
-            }
-            if (critters[i].GetX() > screenWidth) {
-                critters[i].SetX(screenWidth);
-                critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
-            }
-            if (critters[i].GetY() < 0) {
-                critters[i].SetY(0);
-                critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
-            }
-            if (critters[i].GetY() > screenHeight) {
-                critters[i].SetY(screenHeight);
-                critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
-            }
+        //    critters[i].Update(delta);
+        //    // check each critter against screen bounds
+        //    if (critters[i].GetX() < 0) {
+        //        critters[i].SetX(0);
+        //        critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
+        //    }
+        //    if (critters[i].GetX() > screenWidth) {
+        //        critters[i].SetX(screenWidth);
+        //        critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
+        //    }
+        //    if (critters[i].GetY() < 0) {
+        //        critters[i].SetY(0);
+        //        critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
+        //    }
+        //    if (critters[i].GetY() > screenHeight) {
+        //        critters[i].SetY(screenHeight);
+        //        critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
+        //    }
             // kill any critter touching the destroyer
             // simple circle-to-circle collision check
             float dist = Vector2Distance(critters[i].GetPosition(), destroyer.GetPosition());
@@ -102,25 +125,27 @@ int main(int argc, char* argv[]){
         
         //-------------------------------------------------------collision check--------------------------   
         // check for critter-on-critter collisions
-        for (int i = 0; i < CRITTER_COUNT; i++){           
-            for (int j = 0; j < CRITTER_COUNT; j++){
-                if (i == j || critters[i].IsDirty()) continue; // note: the other critter (j) could be dirty - that's OK    
-                // check every critter against every other critter
-                float dist = Vector2Distance(critters[i].GetPosition(), critters[j].GetPosition());
-                if (dist < critters[i].GetRadius() + critters[j].GetRadius()) {// <-- collision!.. do math to get critters bouncing
-                    Vector2 normal = Vector2Normalize( Vector2Subtract(critters[j].GetPosition(), critters[i].GetPosition()));
-                    critters[i].SetVelocity(Vector2Scale(normal, -MAX_VELOCITY)); // not even close to real physics, but fine for our needs
-                    critters[i].SetDirty(); // set the critter to *dirty* so we know not to process any more collisions on it
-                    // we still want to check for collisions in the case where 1 critter is dirty - so we need a check 
-                    // to make sure the other critter is clean before we do the collision response
-                    if (!critters[j].IsDirty()) {
-                        critters[j].SetVelocity(Vector2Scale(normal, MAX_VELOCITY));
-                        critters[j].SetDirty();
-                    }
-                    break;
-                }
-            }
-        }
+        //for (int i = 0; i < CRITTER_COUNT; i++){           
+        //    for (int j = 0; j < CRITTER_COUNT; j++){
+        //        if (i == j || critters[i].IsDirty()) continue; // note: the other critter (j) could be dirty - that's OK    
+        //        // check every critter against every other critter
+        //        float dist = Vector2Distance(critters[i].GetPosition(), critters[j].GetPosition());
+        //        if (dist < critters[i].GetRadius() + critters[j].GetRadius()) {// <-- collision!.. do math to get critters bouncing
+        //            Vector2 normal = Vector2Normalize( Vector2Subtract(critters[j].GetPosition(), critters[i].GetPosition()));
+        //            critters[i].SetVelocity(Vector2Scale(normal, -MAX_VELOCITY)); // not even close to real physics, but fine for our needs
+        //            critters[i].SetDirty(); // set the critter to *dirty* so we know not to process any more collisions on it
+        //            // we still want to check for collisions in the case where 1 critter is dirty - so we need a check 
+        //            // to make sure the other critter is clean before we do the collision response
+        //            if (!critters[j].IsDirty()) {
+        //                critters[j].SetVelocity(Vector2Scale(normal, MAX_VELOCITY));
+        //                critters[j].SetDirty();
+        //            }
+        //            break;
+        //        }
+        //    }
+        //}
+
+        RootTree.Update_QTree(MAX_VELOCITY,delta);
         
         //-------------------------------------------------------respawn check--------------------------   
         // find any dead critters and spit them out (respawn) 
@@ -152,6 +177,8 @@ int main(int argc, char* argv[]){
 
         ClearBackground(DARKGRAY);
         
+        
+
         for (int i = 0; i < CRITTER_COUNT; i++){ critters[i].Draw(); } // draw the critters
         destroyer.Draw(); // draw the destroyer
         // (if you're wondering why it looks a little odd when sometimes critters are destroyed when they're not quite touching the 
@@ -159,7 +186,7 @@ int main(int argc, char* argv[]){
 
         DrawFPS(10, 10);
         DrawText(" -- data -- ", 200, 10, 40, LIGHTGRAY);
-
+        RootTree.Draw();
         EndDrawing();
    }
 

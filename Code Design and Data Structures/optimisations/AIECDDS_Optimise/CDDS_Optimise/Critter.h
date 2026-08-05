@@ -2,6 +2,7 @@
 
 
 #include "raylib.h"
+#include "QTree.h"
 
 class Critter
 {
@@ -17,6 +18,7 @@ protected:
 	
 public:
 	Critter();
+	Critter(const Critter*& copy_Critter); // copy constror
 	~Critter();
 
 	void Init(Vector2 position, Vector2 velocity, float radius, const char* texture);
@@ -41,6 +43,9 @@ public:
 	void SetDirty() { m_isDirty = true; }
 
 	bool IsDead() { return m_isLoaded == false; }
+
+
+
 
 };
 

@@ -9,6 +9,14 @@ Critter::Critter()
 	m_isLoaded = false;
 }
 
+//Critter::Critter(const Critter& copy_Critter)
+//{
+//	m_position = copy_Critter.m_position;
+//	m_velocity = copy_Critter.m_velocity; 
+//	m_radius = copy_Critter.m_radius;
+//	m_isLoaded = false;
+//}
+
 Critter::~Critter()
 {
 	UnloadTexture(m_texture);
