@@ -21,7 +21,8 @@ public :
 
 	QTree();
 
-	QTree(std::pair<Vector2, Vector2>);
+	QTree(std::pair<Vector2, Vector2>, Vector2);
+	QTree(std::pair<Vector2, Vector2>, Vector2, QTree*);
 
 	~QTree();
 
@@ -35,6 +36,10 @@ public :
 	bool contains(Critter* Critter_contains);
 
 	void Update_QTree(const int MAX_VELOCITY, float Delta_FramTime);
+
+	QTree* Tree_root;
+
+	Vector2 ScreenBoundary;
 
 private:
 			/*  Size - Postion	*/

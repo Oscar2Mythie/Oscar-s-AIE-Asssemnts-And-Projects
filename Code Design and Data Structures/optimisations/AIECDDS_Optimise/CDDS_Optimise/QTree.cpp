@@ -7,7 +7,12 @@ QTree::QTree() : Critters_DP(nullptr), QTree_childen(nullptr)
 
 }
 
-QTree::QTree(std::pair<Vector2, Vector2> Boundary) : Qtree_Boundary(Boundary), Critters_DP(nullptr), QTree_childen(nullptr)
+QTree::QTree(std::pair<Vector2, Vector2> Boundary, Vector2 ScreenBoundary) : Qtree_Boundary(Boundary), ScreenBoundary(ScreenBoundary), Tree_root(this), Critters_DP(nullptr), QTree_childen(nullptr)
+{
+
+}
+
+QTree::QTree(std::pair<Vector2, Vector2> Boundary, Vector2 ScreenBoundary, QTree* Tree_root) : Qtree_Boundary(Boundary), ScreenBoundary(ScreenBoundary), Tree_root(Tree_root), Critters_DP(nullptr), QTree_childen(nullptr)
 {
 
 }
@@ -34,6 +39,8 @@ QTree::~QTree()
 	{
 		for (int i = 0; i < QTree_Capacity; i++) // iterate though all info/data contained inside QTree_Critter_DP_Array and delete it
 		{
+			if (Critters_DP[i] == nullptr) { continue; }
+			
 			if (Critters_DP[i] != nullptr)
 			{
 				delete Critters_DP[i];
@@ -42,8 +49,13 @@ QTree::~QTree()
 			// delete self and set pointer to nullpointer
 			delete Critters_DP;
 			Critters_DP = nullptr;
+
+
 		}
 	}
+
+	//delete Tree_root;
+	//Tree_root = nullptr;
 }
 
 bool QTree::insert(Critter* New_Critter) 
@@ -90,27 +102,36 @@ bool QTree::insert(Critter* New_Critter)
 	return false;
 }
 
-void QTree::Subdivide() 
+void QTree::Subdivide()
 {
 	QTree_childen = new QTree * [4];
+
+	QTree* New_Parent_Root = this;
 														// Size on the x axis			// size on the y axis		// X and Y postion  
 	std::pair<Vector2, Vector2> New_Qtree_Boundary = {{ (Qtree_Boundary.first.x/2 ) , (Qtree_Boundary.first.y/2) }, Qtree_Boundary.second };
 
-	QTree_childen[nwTL_Side] = new QTree(New_Qtree_Boundary); // make an new Qtree with the New Boundary size and starting postion [Top Left]
+	QTree_childen[nwTL_Side] = new QTree(New_Qtree_Boundary, ScreenBoundary, Tree_root); // make an new Qtree with the New Boundary size and starting postion [Top Left]
+
+	//QTree_childen[nwTL_Side]->Tree_root = New_Parent_Root;
 
 	New_Qtree_Boundary.second.x = (Qtree_Boundary.second.x + New_Qtree_Boundary.first.x); // Update New_Qtree_Boundary to move across the X axis by the new size
 
-	QTree_childen[neTR_Side] = new QTree(New_Qtree_Boundary); // make an new Qtree with the New Boundary size and new x postion [Top Right]
+	QTree_childen[neTR_Side] = new QTree(New_Qtree_Boundary, ScreenBoundary, Tree_root); // make an new Qtree with the New Boundary size and new x postion [Top Right]
 
+	//QTree_childen[neTR_Side]->Tree_root = New_Parent_Root;
 							// reseting to starting postion			Moveing down the Y axis by the New size on y axis
 	New_Qtree_Boundary.second = {Qtree_Boundary.second.x, Qtree_Boundary.second.y + New_Qtree_Boundary.first.y }; // Update New_Qtree_Boundary 
 
-	QTree_childen[swBL_Side] = new QTree(New_Qtree_Boundary); // make an new Qtree with the New Boundary size and new y postion [bottom left]
+	QTree_childen[swBL_Side] = new QTree(New_Qtree_Boundary, ScreenBoundary,Tree_root); // make an new Qtree with the New Boundary size and new y postion [bottom left]
+
+	//QTree_childen[swBL_Side]->Tree_root = New_Parent_Root;
 
 	// Update New_Qtree_Boundary to move across the X axis by the new size after moving down on y axis from before
 	New_Qtree_Boundary.second.x = (Qtree_Boundary.second.x + New_Qtree_Boundary.first.x); 
 
-	QTree_childen[seBR_Side] = new QTree(New_Qtree_Boundary); // make an new Qtree with the New Boundary size and the new x plus y postions. [bottom right]
+	QTree_childen[seBR_Side] = new QTree(New_Qtree_Boundary, ScreenBoundary, Tree_root); // make an new Qtree with the New Boundary size and the new x plus y postions. [bottom right]
+
+	//QTree_childen[seBR_Side]->Tree_root = New_Parent_Root;
 
 	if (Critters_DP != nullptr) 
 	{
@@ -178,35 +199,70 @@ void QTree::Update_QTree(const int MAX_VELOCITY, float delta_frameTime)
 
 		for (int i = 0; i < QTree_Capacity; i++) {
 
-			if (Critters_DP == nullptr) { break; }
+			if (Critters_DP == nullptr) { continue; }
 
 			if (Critters_DP[i] == nullptr) { continue; }
 
 			Critters_DP[i]->Update(delta_frameTime);
+
+			if (Critters_DP[i]->GetX() < 0) {
+				Critters_DP[i]->SetX(0);
+				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetX() > ScreenBoundary.x) {
+				Critters_DP[i]->SetX(ScreenBoundary.x);
+				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetY() < 0) {
+				Critters_DP[i]->SetY(0);
+				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			}
+			if (Critters_DP[i]->GetY() > ScreenBoundary.y) {
+				Critters_DP[i]->SetY(ScreenBoundary.y);
+				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			}
+
 			// check each critter against screen bounds
-			if (Critters_DP[i]->GetX() < Qtree_Boundary.second.x) {
-				Critters_DP[i]->SetX(Qtree_Boundary.second.x);
-				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			if (Critters_DP[i]->GetX() < Qtree_Boundary.second.x) 
+			{
+				//Critters_DP[i]->SetX(Qtree_Boundary.second.x);
+				//Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+
+				Tree_root->insert(Critters_DP[i]);
+				Critters_DP[i] = nullptr;
 			}
-			if (Critters_DP[i]->GetX() > Qtree_Boundary.second.x + Qtree_Boundary.first.x) {
-				Critters_DP[i]->SetX(Qtree_Boundary.second.x + Qtree_Boundary.first.x);
-				Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+			else if (Critters_DP[i]->GetX() > Qtree_Boundary.second.x + Qtree_Boundary.first.x) 
+			{
+				//Critters_DP[i]->SetX(Qtree_Boundary.second.x + Qtree_Boundary.first.x);
+				//Critters_DP[i]->SetVelocity(Vector2{ -Critters_DP[i]->GetVelocity().x, Critters_DP[i]->GetVelocity().y });
+				Tree_root->insert(Critters_DP[i]);
+				Critters_DP[i] = nullptr;
 			}
-			if (Critters_DP[i]->GetY() < Qtree_Boundary.second.y) {
-				Critters_DP[i]->SetY(Qtree_Boundary.second.y);
-				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			else if (Critters_DP[i]->GetY() < Qtree_Boundary.second.y)
+			{
+				//Critters_DP[i]->SetY(Qtree_Boundary.second.y);
+				//Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+				Tree_root->insert(Critters_DP[i]);
+				Critters_DP[i] = nullptr;
 			}
-			if (Critters_DP[i]->GetY() > Qtree_Boundary.second.y + Qtree_Boundary.first.y) {
-				Critters_DP[i]->SetY(Qtree_Boundary.second.y + Qtree_Boundary.first.y);
-				Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+			else if (Critters_DP[i]->GetY() > Qtree_Boundary.second.y + Qtree_Boundary.first.y) 
+			{
+				//Critters_DP[i]->SetY(Qtree_Boundary.second.y + Qtree_Boundary.first.y);
+				//Critters_DP[i]->SetVelocity(Vector2{ Critters_DP[i]->GetVelocity().x, -Critters_DP[i]->GetVelocity().y });
+				Tree_root->insert(Critters_DP[i]);
+				Critters_DP[i] = nullptr;
 			}
+
 		}
 	}
 	else if (QTree_childen != nullptr)
 	{
+		
 		for (int i = 0; i < 4; i++)
 		{
-			QTree_childen[i]->Update_QTree(MAX_VELOCITY,delta_frameTime);
+			//if (QTree_childen[i] == nullptr || QTree_childen == nullptr) { continue; }
+			
+			QTree_childen[i]->Update_QTree(MAX_VELOCITY, delta_frameTime);
 		}
 	}
 	

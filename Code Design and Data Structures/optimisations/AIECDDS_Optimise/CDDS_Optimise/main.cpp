@@ -22,7 +22,8 @@ int main(int argc, char* argv[]){
 
     std::pair<Vector2,Vector2> QTree_Starting_boundry = {ScreenSize,{0,0}};
 
-    QTree RootTree(QTree_Starting_boundry);
+    QTree RootTree(QTree_Starting_boundry, ScreenSize);
+    //RootTree.parant_root = &RootTree;
      
     //__________________________________QTree Initialization----------------------------------------------------
 
@@ -58,7 +59,7 @@ int main(int argc, char* argv[]){
         RootTree.insert(&critters[i]);
     }
 
-        RootTree.Qtree_Debug();
+        //RootTree.Qtree_Debug();
     //-----------------------------------create destroyer--------------------------------------------------------
     Critter destroyer;
     Vector2 velocity = 
@@ -97,24 +98,6 @@ int main(int argc, char* argv[]){
         ////------------------------------------------------------------critters--------------------------
          //update the critters - (dirty flags will be cleared during update)
         for (int i = 0; i < CRITTER_COUNT; i++){
-        //    critters[i].Update(delta);
-        //    // check each critter against screen bounds
-        //    if (critters[i].GetX() < 0) {
-        //        critters[i].SetX(0);
-        //        critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
-        //    }
-        //    if (critters[i].GetX() > screenWidth) {
-        //        critters[i].SetX(screenWidth);
-        //        critters[i].SetVelocity(Vector2{ -critters[i].GetVelocity().x, critters[i].GetVelocity().y });
-        //    }
-        //    if (critters[i].GetY() < 0) {
-        //        critters[i].SetY(0);
-        //        critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
-        //    }
-        //    if (critters[i].GetY() > screenHeight) {
-        //        critters[i].SetY(screenHeight);
-        //        critters[i].SetVelocity(Vector2{ critters[i].GetVelocity().x, -critters[i].GetVelocity().y });
-        //    }
             // kill any critter touching the destroyer
             // simple circle-to-circle collision check
             float dist = Vector2Distance(critters[i].GetPosition(), destroyer.GetPosition());
