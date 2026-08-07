@@ -23,14 +23,13 @@ QTree::~QTree()
 	{
 		for (int i = 0; i < 4; i++) // iterate though all info/data contained inside QTree_childen and delete it
 		{
-			if (QTree_childen[i] != nullptr)
-			{
-				delete QTree_childen[i];
-			}
+			if (QTree_childen[i] == nullptr) { continue; }
+			
+			delete QTree_childen[i];
 		}
 
 		// delete self and set pointer to nullpointer
-		delete QTree_childen;
+		delete [] QTree_childen;
 		QTree_childen = nullptr;
 	}
 
@@ -43,27 +42,23 @@ QTree::~QTree()
 			
 			if (Critters_DP[i] != nullptr)
 			{
-				delete Critters_DP[i];
+				 Critters_DP[i] = nullptr;
 			}
 
-			// delete self and set pointer to nullpointer
-			delete Critters_DP;
-			Critters_DP = nullptr;
 
 
 		}
+		// delete self and set pointer to nullpointer
+		delete [] Critters_DP;
+		Critters_DP = nullptr;
 	}
-
-	//delete Tree_root;
-	//Tree_root = nullptr;
 }
 
 bool QTree::insert(Critter* New_Critter) 
 {
+	if (this == NULL) { return false; }
 
-	//Needs contains check
-
-	if (!contains(New_Critter)) 
+	if (!contains(New_Critter)|| New_Critter->IsDead()) 
 	{
 		return false;
 	}
@@ -93,6 +88,11 @@ bool QTree::insert(Critter* New_Critter)
 
 	for (int i = 0; i < 4; i++) 
 	{
+		//if (QTree_childen[i] == nullptr)
+		//{
+		//	continue;
+		//}
+		
 		if (QTree_childen[i]->insert(New_Critter) == true)
 		{
 			return true;
@@ -154,6 +154,7 @@ void QTree::Subdivide()
 		}
 		delete Critters_DP;
 		Critters_DP = nullptr;
+
 	}
 }
 
@@ -199,9 +200,9 @@ void QTree::Update_QTree(const int MAX_VELOCITY, float delta_frameTime)
 
 		for (int i = 0; i < QTree_Capacity; i++) {
 
-			if (Critters_DP == nullptr) { continue; }
+			if (Critters_DP == nullptr) { this->~QTree(); continue; }
 
-			if (Critters_DP[i] == nullptr) { continue; }
+			if (Critters_DP[i] == nullptr) { No_critter_count++; continue; }
 
 			Critters_DP[i]->Update(delta_frameTime);
 
@@ -252,7 +253,6 @@ void QTree::Update_QTree(const int MAX_VELOCITY, float delta_frameTime)
 				Tree_root->insert(Critters_DP[i]);
 				Critters_DP[i] = nullptr;
 			}
-
 		}
 	}
 	else if (QTree_childen != nullptr)
@@ -262,12 +262,35 @@ void QTree::Update_QTree(const int MAX_VELOCITY, float delta_frameTime)
 		{
 			//if (QTree_childen[i] == nullptr || QTree_childen == nullptr) { continue; }
 			
-			QTree_childen[i]->Update_QTree(MAX_VELOCITY, delta_frameTime);
+			if (QTree_childen[i] != nullptr)
+			{
+				QTree_childen[i]->Update_QTree(MAX_VELOCITY, delta_frameTime);
+
+				if (QTree_childen[i] == nullptr) { continue; }
+
+				if (QTree_childen[i]->No_critter_count < QTree_Capacity) 
+				{
+					QTree_childen[i]->No_critter_count = 0;
+				}
+				else
+				{
+					QTree_childen[i]->~QTree();
+				}
+
+			}
+
 		}
 	}
 	
 
 }
+
+//void QTree::remove(QTree* QTree_remove)
+//{
+//		delete QTree_remove;
+//		QTree_remove = nullptr;
+//
+//}
 
 void QTree::Draw() 
 {
@@ -283,7 +306,10 @@ void QTree::Draw()
 	{
 		for (int i = 0; i < 4; i++) 
 		{
-			QTree_childen[i]->Draw();
+			if (QTree_childen[i] != nullptr)
+			{
+				QTree_childen[i]->Draw();
+			}
 		}
 	}
 

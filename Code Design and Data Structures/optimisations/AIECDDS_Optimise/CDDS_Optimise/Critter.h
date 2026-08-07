@@ -22,6 +22,7 @@ public:
 	~Critter();
 
 	void Init(Vector2 position, Vector2 velocity, float radius, const char* texture);
+	void respawn(Vector2 position, Vector2 velocity, Vector2 ScreeenBondry);
 	void Destroy();
 	void Update(float dt);
 	void Draw();

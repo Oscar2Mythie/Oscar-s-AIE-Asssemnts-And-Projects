@@ -31,7 +31,7 @@ int main(int argc, char* argv[]){
 
     //Critter* crittersprt[1000]; // index 0 is pointer?
     Critter critters[1000];
-    const int CRITTER_COUNT = 200;
+    const int CRITTER_COUNT = 125;
     const int MAX_VELOCITY = 80;
     for (int i = 0; i < CRITTER_COUNT; i++)
     {       
@@ -77,23 +77,23 @@ int main(int argc, char* argv[]){
         float delta = GetFrameTime();
         //---------------------------------------------------destroyer-----------------------------------
         // update the destroyer by check against screen bounds
-        //destroyer.Update(delta);
-        //if (destroyer.GetX() < 0) {
-        //    destroyer.SetX(0);
-        //    destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
-        //}
-        //if (destroyer.GetX() > screenWidth) {
-        //    destroyer.SetX(screenWidth);
-        //    destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
-        //}
-        //if (destroyer.GetY() < 0) {
-        //    destroyer.SetY(0);
-        //    destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
-        //}
-        //if (destroyer.GetY() > screenHeight) {
-        //    destroyer.SetY(screenHeight);
-        //    destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
-        //}
+        destroyer.Update(delta);
+        if (destroyer.GetX() < 0) {
+            destroyer.SetX(0);
+            destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
+        }
+        if (destroyer.GetX() > screenWidth) {
+            destroyer.SetX(screenWidth);
+            destroyer.SetVelocity(Vector2{ -destroyer.GetVelocity().x, destroyer.GetVelocity().y });
+        }
+        if (destroyer.GetY() < 0) {
+            destroyer.SetY(0);
+            destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
+        }
+        if (destroyer.GetY() > screenHeight) {
+            destroyer.SetY(screenHeight);
+            destroyer.SetVelocity(Vector2{ destroyer.GetVelocity().x, -destroyer.GetVelocity().y });
+        }
 
         ////------------------------------------------------------------critters--------------------------
          //update the critters - (dirty flags will be cleared during update)
@@ -142,12 +142,15 @@ int main(int argc, char* argv[]){
                     Vector2 pos = destroyer.GetPosition();
                     pos = Vector2Add(pos, Vector2Scale(normal, -50));
                     // its pretty inefficient to keep reloading textures. ...if only there was something else we could do
-                    critters[i].Init(
-                        pos, 
-                        Vector2Scale(normal, -MAX_VELOCITY), 
-                        12, 
-                        "res/10.png"
-                    );
+                    //critters[i].Init(
+                    //    pos, 
+                    //    Vector2Scale(normal, -MAX_VELOCITY), 
+                    //    12, 
+                    //    "res/10.png"
+                    //);
+
+                    critters[i].respawn(pos, Vector2Scale(normal, -MAX_VELOCITY),ScreenSize);
+                    RootTree.insert(&critters[i]);
                     break;
                 }
             }
@@ -161,7 +164,7 @@ int main(int argc, char* argv[]){
         ClearBackground(DARKGRAY);
         
         
-
+        RootTree.Draw();
         for (int i = 0; i < CRITTER_COUNT; i++){ critters[i].Draw(); } // draw the critters
         destroyer.Draw(); // draw the destroyer
         // (if you're wondering why it looks a little odd when sometimes critters are destroyed when they're not quite touching the 
@@ -169,7 +172,6 @@ int main(int argc, char* argv[]){
 
         DrawFPS(10, 10);
         DrawText(" -- data -- ", 200, 10, 40, LIGHTGRAY);
-        RootTree.Draw();
         EndDrawing();
    }
 

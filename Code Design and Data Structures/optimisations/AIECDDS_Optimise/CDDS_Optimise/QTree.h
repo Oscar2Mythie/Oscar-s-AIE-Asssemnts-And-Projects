@@ -28,6 +28,7 @@ public :
 
 	bool insert(Critter*);
 	void Subdivide();
+	void remove(QTree* Tree_remove);
 
 	void Update(float deltatime);
 	void Draw();
@@ -40,6 +41,8 @@ public :
 	QTree* Tree_root;
 
 	Vector2 ScreenBoundary;
+
+	int No_critter_count = 0;
 
 private:
 			/*  Size - Postion	*/

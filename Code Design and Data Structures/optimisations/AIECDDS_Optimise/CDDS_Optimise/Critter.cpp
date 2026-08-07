@@ -34,9 +34,34 @@ void Critter::Init(Vector2 position, Vector2 velocity, float radius, const char*
 	m_isLoaded = true;
 }
 
+void Critter::respawn(Vector2 position, Vector2 velocity, Vector2 Screenbondry)
+{ 
+	if (position.x < 0)
+	{
+		position.x = 0;
+	}
+	if (position.y < 0)
+	{
+		position.y = 0;
+	}
+	if (position.x > Screenbondry.x)
+	{
+		position.x = Screenbondry.x;
+	}
+	if (position.y > Screenbondry.y)
+	{
+		position.y = Screenbondry.y;
+	}
+	
+	m_position = position, m_velocity = velocity, m_isLoaded = true; 
+}
+
 void Critter::Destroy()
 {
-	UnloadTexture(m_texture);
+	//UnloadTexture(m_texture);
+
+	m_position.x = -12;
+	m_position.y = -12;
 	m_isLoaded = false;
 }
 
